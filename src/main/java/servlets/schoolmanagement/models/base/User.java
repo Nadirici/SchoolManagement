@@ -1,15 +1,16 @@
-package servlets.schoolmanagement.models;
+package servlets.schoolmanagement.models.base;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.sql.Date;
-import java.util.UUID;
 
 
 @MappedSuperclass
 public abstract class User {
 
     @Id
+    @NonNull
     @Column(name = "user_id")
     private String id;
     @Column(name = "first_name")

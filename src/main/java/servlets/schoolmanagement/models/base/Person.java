@@ -1,10 +1,10 @@
-package servlets.schoolmanagement.models;
+package servlets.schoolmanagement.models.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class Person extends User{
+public abstract class Person extends User {
 
     @Column(name = "is_verified")
     private boolean isVerified;

@@ -1,11 +1,13 @@
 package servlets.schoolmanagement.controllers;
 
-import servlets.schoolmanagement.models.Student;
+import servlets.schoolmanagement.models.entity.Student;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import servlets.schoolmanagement.models.entity.Teacher;
 import servlets.schoolmanagement.services.StudentService;
+import servlets.schoolmanagement.services.TeacherService;
 
 import java.sql.Date;
 
@@ -14,9 +16,11 @@ import java.sql.Date;
 public class RegistrationController {
 
     private final StudentService studentService;
+    private final TeacherService teacherService;
 
-    public RegistrationController(StudentService studentService) {
+    public RegistrationController(StudentService studentService, TeacherService teacherService1) {
         this.studentService = studentService;
+        this.teacherService = teacherService1;
     }
 
     @GetMapping("/")
@@ -32,6 +36,7 @@ public class RegistrationController {
             @RequestParam String firstname,
             @RequestParam String date_of_birth,
             @RequestParam String password,
+            @RequestParam String department,
             RedirectAttributes redirectAttributes) {
 
         // Vérification de l'existence de l'utilisateur
@@ -42,16 +47,22 @@ public class RegistrationController {
 
 
         try {
-            // Conversion de la date de naissance
-            Date dateOfBirth = Date.valueOf(date_of_birth);
+
 
             if ("student".equalsIgnoreCase(userType)) {
+                // Conversion de la date de naissance
+                Date dateOfBirth = Date.valueOf(date_of_birth);
 
                 // Création de l'objet Student et sauvegarde
                 Student student = new Student(firstname, lastname, dateOfBirth, email, password);
                 studentService.registerStudent(student);
                 redirectAttributes.addFlashAttribute("message", "Inscription réussie !");
+
             } else if ("teacher".equalsIgnoreCase(userType)) {
+                System.out.println(firstname+" "+lastname+email+password+department);
+                Teacher teacher= new Teacher(firstname, lastname,email, password,department);
+
+                teacherService.registerTeacher(teacher);
                 // Logique pour enregistrer un professeur
                 redirectAttributes.addFlashAttribute("message", "Inscription du professeur réussie !");
             } else {

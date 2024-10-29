@@ -25,7 +25,7 @@
         <form action="${pageContext.request.contextPath}/api/register" method="post">
         <h1>Inscrivez vous</h1>
             <div class="infield">
-            <select id="userType" name="userType" required>
+            <select id="userType" name="userType" required onchange="toggleDepartmentField()">
                 <option value="" disabled selected>-- Choisissez --</option>
                 <option value="student">Étudiant</option>
                 <option value="teacher">Professeur</option>
@@ -44,32 +44,31 @@
                 <label></label>
             </div>
 
-            <!-- JavaScript pour faire afficher le departement a la place -->
-            <div class="infield">
-                <input type="date" placeholder="Votre date de naissance" id="date_of_birth" name="date_of_birth" required/>
+            <!-- Champ de date de naissance -->
+            <div class="infield" id="birthDateField">
+                <input type="date" placeholder="Votre date de naissance" id="date_of_birth" name="date_of_birth" />
                 <label></label>
             </div>
+
+            <!-- Sélecteur de département caché par défaut -->
+            <div class="infield" id="departmentField" style="display: none;">
+                <select id="department" name="department">
+                    <option value="" disabled selected>-- Choisissez votre département --</option>
+                    <option value="informatique">Informatique</option>
+                    <option value="mathématiques">Mathématiques</option>
+                    <option value="physique">Physique</option>
+                    <option value="chimie">Chimie</option>
+                    <!-- Ajoutez d'autres départements ici si nécessaire -->
+                </select>
+            </div>
+
             <div class="infield">
                 <input type="password" placeholder="Mot de passe" name="password" required/>
                 <label></label>
             </div>
 
-            <button type="submit" onclick="return validateDate()">Demander l'inscription</button>
-            <script>
-                function validateDate() {
-                    const dateInput = document.getElementById('date_of_birth');
-                    const dateValue = dateInput.value;
+            <button type="submit">Demander l'inscription</button>
 
-                    // Vérifie si la valeur est au format YYYY-MM-DD
-                    const regex = /^\d{4}-\d{2}-\d{2}$/;
-
-                    if (!regex.test(dateValue)) {
-                        alert("Veuillez entrer une date valide au format YYYY-MM-DD.");
-                        return false; // Empêche l'envoi du formulaire
-                    }
-                    return true; // Permet l'envoi du formulaire
-                }
-            </script>
         </form>
     </div>
     <div class="form-container sign-in-container">
@@ -113,29 +112,17 @@
         </div>
         <button id="overlayBtn"></button>
     </div>
+
 </div>
 
 
 
 
-<script>
-
-    const container = document.getElementById('container');
-    const overlaycon = document.getElementById('overlayCon');
-    const overlayBtn = document.getElementById('overlayBtn');
-
-    overlayBtn.addEventListener('click',()=>{
-        container.classList.toggle('right-panel-active');
-        overlayBtn.classList.remove('btnScaled');
-        window.requestAnimationFrame( ()=>{
-            overlayBtn.classList.add('btnScaled');
-        })
-    });
 
 
 
 
-</script>
+<script src="/script.js"></script>
 
 </body>
 </html>

@@ -59,20 +59,6 @@ form{
 h1{
     color: var(--grad-clr1);
 }
-.social-container{
-    margin: 20px 0px;
-}
-
-.social-container a{
-    border: 1px solid #DDD;
-    border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px 5px;
-    height: 40px;
-    width: 40px;
-}
 
 span{
     font-size: 12px;
@@ -269,53 +255,58 @@ p{
 
 
 
-
-footer {
-    background-color: #bbbbbb;
-    color: #20263e;
-    text-align: center;
-    padding: 20px 0;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-}
-
-.footer-content {
-    margin: 0 auto;
-}
-
-.footer-content p {
-    margin: 0;
-    font-size: 1rem;
-}
-
-.social-links {
-    color: #20263e;
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
-}
-
-.social-links li {
-    display: inline;
-    margin: 0 10px;
-}
-
-.social-links a {
-    color: #20263e;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1.2rem;
-}
-
-.social-links a:hover {
-    color: red;
-}
-
 #loginProcessId:hover{
     cursor: pointer;
 }
 
+
+/* Style de base pour le select */
+select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #f3f3f3; /* Couleur d'arrière-plan */
+    border: none; /* Pas de bordure */
+    outline: none; /* Pas de contour lors de la sélection */
+    border-radius: 5px; /* Coins arrondis */
+    font-size: 14px; /* Taille de la police */
+    color: #333; /* Couleur du texte */
+    appearance: none; /* Supprime le style par défaut du select */
+    position: relative; /* Pour la position du pseudo-élément */
+}
+
+/* Style pour la flèche du select */
+select::after {
+    content: '▼'; /* Ajouter une flèche vers le bas */
+    position: absolute;
+    right: 15px; /* Position de la flèche */
+    top: 50%; /* Centrer verticalement */
+    transform: translateY(-50%); /* Ajuster pour centrer parfaitement */
+    pointer-events: none; /* Ne pas interférer avec les clics */
+}
+
+/* Style au survol */
+select:hover {
+    background-color: #eaeaea; /* Changer la couleur d'arrière-plan au survol */
+}
+
+/* Style lorsque le select est focalisé */
+select:focus {
+    background-color: #fff; /* Changer la couleur d'arrière-plan au focus */
+    box-shadow: 0 0 5px var(--grad-clr1); /* Ombre autour du select */
+    border: 1px solid var(--grad-clr1); /* Bordure colorée */
+}
+
+/* Ajouter une animation d'entrée */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animation d'apparition pour le select */
+select {
+    animation: fadeIn 0.3s ease;
+}
