@@ -1,10 +1,11 @@
-package models;
+package servlets.schoolmanagement.models;
 
 import jakarta.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name = "students")
+
 public class Student extends Person {
 
     @Column(name = "date_of_birth")

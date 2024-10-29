@@ -1,4 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
+<%@page language="java" contentType="text/html; ISO-8859-1"
+        pageEncoding="ISO-8859-1" %>
+
+<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,15 +21,15 @@
 
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="/inscription/soumettreInscription" method="post">
 
-            <h1>Inscrivez vous</h1>
+        <form action="${pageContext.request.contextPath}/api/register" method="post">
+        <h1>Inscrivez vous</h1>
             <div class="infield">
-                <select id="userType" name="userType" required>
-                    <option value="" disabled selected>-- Choisissez --</option>
-                    <option value="student">Ã‰tudiant</option>
-                    <option value="teacher">Professeur</option>
-                </select>
+            <select id="userType" name="userType" required>
+                <option value="" disabled selected>-- Choisissez --</option>
+                <option value="student">Étudiant</option>
+                <option value="teacher">Professeur</option>
+            </select>
             </div>
             <div class="infield">
                 <input type="text" placeholder="Email" id="email" name="email" required/>
@@ -35,7 +40,7 @@
                 <label></label>
             </div>
             <div class="infield">
-                <input type="text" placeholder="PrÃ©nom" id="firstname" name="firstname" required/>
+                <input type="text" placeholder="Prénom" id="firstname" name="firstname" required/>
                 <label></label>
             </div>
 
@@ -49,7 +54,22 @@
                 <label></label>
             </div>
 
-            <button type="submit">Demander l'inscription</button>
+            <button type="submit" onclick="return validateDate()">Demander l'inscription</button>
+            <script>
+                function validateDate() {
+                    const dateInput = document.getElementById('date_of_birth');
+                    const dateValue = dateInput.value;
+
+                    // Vérifie si la valeur est au format YYYY-MM-DD
+                    const regex = /^\d{4}-\d{2}-\d{2}$/;
+
+                    if (!regex.test(dateValue)) {
+                        alert("Veuillez entrer une date valide au format YYYY-MM-DD.");
+                        return false; // Empêche l'envoi du formulaire
+                    }
+                    return true; // Permet l'envoi du formulaire
+                }
+            </script>
         </form>
     </div>
     <div class="form-container sign-in-container">
@@ -65,13 +85,16 @@
                 <label></label>
             </div>
 
-            <div th:if="${message}" th:text="${message}"></div>
-            <%-- VÃ©rification de l'attribut errorMessage --%>
-            <c:if test="${not empty errorMessage}">
-                <div class="error-message">
-                    <p>${errorMessage}</p>
-                </div>
-            </c:if>
+            <% if (request.getAttribute("message") != null) { %>
+            <div><%= request.getAttribute("message") %></div>
+            <% } %>
+
+            <%-- Vérification de l'attribut errorMessage --%>
+            <% if (request.getAttribute("errorMessage") != null) { %>
+            <div class="error-message">
+                <p><%= request.getAttribute("errorMessage") %></p>
+            </div>
+            <% } %>
             <button >Se connecter</button>
         </form>
     </div>

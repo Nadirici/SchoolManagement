@@ -1,4 +1,4 @@
-package DAO;
+package servlets.schoolmanagement.DAO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

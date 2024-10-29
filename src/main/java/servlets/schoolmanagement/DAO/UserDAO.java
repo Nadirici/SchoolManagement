@@ -1,6 +1,6 @@
-package DAO;
+package servlets.schoolmanagement.DAO;
 
-import models.User;
+import servlets.schoolmanagement.models.User;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -15,11 +15,11 @@ public class UserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    // Sauvegarde un utilisateur
+    // Utilisation de merge pour gérer les entités existantes
     public <S extends User> S save(S entity) {
-        entityManager.persist(entity);
-        return entity;
+        return entityManager.merge(entity);
     }
+
 
     // Sauvegarde une liste d'utilisateurs
     public <S extends User> Iterable<S> saveAll(Iterable<S> entities) {

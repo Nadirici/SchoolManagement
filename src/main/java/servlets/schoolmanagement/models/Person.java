@@ -1,4 +1,4 @@
-package models;
+package servlets.schoolmanagement.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
