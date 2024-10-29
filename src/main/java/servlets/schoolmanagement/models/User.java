@@ -27,7 +27,7 @@ public abstract class User {
 
     public User(String firstName, String lastName, String email, String password) {
 
-        this.id =  "2" + UUID.randomUUID().toString().replace("-", "").substring(0, 5);
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

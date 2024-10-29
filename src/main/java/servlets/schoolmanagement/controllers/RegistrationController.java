@@ -40,11 +40,13 @@ public class RegistrationController {
             return "redirect:/api/"; // Redirige vers la page d'accueil avec un message d'erreur
         }
 
+
         try {
             // Conversion de la date de naissance
             Date dateOfBirth = Date.valueOf(date_of_birth);
 
             if ("student".equalsIgnoreCase(userType)) {
+
                 // Création de l'objet Student et sauvegarde
                 Student student = new Student(firstname, lastname, dateOfBirth, email, password);
                 studentService.registerStudent(student);
