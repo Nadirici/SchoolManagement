@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,7 +18,7 @@
 
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="/inscription/soumettreInscription" method="post">
+        <form action="api/soumettreInscription" method="post">
 
         <h1>Inscrivez vous</h1>
             <div class="infield">
@@ -65,13 +67,16 @@
                 <label></label>
             </div>
 
-            <div th:if="${message}" th:text="${message}"></div>
+            <% if (request.getAttribute("message") != null) { %>
+            <div><%= request.getAttribute("message") %></div>
+            <% } %>
+
             <%-- Vérification de l'attribut errorMessage --%>
-            <c:if test="${not empty errorMessage}">
-                <div class="error-message">
-                    <p>${errorMessage}</p>
-                </div>
-            </c:if>
+            <% if (request.getAttribute("errorMessage") != null) { %>
+            <div class="error-message">
+                <p><%= request.getAttribute("errorMessage") %></p>
+            </div>
+            <% } %>
             <button >Se connecter</button>
         </form>
     </div>

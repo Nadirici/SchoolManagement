@@ -1,17 +1,26 @@
 package services;
 
-import DAO.StudentDAO;
+
+import lombok.Data;
 import models.Student;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import repository.StudentRepository;
 
+
+@Data
+@Service
 public class StudentService {
-    private final StudentDAO studentDAO;
 
-    public StudentService(StudentDAO studentDAO) {
-        this.studentDAO = studentDAO;
+    @Autowired
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
     public void registerStudent(Student student) {
         // Logique supplémentaire si nécessaire
-        studentDAO.save(student);
+        studentRepository.save(student);
     }
 }
