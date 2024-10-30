@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.sql.Date;
+import java.util.UUID;
 
 
 @MappedSuperclass
@@ -26,9 +27,8 @@ public abstract class User {
     @Column(name = "updated_at")
     private java.sql.Date updatedAt;
 
-    public User(String firstName, String lastName, String email, String password) {
-
-
+    public User(String firstName, String lastName, String email, String password,String id) {
+        this.id= id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

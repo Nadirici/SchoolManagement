@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import servlets.schoolmanagement.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -16,7 +17,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
 
     public void registerStudent(Student student) {
-        student.setId(generateUniqueId(studentRepository));
+
         studentRepository.save(student);
     }
 
@@ -26,12 +27,10 @@ public class StudentService {
                 studentRepository.existsByEmail(email);
     }
 
-    // Méthode statique pour générer un ID unique qui commence par "2" et vérifie qu'il n'existe pas déjà en base
-    public static String generateUniqueId(StudentRepository studentRepository) {
-        String id;
-        do {
-            id = "2" + UUID.randomUUID().toString().replace("-", "").substring(0, 5);
-        } while (studentRepository.existsById(id));
-        return id;
+    // Méthode pour récupérer un étudiant par ID
+    public Optional<Student> getById(String studentId) {
+        return studentRepository.findById(studentId); // Utilise le méthode de recherche par ID de votre repository
     }
+
+
 }

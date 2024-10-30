@@ -46,7 +46,7 @@
 
             <!-- Champ de date de naissance -->
             <div class="infield" id="birthDateField">
-                <input type="date" placeholder="Votre date de naissance" id="date_of_birth" name="date_of_birth" />
+                <input type="date" placeholder="Votre date de naissance" id="date_of_birth" name="date_of_birth" require/>
                 <label></label>
             </div>
 
@@ -54,10 +54,10 @@
             <div class="infield" id="departmentField" style="display: none;">
                 <select id="department" name="department">
                     <option value="" disabled selected>-- Choisissez votre département --</option>
-                    <option value="informatique">Informatique</option>
-                    <option value="mathématiques">Mathématiques</option>
-                    <option value="physique">Physique</option>
-                    <option value="chimie">Chimie</option>
+                    <option value="INFORMATIQUE">Informatique</option>
+                    <option value="MATHEMATIQUES">Mathématiques</option>
+                    <option value="PHYSIQUE">Physique</option>
+                    <option value="CHIMIE">Chimie</option>
                     <!-- Ajoutez d'autres départements ici si nécessaire -->
                 </select>
             </div>

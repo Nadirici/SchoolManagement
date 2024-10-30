@@ -16,7 +16,7 @@ public class TeacherService {
     private final TeacherRepository teacherRepository;
 
     public void registerTeacher(Teacher teacher) {
-        teacher.setId(generateUniqueId(teacherRepository)); // Générer un ID unique
+
         teacherRepository.save(teacher); // Sauvegarder l'enseignant
     }
 
@@ -26,12 +26,4 @@ public class TeacherService {
                 teacherRepository.existsByEmail(email);
     }
 
-    // Méthode statique pour générer un ID unique qui commence par "1" et vérifie qu'il n'existe pas déjà en base
-    public static String generateUniqueId(TeacherRepository teacherRepository) {
-        String id;
-        do {
-            id = "1" + UUID.randomUUID().toString().replace("-", "").substring(0, 5);
-        } while (teacherRepository.existsById(id));
-        return id;
-    }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import servlets.schoolmanagement.models.base.Person;
 
 import java.sql.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "students")
@@ -16,15 +17,20 @@ public class Student extends Person {
 
 
     public Student(String studentFirstName, String studentLastName, Date studentBirthDate, String studentEmail, String studentPassword) {
-        super(studentFirstName, studentLastName, studentEmail, studentPassword, false);
+        super(studentFirstName, studentLastName, studentEmail, studentPassword, false,"2" + UUID.randomUUID());
         this.dateOfBirth = studentBirthDate;
 
 
     }
-    public Student(String studentFirstName, String studentLastName, Date studentBirthDate, String studentEmail, String studentPassword, String id) {
-        super(studentFirstName, studentLastName, studentEmail, studentPassword, false);
-        this.dateOfBirth = studentBirthDate;
-        super.setId(id); // Utilisation de l'ID passé en paramètre
+
+
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Student() {

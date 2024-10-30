@@ -1,5 +1,8 @@
 package servlets.schoolmanagement.models.Enumerations;
 
+import lombok.Getter;
+
+@Getter
 public enum Departement {
     SCIENCES("Sciences"),
     LITTERATURE("Littérature"),
@@ -18,12 +21,21 @@ public enum Departement {
         this.nom = nom;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+         return nom;
     }
 
     @Override
     public String toString() {
         return nom;
+    }
+
+    public static Departement fromDisplayName(String displayName) {
+        for (Departement subject : Departement.values()) {
+            if (subject.getName().equalsIgnoreCase(displayName)) {
+                return subject;
+            }
+        }
+        throw new IllegalArgumentException("Aucun sujet correspondant pour le nom : " + displayName);
     }
 }

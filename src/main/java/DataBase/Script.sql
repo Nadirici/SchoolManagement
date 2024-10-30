@@ -1,23 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1:3306
--- Généré le : mar. 29 oct. 2024 à 19:17
--- Version du serveur : 8.2.0
--- Version de PHP : 8.2.13
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
 -- Base de données : `schoolmanagement`
 --
 
@@ -39,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `course` (
                                         PRIMARY KEY (`course_id`),
                                         KEY `teacher_id` (`teacher_id`),
                                         KEY `department_id` (`department_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -52,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `department` (
                                             `department_id` int NOT NULL,
                                             `name` varchar(50) DEFAULT NULL,
                                             PRIMARY KEY (`department_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -67,11 +47,10 @@ CREATE TABLE IF NOT EXISTS `enrollment` (
                                             `date` date DEFAULT NULL,
                                             PRIMARY KEY (`student_id`,`course_id`),
                                             KEY `course_id` (`course_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
---
 -- Structure de la table `exam`
 --
 
@@ -80,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `exam` (
                                       `exam_id` int NOT NULL,
                                       `type` varchar(50) DEFAULT NULL,
                                       PRIMARY KEY (`exam_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -100,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `grade` (
                                        KEY `student_id` (`student_id`),
                                        KEY `course_id` (`course_id`),
                                        KEY `exam_id` (`exam_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -120,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `students` (
                                           `is_verified` bit(1) DEFAULT NULL,
                                           `date_of_birth` date DEFAULT NULL,
                                           PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Déchargement des données de la table `students`
@@ -151,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
                                          PRIMARY KEY (`user_id`),
                                          UNIQUE KEY `user_email` (`user_email`),
                                          KEY `department_id` (`department_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
