@@ -5,9 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+@Getter @Setter
 public class StudentDTO extends PersonEntityDTO {
 
-    @Getter @Setter
     private LocalDate dateOfBirth;
 
 }
