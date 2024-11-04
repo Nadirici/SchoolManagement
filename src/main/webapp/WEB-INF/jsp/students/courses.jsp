@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Student Courses</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <%--<link rel="stylesheet" href="/css/style.css">--%>
 </head>
 <body>
 <h1>Courses for ${student.firstname} ${student.lastname}</h1>

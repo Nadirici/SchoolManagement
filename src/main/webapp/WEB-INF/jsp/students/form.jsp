@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${student.id == null ? 'Add Student' : 'Edit Student'}</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <%--<link rel="stylesheet" href="/css/style.css">--%>
 </head>
 <body>
 <h1>${student.id == null ? 'Add New Student' : 'Edit Student'}</h1>
