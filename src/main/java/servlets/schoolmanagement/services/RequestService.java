@@ -51,17 +51,19 @@ public class RequestService {
             Teacher teacher = null;
             if(request.getStudent() != null) {
                 student = request.getStudent();
+
             }
             else {
-                // TO-DO : Implémenter teacher
+
                 teacher = request.getTeacher();
             }
-            
-            // Vérifie si l'ID commence par '2' (étudiant) ou '1' (professeur)
+
+
             if (student != null) {
                 student.setVerified(true);
                 // Inscription de l'étudiant
                 studentService.registerStudent(student);
+                System.out.println(student.getFirstName() + " " + student.getLastName());
             } else if (teacher != null) {
                 // Inscription de l'enseignant
                 teacher.setVerified(true);

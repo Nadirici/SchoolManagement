@@ -39,10 +39,10 @@
         <td><%= teacherRequest.getTeacher().getLastName() %></td> <!-- Utilisation de la méthode pour obtenir le nom -->
         <td><%= teacherRequest.getTeacher().getFirstName() %></td> <!-- Utilisation de la méthode pour obtenir le prénom -->
         <td>
-            <form action="/admin/approve/<%= teacherRequest.getId() %>" method="post" style="display:inline;">
+            <form action="/admin/dashboard/approve/<%= teacherRequest.getId() %>" method="post" style="display:inline;">
                 <button type="submit">Approuver</button>
             </form>
-            <form action="/admin/reject/<%= teacherRequest.getId() %>" method="post" style="display:inline;">
+            <form action="/admin/dashboard/reject/<%= teacherRequest.getId() %>" method="post" style="display:inline;">
                 <button type="submit">Rejeter</button>
             </form>
         </td>
@@ -79,10 +79,10 @@
         <td><%= studentRequest.getStudent().getLastName() %></td> <!-- Utilisation de la méthode pour obtenir le nom -->
         <td><%= studentRequest.getStudent().getFirstName() %></td> <!-- Utilisation de la méthode pour obtenir le prénom -->
         <td>
-            <form action="/admin/approve/<%= studentRequest.getId() %>" method="post" style="display:inline;">
+            <form action="/admin/dashboard/approve/<%= studentRequest.getId() %>" method="post" style="display:inline;">
                 <button type="submit">Approuver</button>
             </form>
-            <form action="/admin/reject/<%= studentRequest.getId() %>" method="post" style="display:inline;">
+            <form action="/admin/dashboard/reject/<%= studentRequest.getId() %>" method="post" style="display:inline;">
                 <button type="submit">Rejeter</button>
             </form>
         </td>
