@@ -3,6 +3,8 @@ package servlets.schoolmanagement.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import servlets.schoolmanagement.models.entity.Admin;
 import servlets.schoolmanagement.models.entity.RegistrationRequest;
 import servlets.schoolmanagement.services.RequestService;
 
@@ -10,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/adminDashboard/{id}")
 public class AdminController {
 
     private final RequestService requestService;
@@ -20,8 +22,16 @@ public class AdminController {
     }
 
     @GetMapping("/requests")
-    public String showPendingRequests(Model model) {
+    public String showPendingRequests(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
 
+        System.out.println(id);
+
+        if (!Admin.getAdmin().getId().equals(id)) {
+            redirectAttributes.addFlashAttribute("flashError", "Accès refusé : Vous n'êtes pas administrateur.");
+            return "redirect:/noaccess";
+        }
+
+        else
 
         model.addAttribute("pendingTeacherRequests", requestService.getPendingTeacherRequests());
 

@@ -1,5 +1,6 @@
 package servlets.schoolmanagement.services;
 
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import servlets.schoolmanagement.models.entity.Student;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+
+    @Transactional
     public void registerStudent(Student student) {
 
         studentRepository.save(student);
@@ -33,4 +36,11 @@ public class StudentService {
     }
 
 
+    public Student findStudentByEmail(String email) {
+        return  studentRepository.findByEmail(email);
+    }
+
+    public Optional<Student> findStudentById(String id) {
+        return studentRepository.findById(id);
+    }
 }

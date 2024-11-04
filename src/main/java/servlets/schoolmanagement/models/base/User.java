@@ -1,19 +1,18 @@
 package servlets.schoolmanagement.models.base;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.lang.NonNull;
 
 import java.sql.Date;
 import java.util.UUID;
 
 
+@Getter
 @MappedSuperclass
 public abstract class User {
 
-    @Id
-    @NonNull
-    @Column(name = "user_id")
-    private String id;
+
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -27,8 +26,8 @@ public abstract class User {
     @Column(name = "updated_at")
     private java.sql.Date updatedAt;
 
-    public User(String firstName, String lastName, String email, String password,String id) {
-        this.id= id;
+    public User(String firstName, String lastName, String email, String password) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -53,61 +52,7 @@ public abstract class User {
         this.updatedAt = new Date(System.currentTimeMillis());
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
 
 

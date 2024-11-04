@@ -22,14 +22,14 @@
 <div class="container" id="container">
     <div class="form-container sign-up-container">
 
-        <form action="${pageContext.request.contextPath}/api/register" method="post">
-        <h1>Inscrivez vous</h1>
+        <form action="${pageContext.request.contextPath}/register" method="post">
+            <h1>Inscrivez vous</h1>
             <div class="infield">
-            <select id="userType" name="userType" required onchange="toggleDepartmentField()">
-                <option value="" disabled selected>-- Choisissez --</option>
-                <option value="student">Étudiant</option>
-                <option value="teacher">Professeur</option>
-            </select>
+                <select id="userType" name="userType" required onchange="toggleDepartmentField()">
+                    <option value="" disabled selected>-- Choisissez --</option>
+                    <option value="student">Étudiant</option>
+                    <option value="teacher">Professeur</option>
+                </select>
             </div>
             <div class="infield">
                 <input type="text" placeholder="Email" id="email" name="email" required/>
@@ -46,7 +46,7 @@
 
             <!-- Champ de date de naissance -->
             <div class="infield" id="birthDateField">
-                <input type="date" placeholder="Votre date de naissance" id="date_of_birth" name="date_of_birth" require/>
+                <input type="date" placeholder="Votre date de naissance" id="dateOfBirth" name="dateOfBirth" required/>
                 <label></label>
             </div>
 
@@ -72,7 +72,7 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="#" method="get">
+        <form action="/login" method="post">
             <h1>Se connecter</h1>
 
             <div class="infield">
@@ -84,16 +84,21 @@
                 <label></label>
             </div>
 
-            <% if (request.getAttribute("message") != null) { %>
-            <div><%= request.getAttribute("message") %></div>
-            <% } %>
+            <!-- Affichage des messages flash -->
+            <%
+                String flashError = (String) request.getAttribute("flashError");
+                String flashSuccess = (String) request.getAttribute("flashSuccess");
+                if (flashError != null) {
+            %>
+            <div class="flash-message flash-error"><%= flashError %></div>
+            <%
+            } else if (flashSuccess != null) {
+            %>
+            <div class="flash-message flash-success"><%= flashSuccess %></div>
+            <%
+                }
+            %>
 
-            <%-- Vérification de l'attribut errorMessage --%>
-            <% if (request.getAttribute("errorMessage") != null) { %>
-            <div class="error-message">
-                <p><%= request.getAttribute("errorMessage") %></p>
-            </div>
-            <% } %>
             <button >Se connecter</button>
         </form>
     </div>

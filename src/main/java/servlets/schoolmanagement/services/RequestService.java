@@ -56,9 +56,7 @@ public class RequestService {
                 // TO-DO : Implémenter teacher
                 teacher = request.getTeacher();
             }
-
-
-
+            
             // Vérifie si l'ID commence par '2' (étudiant) ou '1' (professeur)
             if (student != null) {
                 student.setVerified(true);
