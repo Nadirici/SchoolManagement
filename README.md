@@ -38,6 +38,8 @@ A comprehensive system for managing students, teachers, courses, enrollments, an
 | `Enrollment` | Tracks student-course links |
 | `Grade`      | Records grades per enrollment |
 
+<img src="https://github.com/user-attachments/assets/553d5b8a-6103-4e91-a004-f25ab55bfc43" alt="MCDSchoolManager" width="600"/>
+
 ## 🗃️ Sample Data for Testing
 
 For convenience, a `sample-data.sql` file is included in the project. This file contains pre-configured test data that can be used to populate the database quickly. By loading this data, you can experiment with and test the various API endpoints without needing to manually insert records.
@@ -100,10 +102,6 @@ This file is especially helpful for trying out the enrollment and student-course
 - `PUT /grades/{id}` - Updates a grade **(TODO)**
     - Request Body : `{ "value": double }`
 
-Here's a **Development Roadmap** section to guide the next stages of your project. This can be added to the README file for future reference.
-
----
-
 ## 📈 Development Roadmap
 
 This roadmap outlines the next steps for expanding and enhancing the School Management System. The following features and improvements will make the system more functional, secure, and user-friendly.
@@ -128,7 +126,7 @@ This roadmap outlines the next steps for expanding and enhancing the School Mana
     - Protect sensitive endpoints, allowing access based on user roles.
     - Implement login/logout functionality.
 - **Objective**: Secure the API and frontend, ensuring only authorized users can access or modify data.
-- 
+  
 ### 5. Additional Enhancements (Optional)
 - **Pagination and Filtering**: Add pagination to list endpoints for better scalability.
 - **Implement Testing**: Guarantee the quality and reliability of the application’s core functionalities. (Unit Tests + Integration Tests)
