@@ -18,12 +18,15 @@ public class GradeService {
 
     private final EnrollmentService enrollmentService;
 
+    private final AssignmentService assignmentService;
+
     private final ModelMapper mapper;
 
     @Autowired
-    public GradeService(GradeRepository gradeRepository, StudentService studentService, CourseService courseService, EnrollmentService enrollmentService, ModelMapper mapper) {
+    public GradeService(GradeRepository gradeRepository, EnrollmentService enrollmentService, AssignmentService assignmentService, ModelMapper mapper) {
         this.gradeRepository = gradeRepository;
         this.enrollmentService = enrollmentService;
+        this.assignmentService = assignmentService;
         this.mapper = mapper;
     }
 
@@ -50,4 +53,6 @@ public class GradeService {
     public List<GradeDTO> getAllGradesByEnrollmentId(UUID enrollmentId) {
         return gradeRepository.findAllByEnrollmentId(enrollmentId).stream().map(this::mapToGradeDTO).toList();
     }
+
+    // Get All Grades By Assignment Id
 }

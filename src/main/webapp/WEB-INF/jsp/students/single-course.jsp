@@ -32,7 +32,7 @@
             <c:forEach var="grade" items="${grades}">
                 <tr>
                     <td><%--${grade.name}--%></td>
-                    <td>${grade.value}</td>
+                    <td>${grade.score}</td>
                     <td><%--${grade.minScore}--%></td>
                     <td><%--${grade.maxScore}--%></td>
                     <td><%--${grade.classAverage}--%></td>

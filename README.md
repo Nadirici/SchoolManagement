@@ -97,10 +97,10 @@ This file is especially helpful for trying out the enrollment and student-course
 ### Grades
 
 - `POST /grades` - Adds a grade to a student’s enrollment
-  - Request Body : `{ "enrollmentId": UUID, "value": double }`
+  - Request Body : `{ "enrollmentId": UUID, "score": double }`
 - `DELETE /grades/{id}` - Deletes a specific grade by ID
 - `PUT /grades/{id}` - Updates a grade **(TODO)**
-    - Request Body : `{ "value": double }`
+    - Request Body : `{ "score": double }`
 
 ## 📈 Development Roadmap
 
