@@ -9,7 +9,7 @@
 <body>
 <h1>Student Details</h1>
 
-<table>
+<table border="1">
     <tr>
         <th>ID:</th>
         <td>${student.id}</td>

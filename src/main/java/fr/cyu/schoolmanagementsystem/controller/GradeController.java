@@ -4,15 +4,14 @@ import fr.cyu.schoolmanagementsystem.model.dto.GradeDTO;
 import fr.cyu.schoolmanagementsystem.service.GradeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Controller
-@RequestMapping("/grades")
+@RestController
+@RequestMapping("/api/grades")
 public class GradeController {
 
     public final GradeService gradeService;

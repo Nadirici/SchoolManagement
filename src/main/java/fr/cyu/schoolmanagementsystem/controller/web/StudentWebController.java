@@ -1,9 +1,13 @@
 package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.EnrollmentDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.GradeDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
+import fr.cyu.schoolmanagementsystem.service.CourseService;
 import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
+import fr.cyu.schoolmanagementsystem.service.GradeService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,81 +19,56 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/admin/students")
+@RequestMapping("/students")
 public class StudentWebController {
 
     private final StudentService studentService;
     private final EnrollmentService enrollmentService;
+    private final CourseService courseService;
+    private final GradeService gradeService;
 
     @Autowired
-    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService) {
+    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
-    }
-
-    @GetMapping
-    public String getAllStudents(Model model) {
-        List<StudentDTO> students = studentService.getAllStudents();
-        model.addAttribute("students", students);
-        return "students/list"; // JSP page name: students/list.jsp
+        this.courseService = courseService;
+        this.gradeService = gradeService;
     }
 
     @GetMapping("/{id}")
-    public String getStudentById(@PathVariable("id") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
+    public String showStudentDashboard(@PathVariable("id") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
         Optional<StudentDTO> student = studentService.getStudentById(studentId);
 
         if (student.isPresent()) {
+            List<CourseDTO> courses = enrollmentService.getCoursesForStudent(studentId);
             model.addAttribute("student", student.get());
-            return "students/view"; // JSP page name: students/view.jsp
+            model.addAttribute("courses", courses);
+            return "students/dashboard";
         } else {
             redirectAttributes.addFlashAttribute("error", "Student not found");
-            return "redirect:/admin/students"; // Redirect to the list page if student not found
+            return "redirect:/students"; // Redirect to the list page if student not found
         }
     }
 
-    @GetMapping("/new")
-    public String showAddStudentForm(Model model) {
-        model.addAttribute("student", new StudentDTO());
-        return "students/form"; // JSP page for the form to add a new student
-    }
+    @GetMapping("/{studentId}/courses/{courseId}")
+    public String showCourseDashboard(@PathVariable("studentId") UUID studentId, @PathVariable("courseId") UUID courseId, Model model, RedirectAttributes redirectAttributes) {
+        Optional<EnrollmentDTO> enrollment = enrollmentService.getEnrollmentByStudentIdAndCourseId(studentId, courseId);
+        if (enrollment.isPresent()) {
+            Optional<CourseDTO> course = courseService.getCourseById(courseId);
+            if (course.isPresent()) {
+                List<GradeDTO> grades = gradeService.getAllGradesByEnrollmentId(enrollment.get().getId());
 
-    @PostMapping
-    public String addStudent(@Valid @ModelAttribute("student") StudentDTO studentDTO,
-                             Model model,
-                             RedirectAttributes redirectAttributes) {
-        try {
-            UUID newStudentId = studentService.addStudent(studentDTO);
-            redirectAttributes.addFlashAttribute("message", "Student created successfully");
-            return "redirect:/admin/students/" + newStudentId; // Redirect to the new student's view page
-        } catch (RuntimeException ex) {
-            model.addAttribute("error", "Conflict: " + ex.getMessage());
-            return "students/form"; // Reload the form with an error message
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteStudentById(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes) {
-        try {
-            studentService.deleteStudentById(id);
-            redirectAttributes.addFlashAttribute("message", "Student deleted successfully");
-            return "redirect:/admin/students"; // Redirect to the list of students after deletion
-        } catch (RuntimeException ex) {
-            redirectAttributes.addFlashAttribute("error", "Conflict: " + ex.getMessage());
-            return "redirect:/admin/students"; // Redirect back to the list with an error message
-        }
-    }
-
-    @GetMapping("/{id}/courses")
-    public String getCoursesForStudent(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
-        List<CourseDTO> courses = enrollmentService.getCoursesForStudent(id);
-        Optional<StudentDTO> student = studentService.getStudentById(id);
-        if (courses != null && student.isPresent()) {
-            model.addAttribute("courses", courses);
-            model.addAttribute("student", student.get());
-            return "students/courses"; // JSP page name: students/courses.jsp
+                model.addAttribute("course", course.get());
+                model.addAttribute("grades", grades);
+                return "students/single-course";
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Course not found");
+                return "redirect:/students"; // Redirect to the list page if student not found
+            }
         } else {
-            redirectAttributes.addFlashAttribute("error", "Courses not found for student");
-            return "redirect:/admin/students";
+            redirectAttributes.addFlashAttribute("error", "Enrollment not found");
+            return "redirect:/students"; // Redirect to the list page if student not found
         }
     }
+
 }
