@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -76,6 +77,10 @@ public class EnrollmentService {
 
     public Enrollment findEnrollmentById(UUID enrollmentId) {
         return enrollmentRepository.findById(enrollmentId).orElse(null);
+    }
+
+    public Optional<EnrollmentDTO> getEnrollmentByStudentIdAndCourseId(UUID studentId, UUID courseId) {
+        return enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId).map(this::mapToEnrollmentDTO);
     }
 
 }

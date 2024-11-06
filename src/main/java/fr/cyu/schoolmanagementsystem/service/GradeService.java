@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -44,5 +45,9 @@ public class GradeService {
 
     private GradeDTO mapToGradeDTO(Grade grade) {
         return mapper.map(grade, GradeDTO.class);
+    }
+
+    public List<GradeDTO> getAllGradesByEnrollmentId(UUID enrollmentId) {
+        return gradeRepository.findAllByEnrollmentId(enrollmentId).stream().map(this::mapToGradeDTO).toList();
     }
 }

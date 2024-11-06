@@ -16,7 +16,7 @@
     <div class="error">${error}</div>
 </c:if>
 
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>ID</th>
@@ -34,7 +34,10 @@
             <td>${student.lastname}</td>
             <td>${student.email}</td>
             <td>
-                <a href="students/${student.id}">View</a> |
+                <a href="students/${student.id}">Admin View</a> |
+                <%-- Student View est temporaire le temps que
+                le formulaire de connexion soit implémenté --%>
+                <a href="/students/${student.id}">* Student View</a> |
                 <a href="students/${student.id}/courses">Courses</a> |
                 <form action="students/${student.id}" method="post" style="display:inline;">
                     <input type="hidden" name="_method" value="delete"/>
@@ -47,5 +50,6 @@
 </table>
 
 <a href="students/new">Add New Student</a>
+<p>* Student View | Temporaire, le temps que le formaulaire de connexion soit implémenter</p>
 </body>
 </html>

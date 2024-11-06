@@ -9,7 +9,7 @@
 <body>
 <h1>Courses for ${student.firstname} ${student.lastname}</h1>
 
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>Course ID</th>
