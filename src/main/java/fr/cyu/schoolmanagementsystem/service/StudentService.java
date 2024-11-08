@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.service;
 
+import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.repository.StudentRepository;
@@ -41,15 +42,25 @@ public class StudentService {
         return student.getId();
     }
 
-    public void deleteStudentById(UUID id) {
+    public void deleteStudent(UUID id) {
         if (studentRepository.findById(id).isEmpty()) {
             throw new RuntimeException("Student with this id does not exist.");
         }
         studentRepository.deleteById(id);
     }
 
-    public Student findStudentById(UUID id) {
-        return studentRepository.findById(id).orElse(null);
+    public void updateStudent(UUID studentId, StudentDTO studentDTO) {
+        // TODO: Implementing logic and RuntimeException
+    }
+
+    public List<CourseDTO> getCoursesByStudentId(UUID studentId) {
+        // TODO: Implementing logic and RuntimeException
+        return null;
+    }
+
+    public List<StudentDTO> searchStudents(String query) {
+        // TODO: Implementing logic and RuntimeException
+        return null;
     }
 
     private StudentDTO mapToStudentDTO(Student student) {

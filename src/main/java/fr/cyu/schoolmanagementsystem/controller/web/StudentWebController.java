@@ -1,14 +1,9 @@
 package fr.cyu.schoolmanagementsystem.controller.web;
 
-import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
-import fr.cyu.schoolmanagementsystem.model.dto.EnrollmentDTO;
-import fr.cyu.schoolmanagementsystem.model.dto.GradeDTO;
-import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.*;
+import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
-import fr.cyu.schoolmanagementsystem.service.CourseService;
-import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
-import fr.cyu.schoolmanagementsystem.service.GradeService;
-import fr.cyu.schoolmanagementsystem.service.StudentService;
+import fr.cyu.schoolmanagementsystem.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +21,15 @@ public class StudentWebController {
     private final EnrollmentService enrollmentService;
     private final CourseService courseService;
     private final GradeService gradeService;
+    private final AssignmentService assignmentService;
 
     @Autowired
-    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService) {
+    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
         this.courseService = courseService;
         this.gradeService = gradeService;
+        this.assignmentService = assignmentService;
     }
 
     @GetMapping("/{id}")
@@ -56,7 +53,15 @@ public class StudentWebController {
         if (enrollment.isPresent()) {
             Optional<CourseDTO> course = courseService.getCourseById(courseId);
             if (course.isPresent()) {
-                List<GradeDTO> grades = gradeService.getAllGradesByEnrollmentId(enrollment.get().getId());
+                // Get All Assignment related to the course and get grades associated
+                List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
+
+                Map<AssignmentDTO, GradeDTO> grades = new HashMap<>();
+
+                for (AssignmentDTO assignment : assignments) {
+                    Optional<GradeDTO> grade = gradeService.getAllGradesByAssignmentIdAndEnrollmentId(assignment.getId(), enrollment.get().getId());
+                    grades.put(assignment, grade.orElse(null));
+                }
 
                 model.addAttribute("course", course.get());
                 model.addAttribute("grades", grades);

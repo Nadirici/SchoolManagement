@@ -2,6 +2,7 @@ package fr.cyu.schoolmanagementsystem.model.entity;
 
 import fr.cyu.schoolmanagementsystem.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,24 +10,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Table(name = "enrollments")
-public class Enrollment extends BaseEntity {
+@Table(name = "assignments")
+@Getter @Setter
+public class Assignment extends BaseEntity {
 
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false, referencedColumnName = "id")
-    private Student student;
+    @NotNull
+    private String title;
 
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false, referencedColumnName = "id")
+    private String description;
+
+    private double coefficient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @OneToMany(mappedBy = "enrollment")
+    @OneToMany(mappedBy = "assignment")
     private Set<Grade> grades;
 
-    public Enrollment() {
+    public Assignment() {
         grades = new HashSet<>();
     }
 
@@ -37,5 +39,4 @@ public class Enrollment extends BaseEntity {
     public void removeGrade(Grade grade) {
         grades.remove(grade);
     }
-
 }

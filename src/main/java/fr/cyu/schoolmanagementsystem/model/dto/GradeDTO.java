@@ -15,6 +15,9 @@ public class GradeDTO {
     private UUID enrollmentId;
 
     @NotNull
-    private double value;
+    private UUID assignmentId;
+
+    @NotNull
+    private double score;
 
 }

@@ -37,14 +37,25 @@ public class EnrollmentService {
         return enrollmentRepository.findAll().stream().map(this::mapToEnrollmentDTO).toList();
     }
 
-    public UUID enrollStudent(EnrollmentDTO enrollmentDTO) {
-        Student studentToMap = studentService.findStudentById(enrollmentDTO.getStudentId());
-        Course courseToMap = courseService.findCourseById(enrollmentDTO.getCourseId());
+    public Optional<EnrollmentDTO> getEnrollmentById(UUID enrollmentId) {
+        return enrollmentRepository.findById(enrollmentId).map(this::mapToEnrollmentDTO);
+    }
+
+    public UUID enrollStudentToCourse(EnrollmentDTO enrollmentDTO) {
+        Optional<StudentDTO> student = studentService.getStudentById(enrollmentDTO.getStudentId());
+        Optional<CourseDTO> course = courseService.getCourseById(enrollmentDTO.getCourseId());
+
+        if (student.isEmpty() || course.isEmpty()) {
+            throw new RuntimeException("Can't enroll because Student or Course not found");
+        }
 
         Enrollment enrollment = mapper.map(enrollmentDTO, Enrollment.class);
 
-        enrollment.setStudent(studentToMap);
-        enrollment.setCourse(courseToMap);
+        Student s = mapper.map(student.get(), Student.class);
+        Course c = mapper.map(course.get(), Course.class);
+
+        enrollment.setStudent(s);
+        enrollment.setCourse(c);
 
         enrollmentRepository.save(enrollment);
 
@@ -71,16 +82,21 @@ public class EnrollmentService {
                 .toList();
     }
 
-    private EnrollmentDTO mapToEnrollmentDTO(Enrollment enrollment) {
-        return mapper.map(enrollment, EnrollmentDTO.class);
-    }
-
-    public Enrollment findEnrollmentById(UUID enrollmentId) {
-        return enrollmentRepository.findById(enrollmentId).orElse(null);
-    }
-
     public Optional<EnrollmentDTO> getEnrollmentByStudentIdAndCourseId(UUID studentId, UUID courseId) {
         return enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId).map(this::mapToEnrollmentDTO);
     }
 
+    public List<EnrollmentDTO> getEnrollmentsByStudentId(UUID studentId) {
+        // TODO: Implementing logic and RuntimeException
+        return null;
+    }
+
+    public List<EnrollmentDTO> getEnrollmentsByCourseId(UUID courseId) {
+        // TODO: Implementing logic and RuntimeException
+        return null;
+    }
+
+    private EnrollmentDTO mapToEnrollmentDTO(Enrollment enrollment) {
+        return mapper.map(enrollment, EnrollmentDTO.class);
+    }
 }

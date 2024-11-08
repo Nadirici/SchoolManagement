@@ -73,7 +73,7 @@ public class StudentController {
     public ResponseEntity<Map<String, Object>> deleteStudentById(@PathVariable("id") UUID id) {
         try {
 
-            studentService.deleteStudentById(id);
+            studentService.deleteStudent(id);
 
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Student deleted successfully");

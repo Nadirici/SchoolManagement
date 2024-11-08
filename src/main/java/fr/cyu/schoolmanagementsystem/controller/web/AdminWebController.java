@@ -89,7 +89,7 @@ public class AdminWebController {
     @DeleteMapping("/students/{id}")
     public String deleteStudentById(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes) {
         try {
-            studentService.deleteStudentById(id);
+            studentService.deleteStudent(id);
             redirectAttributes.addFlashAttribute("message", "Student deleted successfully");
             return "redirect:/admin/students"; // Redirect to the list of students after deletion
         } catch (RuntimeException ex) {

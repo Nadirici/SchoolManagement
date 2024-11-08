@@ -28,8 +28,12 @@ public class Course extends BaseEntity {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private Set<Enrollment> enrollments;
 
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    private Set<Assignment> assignments;
+
     public Course() {
         enrollments = new HashSet<>();
+        assignments = new HashSet<>();
     }
 
     public void addEnrollment(Enrollment enrollment) {
@@ -38,6 +42,14 @@ public class Course extends BaseEntity {
 
     public void removeEnrollment(Enrollment enrollment) {
         enrollments.remove(enrollment);
+    }
+
+    public void addAssignment(Assignment assignment) {
+        assignments.add(assignment);
+    }
+
+    public void removeAssignment(Assignment assignment) {
+        assignments.remove(assignment);
     }
 
 }
