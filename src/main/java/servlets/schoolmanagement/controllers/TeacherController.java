@@ -32,5 +32,6 @@ public class TeacherController {
         Teacher teacher = teacherOptional.get();
         model.addAttribute("teacher", teacher);
         return "teacherDashboard";
+
     }
 }
