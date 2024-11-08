@@ -22,3 +22,6 @@ INSERT INTO enrollments (id, course_id, student_id) VALUES
     ('3f22c5eb-64f4-4c08-914f-99d737ddf586', 'e6cfd17c-3071-4a8d-87ec-5b5c314f44f8', '39b3c9e6-e72f-4c75-a83f-c7c097a36eec'), -- Bob inscrite à Chemistry
     ('64ad7577-6d6d-43f0-b0c2-47da16009d1a', '1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '3f17a404-6b04-4e49-bf47-5c97a9fef2a6'), -- Alice inscrit à Mathematics
     ('0233b482-8d18-4fb5-92eb-2ed6737931bf', '1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '39b3c9e6-e72f-4c75-a83f-c7c097a36eec'); -- Bob inscrite à Mathematics
+
+INSERT INTO admins (id, email, firstname, is_verified, lastname, password, salt) VALUES
+    ("e2437152-2648-41ac-bdd6-5f6f273839b0", "admin@admin.com", "admin", 1, "admin", "FsG84D3siq+GzQxIaKcFtw==", "skiSARuzQLlM1E3RBsk4dg==");

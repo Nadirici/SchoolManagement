@@ -21,7 +21,14 @@ public class Student extends BasePersonEntity {
     private Set<Enrollment> enrollments;
 
     public Student() {
+        super();
         enrollments = new HashSet<>();
+    }
+
+    public Student(String firstname, String lastname, LocalDate dateOfBirth, String email, String password, String salt) {
+        super(firstname, lastname, email, password, salt);
+        this.dateOfBirth = dateOfBirth;
+
     }
 
     public void addEnrollment(Enrollment enrollment) {

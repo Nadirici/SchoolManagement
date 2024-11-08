@@ -2,7 +2,11 @@ package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.entity.Admin;
+import fr.cyu.schoolmanagementsystem.model.entity.RegistrationRequest;
+import fr.cyu.schoolmanagementsystem.service.AdminService;
 import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
+import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -22,25 +26,31 @@ public class AdminWebController {
 
     private final EnrollmentService enrollmentService;
 
-    public AdminWebController(StudentService studentService, EnrollmentService enrollmentService) {
+    private final RequestService requestService;
+
+    private final AdminService adminService;
+
+    public AdminWebController(StudentService studentService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
+        this.requestService = requestService;
+        this.adminService = adminService;
     }
 
-    @GetMapping
-    public String showDashboard(Model model) {
+    @GetMapping("/{id}")
+    public String showDashboard(@PathVariable("id") String id, Model model) {
         return "admin/dashboard";
     }
 
-    @GetMapping("/students")
+    @GetMapping("/{id}/students")
     public String getAllStudents(Model model) {
         List<StudentDTO> students = studentService.getAllStudents();
         model.addAttribute("students", students);
         return "admin/students/list"; // JSP page name: students/list.jsp
     }
 
-    @GetMapping("/students/{id}")
-    public String getStudentById(@PathVariable("id") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/{adminId}/students/{studentId}")
+    public String getStudentById(@PathVariable("adminId") UUID adminId, @PathVariable("studentId") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
         Optional<StudentDTO> student = studentService.getStudentById(studentId);
 
         if (student.isPresent()) {
@@ -96,5 +106,49 @@ public class AdminWebController {
             redirectAttributes.addFlashAttribute("error", "Conflict: " + ex.getMessage());
             return "redirect:/admin/students"; // Redirect back to the list with an error message
         }
+    }
+
+    @GetMapping("/{id}/requests")
+    public String showPendingRequests(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
+
+        try {
+            Admin admin = adminService.getAdmin(UUID.fromString(id));
+
+            // Récupérer les demandes en attente
+            List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
+            List<RegistrationRequest> pendingStudentRequests = requestService.getPendingStudentRequests();
+
+            model.addAttribute("adminId", admin.getId());
+            model.addAttribute("pendingTeacherRequests", pendingTeacherRequests);
+            model.addAttribute("pendingStudentRequests", pendingStudentRequests);
+            return "admin/requests"; // Chemin vers votre JSP
+
+        }catch (RuntimeException ex) {
+            redirectAttributes.addFlashAttribute("flashError", "Vous n'êtes pas admin.");
+            return "redirect:/admin/requests";
+        }
+
+    }
+
+    @PostMapping("/{adminId}/requests/{requestId}/approve")
+    public String approveRequest(@PathVariable("adminId") UUID adminId, @PathVariable("requestId") UUID requestId, RedirectAttributes redirectAttributes) {
+        try {
+            requestService.approveRegistrationRequest(requestId);
+            redirectAttributes.addFlashAttribute("flashSuccess", "Demande approuvée avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("flashError", "Erreur lors de l'approbation de la demande : " + e.getMessage());
+        }
+        return "redirect:/admin/" + adminId + "/requests";
+    }
+
+    @PostMapping("/reject/{requestId}")
+    public String rejectRequest(@PathVariable UUID requestId, RedirectAttributes redirectAttributes) {
+        try {
+            requestService.rejectRegistrationRequest(requestId);
+            redirectAttributes.addFlashAttribute("flashSuccess", "Demande rejetée avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("flashError", "Erreur lors du rejet de la demande : " + e.getMessage());
+        }
+        return "redirect:/admin/requests"; // Redirige vers la liste des demandes
     }
 }
