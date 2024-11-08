@@ -30,13 +30,14 @@ A comprehensive system for managing students, teachers, courses, enrollments, an
 
 ### Database Schema
 
-| Entity       | Description                 |
-|--------------|-----------------------------|
-| `Student`    | Manages student data        |
-| `Teacher`    | Manages teacher data        |
-| `Course`     | Manages course details      |
-| `Enrollment` | Tracks student-course links |
-| `Grade`      | Records grades per enrollment |
+| Table         | Description                                  |
+|---------------|----------------------------------------------|
+| ``students``  | Manages student data                         |
+| `teachers`    | Manages teacher data                         |
+| `courses`     | Manages course details                       |
+| `enrollments` | Tracks student-course links                  |
+| `grades`      | Records grades per enrollment and assignment |
+| `assignments`  | Records assignments by course                |
 
 <img src="https://github.com/user-attachments/assets/553d5b8a-6103-4e91-a004-f25ab55bfc43" alt="MCDSchoolManager" width="600"/>
 
@@ -101,6 +102,8 @@ This file is especially helpful for trying out the enrollment and student-course
 - `DELETE /grades/{id}` - Deletes a specific grade by ID
 - `PUT /grades/{id}` - Updates a grade **(TODO)**
     - Request Body : `{ "score": double }`
+
+### Assignments
 
 ## 📈 Development Roadmap
 
