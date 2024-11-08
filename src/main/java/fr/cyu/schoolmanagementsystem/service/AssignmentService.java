@@ -1,9 +1,14 @@
 package fr.cyu.schoolmanagementsystem.service;
 
+import fr.cyu.schoolmanagementsystem.model.dto.AssignmentDTO;
+import fr.cyu.schoolmanagementsystem.model.entity.Assignment;
 import fr.cyu.schoolmanagementsystem.repository.AssignmentRepository;
-import fr.cyu.schoolmanagementsystem.repository.CourseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AssignmentService {
@@ -12,19 +17,38 @@ public class AssignmentService {
 
     private final CourseService courseService;
 
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
 
     public AssignmentService(AssignmentRepository assignmentRepository, CourseService courseService, ModelMapper mapper) {
         this.assignmentRepository = assignmentRepository;
         this.courseService = courseService;
-        this.modelMapper = mapper;
+        this.mapper = mapper;
     }
 
-    // Get Assignment By Course
+    public List<AssignmentDTO> getAllAssignmentsByCourseId(UUID courseId) {
+        // TODO: Implementing logic and RuntimeException
+        return null;
+    }
 
-    // Post Assignment
+    public UUID addAssignment(AssignmentDTO assignmentDTO) {
+        // TODO: Implementing logic and RuntimeException if needed
+        return null;
+    }
 
-    // Edit Assignment
+    public void deleteAssignment(UUID assignmentId) {
+        // TODO: Implementing logic and RuntimeException if needed
+    }
 
-    // Delete Assignment
+    public UUID updateAssignment(AssignmentDTO assignmentDTO) {
+        // TODO: Implementing logic and RuntimeException if needed
+        return null;
+    }
+
+    public Optional<AssignmentDTO> getAssignmentById(UUID assignmentId) {
+        return assignmentRepository.findById(assignmentId).map(this::mapToAssignmentDTO);
+    }
+
+    private AssignmentDTO mapToAssignmentDTO(Assignment assignment) {
+        return mapper.map(assignment, AssignmentDTO.class);
+    }
 }

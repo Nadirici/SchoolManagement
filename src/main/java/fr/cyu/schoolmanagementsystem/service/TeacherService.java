@@ -48,8 +48,14 @@ public class TeacherService {
         teacherRepository.deleteById(id);
     }
 
-    public Teacher findByTeacherId(UUID id) {
-        return teacherRepository.findById(id).orElse(null);
+    public UUID updateTeacher(UUID teacherId, TeacherDTO teacherDTO) {
+        // TODO: Implementing logic and RuntimeException
+        return null;
+    }
+
+    public boolean assignTeacherToCourse(UUID teacherId, UUID courseId) {
+        // TODO: Implementing logic and RuntimeException
+        return false;
     }
 
     private TeacherDTO mapToTeacherDTO(Teacher teacher) {

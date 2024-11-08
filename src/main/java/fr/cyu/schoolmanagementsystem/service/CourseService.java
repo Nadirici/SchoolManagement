@@ -1,6 +1,8 @@
 package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.repository.CourseRepository;
@@ -44,26 +46,43 @@ public class CourseService {
             throw new RuntimeException("A course with this name already exists.");
         }
 
-        Teacher teacherToMap = teacherService.findByTeacherId(courseDTO.getTeacher().getId());
+        Optional<TeacherDTO> teacher = teacherService.getTeacherById(courseDTO.getTeacher().getId());
+
+        if (teacher.isEmpty()) {
+            throw new RuntimeException("A teacher with this id does not exist.");
+        }
 
         Course course = mapper.map(courseDTO, Course.class);
 
-        course.setTeacher(teacherToMap);
+        Teacher t = mapper.map(teacher.get(), Teacher.class);
+
+        course.setTeacher(t);
 
         courseRepository.save(course);
 
         return course.getId();
     }
 
-    public void deleteCourseById(UUID id) {
-        if (courseRepository.findById(id).isEmpty()) {
+    public void deleteCourse(UUID courseId) {
+        if (courseRepository.findById(courseId).isEmpty()) {
             throw new RuntimeException("Course with this id does not exist.");
         }
-        courseRepository.deleteById(id);
+        courseRepository.deleteById(courseId);
     }
 
-    public Course findCourseById(UUID id) {
-        return courseRepository.findById(id).orElse(null);
+    public UUID updateCourse(CourseDTO courseDTO) {
+        // TODO: Implementing logic and RuntimeException if needed
+        return null;
+    }
+
+    public List<StudentDTO> getStudentsInCourse(UUID courseId) {
+        // TODO: Implementing logic and RuntimeException if needed
+        return null;
+    }
+
+    public List<CourseDTO> getCoursesByTeacherId(UUID teacherId) {
+        // TODO: Implementing logic and RuntimeException if needed
+        return null;
     }
 
     private CourseDTO mapsToCourseDTO(Course course) {

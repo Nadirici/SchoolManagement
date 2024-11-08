@@ -31,7 +31,7 @@ public class EnrollmentController {
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> enrollStudentToCourse(@RequestBody EnrollmentDTO enrollmentDTO) {
-        UUID enrollmentId = enrollmentService.enrollStudent(enrollmentDTO);
+        UUID enrollmentId = enrollmentService.enrollStudentToCourse(enrollmentDTO);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Student enrolled successfully");

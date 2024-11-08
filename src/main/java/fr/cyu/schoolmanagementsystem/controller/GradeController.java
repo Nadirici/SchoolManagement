@@ -22,7 +22,7 @@ public class GradeController {
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> gradeStudentToCourse(@RequestBody GradeDTO gradeDTO) {
-        UUID gradeId = gradeService.gradeStudent(gradeDTO);
+        UUID gradeId = gradeService.addGrade(gradeDTO);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Student graduate successfully");
