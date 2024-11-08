@@ -27,7 +27,7 @@
             <div class="infield">
                 <select id="userType" name="userType" required onchange="toggleDepartmentField()">
                     <option value="" disabled selected>-- Choisissez --</option>
-                    <option value="student">Étudiant</option>
+                    <option value="student">ï¿½tudiant</option>
                     <option value="teacher">Professeur</option>
                 </select>
             </div>
@@ -40,7 +40,7 @@
                 <label></label>
             </div>
             <div class="infield">
-                <input type="text" placeholder="Prénom" id="firstname" name="firstname" required/>
+                <input type="text" placeholder="Prï¿½nom" id="firstname" name="firstname" required/>
                 <label></label>
             </div>
 
@@ -50,15 +50,15 @@
                 <label></label>
             </div>
 
-            <!-- Sélecteur de département caché par défaut -->
+            <!-- Sï¿½lecteur de dï¿½partement cachï¿½ par dï¿½faut -->
             <div class="infield" id="departmentField" style="display: none;">
                 <select id="department" name="department">
-                    <option value="" disabled selected>-- Choisissez votre département --</option>
+                    <option value="" disabled selected>-- Choisissez votre dï¿½partement --</option>
                     <option value="INFORMATIQUE">Informatique</option>
-                    <option value="MATHEMATIQUES">Mathématiques</option>
+                    <option value="MATHEMATIQUES">Mathï¿½matiques</option>
                     <option value="PHYSIQUE">Physique</option>
                     <option value="CHIMIE">Chimie</option>
-                    <!-- Ajoutez d'autres départements ici si nécessaire -->
+                    <!-- Ajoutez d'autres dï¿½partements ici si nï¿½cessaire -->
                 </select>
             </div>
 
@@ -72,7 +72,7 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="/login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <h1>Se connecter</h1>
 
             <div class="infield">
