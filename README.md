@@ -39,7 +39,7 @@ A comprehensive system for managing students, teachers, courses, enrollments, an
 | `grades`      | Records grades per enrollment and assignment |
 | `assignments`  | Records assignments by course                |
 
-<img src="https://github.com/user-attachments/assets/553d5b8a-6103-4e91-a004-f25ab55bfc43" alt="MCDSchoolManager" width="600"/>
+<img src="https://github.com/user-attachments/assets/811e2036-5126-4db3-a0e9-114d412b1be7" alt="MCDSchoolManager" width="600"/>
 
 ## 🗃️ Sample Data for Testing
 
