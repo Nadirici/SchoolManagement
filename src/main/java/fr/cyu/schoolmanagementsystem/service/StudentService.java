@@ -49,8 +49,8 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public void updateStudent(UUID studentId, StudentDTO studentDTO) {
-        // TODO: Implementing logic and RuntimeException
+    public void updateStudent(Student student) {
+        studentRepository.save(student);
     }
 
     public List<CourseDTO> getCoursesByStudentId(UUID studentId) {
@@ -65,5 +65,13 @@ public class StudentService {
 
     private StudentDTO mapToStudentDTO(Student student) {
         return mapper.map(student, StudentDTO.class);
+    }
+
+    public Optional<Student> getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email);
+    }
+
+    public void registerStudent(Student student) {
+        studentRepository.save(student);
     }
 }

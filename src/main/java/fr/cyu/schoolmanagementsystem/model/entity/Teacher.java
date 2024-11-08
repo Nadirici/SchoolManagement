@@ -1,6 +1,7 @@
 package fr.cyu.schoolmanagementsystem.model.entity;
 
 import fr.cyu.schoolmanagementsystem.model.entity.base.BasePersonEntity;
+import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -15,8 +16,17 @@ public class Teacher extends BasePersonEntity {
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private Set<Course> courses;
 
+    @Column(name = "department")
+    private String department;
+
     public Teacher() {
+        super();
         this.courses = new HashSet<>();
+    }
+
+    public Teacher(String firstname, String lastname, String email, String password, Departement departement, String salt) {
+        super(firstname, lastname, email, password, salt);
+        this.department = departement.toString();
     }
 
     public void addCourse(Course course) {

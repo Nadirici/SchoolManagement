@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 @MappedSuperclass
 public abstract class BasePersonEntity extends BaseEntity {
 
+
+
     @Column(nullable = false)
     private String firstname;
 
@@ -17,5 +19,25 @@ public abstract class BasePersonEntity extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    private String salt;
+
+    private String password;
+
+    @Column(nullable = false, name = "is_verified")
+    private boolean isVerified;
+
+    public BasePersonEntity() {
+        super();
+    }
+
+    public BasePersonEntity(String firstname, String lastname, String email, String password, String salt) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+        this.isVerified = false;
+    }
 
 }

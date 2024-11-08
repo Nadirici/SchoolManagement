@@ -1,6 +1,7 @@
 package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
+import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.repository.TeacherRepository;
 import org.modelmapper.ModelMapper;
@@ -48,9 +49,8 @@ public class TeacherService {
         teacherRepository.deleteById(id);
     }
 
-    public UUID updateTeacher(UUID teacherId, TeacherDTO teacherDTO) {
-        // TODO: Implementing logic and RuntimeException
-        return null;
+    public void updateTeacher(Teacher teacher) {
+        teacherRepository.save(teacher);
     }
 
     public boolean assignTeacherToCourse(UUID teacherId, UUID courseId) {
@@ -60,5 +60,13 @@ public class TeacherService {
 
     private TeacherDTO mapToTeacherDTO(Teacher teacher) {
         return mapper.map(teacher, TeacherDTO.class);
+    }
+
+    public Optional<Teacher> getTeacherByEmail(String email) {
+        return teacherRepository.findByEmail(email);
+    }
+
+    public void registerTeacher(Teacher teacher) {
+        teacherRepository.save(teacher);
     }
 }
