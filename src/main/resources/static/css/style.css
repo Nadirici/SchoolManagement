@@ -42,20 +42,37 @@ body {
 }
 
 .sidebar ul li {
-    margin: 15px 0;
+    margin: 0;
 }
 
 .sidebar ul li a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 14px;
     display: block;
     padding: 10px;
     border-radius: 4px;
+    text-align: center;
+    position: relative;
 }
 
 .sidebar ul li a:hover {
     background-color: #34495e;
+}
+
+.sidebar ul li a.active {
+    background-color: #34495e;
+}
+
+.sidebar ul li a.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: white;
+    border-radius: 4px 0 0 4px;
 }
 
 .dashboard-icon {
@@ -66,7 +83,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
+    margin: 15px 0;
 }
 
 .dashboard-icon svg {
@@ -133,65 +150,6 @@ body {
     margin-top: 20px;
 }
 
-.card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.card h3 {
-    margin-bottom: 10px;
-}
-
-.card p {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Section and table */
-.section {
-    margin-top: 30px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-table thead {
-    background-color: #2c3e50;
-    color: white;
-}
-
-table th, table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-table tbody tr:last-child {
-    border-bottom: none;
-}
-
-/* Footer */
-.footer {
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 20px;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
     .sidebar {
@@ -204,17 +162,5 @@ table tbody tr:last-child {
 
     .overview {
         grid-template-columns: repeat(2, 1fr);
-    }
-
-    .card h3 {
-        font-size: 18px;
-    }
-
-    .card p {
-        font-size: 18px;
-    }
-
-    table th, table td {
-        font-size: 12px;
     }
 }
