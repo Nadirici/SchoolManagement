@@ -24,14 +24,12 @@
         <h3>Admin Dashboard</h3>
         <h2>Overview</h2>
         <ul>
-            <li><a href="/admin/${id}">Dashboard</a></li>
+            <li><a href="/admin/${id}" class="active">Overview</a></li>
             <li><a href="/admin/${id}/students">Students</a></li>
             <li><a href="#">Teachers</a></li>
             <li><a href="#">Courses</a></li>
             <li><a href="#">Results</a></li>
             <li><a href="/admin/${id}/requests">Demandes d'inscription</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Logout</a></li>
         </ul>
     </div>
 
@@ -50,57 +48,8 @@
         </header>
 
         <div class="overview">
-            <div class="card">
-                <h3>Total Students</h3>
-                <p>450</p>
-            </div>
-            <div class="card">
-                <h3>Total Teachers</h3>
-                <p>25</p>
-            </div>
-            <div class="card">
-                <h3>Total Courses</h3>
-                <p>15</p>
-            </div>
-            <div class="card">
-                <h3>Upcoming Events</h3>
-                <p>3 Events</p>
-            </div>
+            <!-- Add content -->
         </div>
-
-        <div class="section">
-            <h2>Recent Activities</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Activity</th>
-                    <th>Date</th>
-                    <th>Details</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>New Student Enrollment</td>
-                    <td>2023-11-25</td>
-                    <td>5 new students enrolled in the computer science program.</td>
-                </tr>
-                <tr>
-                    <td>Teacher Assigned</td>
-                    <td>2023-11-24</td>
-                    <td>Mr. John Doe assigned to Math 101.</td>
-                </tr>
-                <tr>
-                    <td>Course Scheduled</td>
-                    <td>2023-11-23</td>
-                    <td>Course on Data Science scheduled for next semester.</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <footer class="footer">
-            <p>&copy; 2023 School Management System. All rights reserved.</p>
-        </footer>
     </div>
 </div>
 </body>
