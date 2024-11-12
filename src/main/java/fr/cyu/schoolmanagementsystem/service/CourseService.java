@@ -80,9 +80,13 @@ public class CourseService {
         return null;
     }
 
+    @Transactional
     public List<CourseDTO> getCoursesByTeacherId(UUID teacherId) {
-        // TODO: Implementing logic and RuntimeException if needed
-        return null;
+        List<Course> courses = courseRepository.findByTeacherId(teacherId);
+
+        return courses.stream()
+                .map(course -> mapper.map(course, CourseDTO.class))
+                .toList();
     }
 
     private CourseDTO mapsToCourseDTO(Course course) {

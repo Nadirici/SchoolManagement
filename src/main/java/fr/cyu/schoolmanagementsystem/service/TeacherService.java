@@ -4,6 +4,7 @@ import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.repository.TeacherRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,11 @@ public class TeacherService {
         this.teacherRepository = teacherRepository;
         this.mapper = mapper;
     }
-
+    @Transactional
     public List<TeacherDTO> getAllTeachers() {
         return teacherRepository.findAll().stream().map(this::mapToTeacherDTO).toList();
     }
-
+    @Transactional
     public Optional<TeacherDTO> getTeacherById(UUID id) {
         return teacherRepository.findById(id).map(this::mapToTeacherDTO);
     }

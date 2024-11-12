@@ -87,13 +87,11 @@ public class EnrollmentService {
     }
 
     public List<EnrollmentDTO> getEnrollmentsByStudentId(UUID studentId) {
-        // TODO: Implementing logic and RuntimeException
-        return null;
+        return enrollmentRepository.findByStudentId(studentId).stream().map(this::mapToEnrollmentDTO).toList();
     }
 
     public List<EnrollmentDTO> getEnrollmentsByCourseId(UUID courseId) {
-        // TODO: Implementing logic and RuntimeException
-        return null;
+        return enrollmentRepository.findByCourseId(courseId).stream().map(this::mapToEnrollmentDTO).toList();
     }
 
     private EnrollmentDTO mapToEnrollmentDTO(Enrollment enrollment) {
