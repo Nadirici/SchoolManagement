@@ -38,7 +38,9 @@ public class AdminWebController {
     }
 
     @GetMapping("/{id}")
-    public String showDashboard(@PathVariable("id") String id, Model model) {
+    public String showDashboard(@PathVariable("id") UUID id, Model model) {
+        Admin admin = adminService.getAdmin(id);
+        model.addAttribute("admin", admin);
         return "admin/dashboard";
     }
 
