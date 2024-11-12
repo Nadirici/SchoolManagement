@@ -40,6 +40,6 @@ public class AdminService {
         return admin.get();
     }
     public boolean isAdmin(UUID userId) {
-        return adminRepository.existsById(userId);
+        return adminRepository.findById(userId).isPresent();
     }
 }
