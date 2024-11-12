@@ -1,7 +1,7 @@
 
 
 <%@page language="java" contentType="text/html; ISO-8859-1"
-        pageEncoding="ISO-8859-1" %>
+        pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
@@ -14,7 +14,8 @@
     <!-- font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- css stylesheet -->
-    <link rel="stylesheet" type="text/css" href="/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+
 
 </head>
 <body>
@@ -84,20 +85,21 @@
                 <label></label>
             </div>
 
-            <!-- Affichage des messages flash -->
             <%
-                String flashError = (String) request.getAttribute("flashError");
+                String flashError = request.getParameter("flashError");
                 String flashSuccess = (String) request.getAttribute("flashSuccess");
-                if (flashError != null) {
             %>
+
+            <!-- Affichage des messages flash -->
+            <% if (flashError != null) { %>
+            <% if ("unauthenticated".equals(flashError)) { %>
+            <p style="color:red;">Vous devez être connecté pour accéder à cette page.</p>
+            <% } else { %>
             <div class="flash-message flash-error"><%= flashError %></div>
-            <%
-            } else if (flashSuccess != null) {
-            %>
+            <% } %>
+            <% } else if (flashSuccess != null) { %>
             <div class="flash-message flash-success"><%= flashSuccess %></div>
-            <%
-                }
-            %>
+            <% } %>
 
             <button >Se connecter</button>
         </form>
