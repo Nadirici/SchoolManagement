@@ -38,11 +38,11 @@ public class CourseWebController {
     public String showCourseDashboard(@PathVariable("id") UUID id, @PathVariable("courseId") UUID courseId, Model model, RedirectAttributes redirectAttributes) {
 
         Optional<CourseDTO> course = courseService.getCourseById(courseId);
-        List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
-        boolean isAssignedTeacher= course.get().getTeacher().getId().equals(id);
-        boolean isAdmin= adminService.isAdmin(id);
-        boolean isEnrolledStudent = enrollments.stream().anyMatch(enrollment -> enrollment.getStudentId().equals(id));
         if (course.isPresent()) {
+                List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
+                boolean isAssignedTeacher= course.get().getTeacher().getId().equals(id);
+                boolean isAdmin= adminService.isAdmin(id);
+                boolean isEnrolledStudent = enrollments.stream().anyMatch(enrollment -> enrollment.getStudentId().equals(id));
             if (isAdmin || isAssignedTeacher || isEnrolledStudent) {
                 // Get All Assignment related to the course and get grades associated
                 List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
