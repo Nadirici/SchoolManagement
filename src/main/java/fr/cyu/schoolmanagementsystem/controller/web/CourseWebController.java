@@ -91,12 +91,11 @@ public class CourseWebController {
     public String showCourseGrades(@PathVariable("id") UUID id, @PathVariable("courseId") UUID courseId, Model model, RedirectAttributes redirectAttributes) {
 
         Optional<CourseDTO> course = courseService.getCourseById(courseId);
-        List<StudentDTO> students= enrollmentService.getStudentsForCourse(courseId);
-        List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
-
-        boolean isAssignedTeacher= course.get().getTeacher().getId().equals(id);
-        boolean isAdmin= adminService.isAdmin(id);
         if (course.isPresent()) {
+                List<StudentDTO> students= enrollmentService.getStudentsForCourse(courseId);
+                List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
+                boolean isAssignedTeacher= course.get().getTeacher().getId().equals(id);
+                boolean isAdmin= adminService.isAdmin(id);
             if (isAdmin || isAssignedTeacher) {
                 List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
                 Map<UUID, Double> averageGrades = new HashMap<>();
