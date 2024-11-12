@@ -38,10 +38,10 @@
             <c:forEach var="course" items="${courses}">
                 <tr>
                     <td><a href="${student.id}/courses/${course.id}">${course.name}</a></td>
-                    <td><%--${course.myAverage}--%></td>
-                    <td><%--${course.classAverage}--%></td>
-                    <td><%--${course.minAverage}--%></td>
-                    <td><%--${course.maxAverage}--%></td>
+                    <td><c:out value="${studentAverages[course.id]}" /></td>
+                    <td><c:out value="${courseAverages[course.id]}" /></td>
+                    <td><c:out value="${minAverages[course.id]}" /></td>
+                    <td><c:out value="${maxAverages[course.id]}" /></td>
                 </tr>
             </c:forEach>
             <tr>
@@ -49,7 +49,7 @@
                 <td><%--${generalMyAverage}--%></td>
                 <td><%--${generalClassAverage}--%></td>
                 <td><%--${generalMinAverage}--%></td>
-                <td><%--${generalMaxAverage}--%></td>
+                <td><strong><c:out value="${studentGlobalAverage}" /></strong></td>
             </tr>
             </tbody>
         </table>

@@ -1,5 +1,9 @@
 package fr.cyu.schoolmanagementsystem.model.dto;
 
-public class TeacherDTO extends PersonEntityDTO {
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
+public class TeacherDTO extends PersonEntityDTO {
+    private String department;
 }

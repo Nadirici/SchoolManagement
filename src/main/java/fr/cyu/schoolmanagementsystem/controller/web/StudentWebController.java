@@ -35,18 +35,38 @@ public class StudentWebController {
     @GetMapping("/{id}")
     public String showStudentDashboard(@PathVariable("id") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
         Optional<StudentDTO> student = studentService.getStudentById(studentId);
-
+        double studentGlobalAverage= gradeService.calculateAverageGradeForStudent(studentId);
         if (student.isPresent()) {
             List<CourseDTO> courses = enrollmentService.getCoursesForStudent(studentId);
+            Map<UUID, Double> courseAverages = new HashMap<>();
+            Map<UUID, Double> courseMinAverages = new HashMap<>();
+            Map<UUID, Double> courseMaxAverages = new HashMap<>();
+            Map<UUID, Double> studentAverages = new HashMap<>();
+            for (CourseDTO course : courses) {
+                Optional<EnrollmentDTO> enrollment= enrollmentService.getEnrollmentByStudentIdAndCourseId(studentId, course.getId());
+                double averageGrade = gradeService.calculateAverageGradeForCourse(course.getId());
+                double minAverageGrade = gradeService.getMinAverageForCourse(course.getId());
+                double maxAverageGrade = gradeService.getMaxAverageForCourse(course.getId());
+                double studentAverage = gradeService.calculateAverageGradeForEnrollment(enrollment.get().getId());
+                courseAverages.put(course.getId(), averageGrade);
+                courseMinAverages.put(course.getId(), minAverageGrade);
+                courseMaxAverages.put(course.getId(), maxAverageGrade);
+                studentAverages.put(course.getId(), studentAverage);
+            }
             model.addAttribute("student", student.get());
             model.addAttribute("courses", courses);
+            model.addAttribute("courseAverages", courseAverages);
+            model.addAttribute("minAverages", courseMinAverages);
+            model.addAttribute("maxAverages", courseMaxAverages);
+            model.addAttribute("studentGlobalAverage", studentGlobalAverage);
+            model.addAttribute("studentAverages", studentAverages);
             return "students/dashboard";
         } else {
             redirectAttributes.addFlashAttribute("error", "Student not found");
             return "redirect:/students"; // Redirect to the list page if student not found
         }
     }
-
+/*
     @GetMapping("/{studentId}/courses/{courseId}")
     public String showCourseDashboard(@PathVariable("studentId") UUID studentId, @PathVariable("courseId") UUID courseId, Model model, RedirectAttributes redirectAttributes) {
         Optional<EnrollmentDTO> enrollment = enrollmentService.getEnrollmentByStudentIdAndCourseId(studentId, courseId);
@@ -75,5 +95,5 @@ public class StudentWebController {
             return "redirect:/students"; // Redirect to the list page if student not found
         }
     }
-
+*/
 }

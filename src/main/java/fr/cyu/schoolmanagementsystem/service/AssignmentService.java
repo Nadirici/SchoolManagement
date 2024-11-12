@@ -3,6 +3,7 @@ package fr.cyu.schoolmanagementsystem.service;
 import fr.cyu.schoolmanagementsystem.model.dto.AssignmentDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Assignment;
 import fr.cyu.schoolmanagementsystem.repository.AssignmentRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,9 @@ public class AssignmentService {
         this.mapper = mapper;
     }
 
+    @Transactional
     public List<AssignmentDTO> getAllAssignmentsByCourseId(UUID courseId) {
-        // TODO: Implementing logic and RuntimeException
-        return null;
+        return assignmentRepository.findAllByCourseId(courseId).stream().map(this::mapToAssignmentDTO).toList();
     }
 
     public UUID addAssignment(AssignmentDTO assignmentDTO) {
