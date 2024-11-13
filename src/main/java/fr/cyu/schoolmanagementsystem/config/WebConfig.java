@@ -17,13 +17,14 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .excludePathPatterns("/login", "/index", "/register", "/auth", "/") // Exclure les pages publiques
-                .excludePathPatterns("/css/**", "/js/**", "/images/**") // Exclure les ressources statiques
+                .excludePathPatterns("/css/**", "/js/**", "/images/**","/static/**") // Exclure les ressources statiques
                 .addPathPatterns("/**"); // Applique l'intercepteur à toutes les autres pages
     }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.jsp("/WEB-INF/jsp/", ".jsp");
+
     }
 
 
