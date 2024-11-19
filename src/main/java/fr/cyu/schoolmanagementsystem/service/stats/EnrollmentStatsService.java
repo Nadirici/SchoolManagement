@@ -48,7 +48,7 @@ public class EnrollmentStatsService {
         return gradeService.calculateStats(grades);
     }
 
-    public Map<Enrollment, CompositeStats> getEnrollmentsStatsMap(UUID courseId) {
+    public Map<Enrollment, CompositeStats> getEnrollmentsStatsMapForCourse(UUID courseId) {
         Map<Enrollment, CompositeStats> statsMap = new HashMap<>();
 
         try {
@@ -64,6 +64,27 @@ public class EnrollmentStatsService {
             }
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving stats for course with ID: " + courseId, e);
+        }
+
+        return statsMap;
+    }
+
+    public Map<Enrollment, CompositeStats> getEnrollmentsStatsMapForStudent(UUID studentId) {
+        Map<Enrollment, CompositeStats> statsMap = new HashMap<>();
+
+        try {
+            List<Enrollment> enrollments = enrollmentService.getEnrollmentsForStudent(studentId);
+
+            for (Enrollment enrollment : enrollments) {
+                try {
+                    CompositeStats stats = getStatsForEnrollment(enrollment.getId());
+                    statsMap.put(enrollment, stats);
+                } catch (Exception e) {
+                    statsMap.put(enrollment, null);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving stats for student with ID: " + studentId, e);
         }
 
         return statsMap;

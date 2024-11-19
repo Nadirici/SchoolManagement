@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,34 +22,79 @@
   <p><strong>Date of Birth:</strong> ${student.dateOfBirth}</p>
   <p><strong>Email:</strong> ${student.email}</p>
 
-  <!-- Liste des cours dans lesquels l'étudiant est inscrit -->
-  <h2>Enrolled Courses</h2>
-  <c:if test="${not empty student.enrollments}">
-    <table border="1">
-      <thead>
+  <h3>Enrollments:</h3>
+  <table border="1">
+    <thead>
+    <tr>
+      <th>Course Name</th>
+      <th>Average Grade</th>
+      <th>Minimum Grade</th>
+      <th>Maximum Grade</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="enrollment" items="${enrollmentStats}">
       <tr>
-        <th>Course Name</th>
-        <th>Description</th>
-        <th>Actions</th>
+        <!-- Affiche les détails du cours -->
+        <td>${enrollment.key.course.name}</td>
+
+        <!-- Affiche les statistiques -->
+        <td>
+          <c:choose>
+            <c:when test="${not empty enrollment.value}">
+              <fmt:formatNumber value="${enrollment.value.average}" maxFractionDigits="2" />
+            </c:when>
+            <c:otherwise>
+              N/A
+            </c:otherwise>
+          </c:choose>
+        </td>
+        <td>
+          <c:choose>
+            <c:when test="${not empty enrollment.value}">
+              <fmt:formatNumber value="${enrollment.value.min}" maxFractionDigits="2" />
+            </c:when>
+            <c:otherwise>
+              N/A
+            </c:otherwise>
+          </c:choose>
+        </td>
+        <td>
+          <c:choose>
+            <c:when test="${not empty enrollment.value}">
+              <fmt:formatNumber value="${enrollment.value.max}" maxFractionDigits="2" />
+            </c:when>
+            <c:otherwise>
+              N/A
+            </c:otherwise>
+          </c:choose>
+        </td>
+
+        <!-- Actions -->
+        <td>
+          <a href="${pageContext.request.contextPath}/courses?action=view&id=${enrollment.key.course.id}">
+            View Course
+          </a>
+        </td>
       </tr>
-      </thead>
-      <tbody>
-      <c:forEach var="enrollment" items="${student.enrollments}">
-        <tr>
-          <td>${enrollment.course.name}</td>
-          <td>${enrollment.course.description}</td>
-          <td>
-            <a href="${pageContext.request.contextPath}/courses?action=view&id=${enrollment.course.id}">View Details</a>
-            <!-- Optionally add Edit or Drop actions -->
-          </td>
-        </tr>
-      </c:forEach>
-      </tbody>
-    </table>
-  </c:if>
-  <c:if test="${empty student.enrollments}">
-    <p>No courses enrolled for this student.</p>
-  </c:if>
+    </c:forEach>
+    <!-- Ligne pour les statistiques globales -->
+    <tr>
+      <td><strong>Overall Stats</strong></td>
+      <td>
+        <fmt:formatNumber value="${studentStats.average}" maxFractionDigits="2"/>
+      </td>
+      <td>
+        <fmt:formatNumber value="${studentStats.min}" maxFractionDigits="2"/>
+      </td>
+      <td>
+        <fmt:formatNumber value="${studentStats.max}" maxFractionDigits="2"/>
+      </td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
 
   <!-- Liste déroulante pour ajouter un nouveau cours -->
   <h2>Enroll in a New Course</h2>

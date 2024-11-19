@@ -53,7 +53,7 @@ public class CourseAdminController extends HttpServlet {
                 Course course = courseService.getById(id);
                 CompositeStats courseStats = courseStatsService.getStatsForCourse(course.getId());
                 Map<Assignment, CompositeStats> assignmentStatsMap = assignmentStatsService.getAssignmentsStatsMap(id);
-                Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMap(id);
+                Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForCourse(id);
                 List<Student> availableStudents = studentService.getAllStudentsNotEnrollInCourse(course.getId());
                 List<Teacher> availableTeachers = teacherService.getAllVerified();
 

@@ -31,4 +31,24 @@ public class CourseDAO extends GenericDAO<Course> {
             return Collections.emptyList();
         }
     }
+
+    public List<Course> findAllEnrollByStudentId(UUID studentId) {
+        try (Session session = getSession()) {
+            String hql = """
+            SELECT c
+            FROM Course c
+            WHERE c.id IN (
+                SELECT e.course.id
+                FROM Enrollment e
+                WHERE e.student.id = :studentId
+            )
+        """;
+            return session.createQuery(hql, Course.class)
+                    .setParameter("studentId", studentId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
 }
