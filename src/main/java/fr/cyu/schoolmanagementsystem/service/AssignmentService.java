@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class AssignmentService extends GenericServiceImpl<Assignment> {
 
-    private GradeService gradeService;
+    private final GradeService gradeService;
 
     public AssignmentService(GenericDAO<Assignment> dao) {
         super(dao);
