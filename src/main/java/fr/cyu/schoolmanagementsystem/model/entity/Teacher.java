@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "teachers")
 public class Teacher extends BasePersonEntity {
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     private Set<Course> courses;
 
     @Column(name = "department")

@@ -23,6 +23,19 @@
     </ul>
 </div>
 <div>
+
+    <div>
+        <h2>Créer un nouveau cours</h2>
+        <form action="${teacher.id}/courses/create" method="post">
+            <label for="courseName">Nom du cours :</label>
+            <input type="text" id="courseName" name="name" required />
+            <br />
+            <label for="description">Description :</label>
+            <textarea id="description" name="description" required></textarea>
+            <br />
+            <button type="submit">Créer le cours</button>
+        </form>
+    </div>
     <h2>Mes cours enseignés</h2>
     <table border="1">
         <thead>

@@ -37,9 +37,26 @@ public class AuthController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/auth")
-    public String showAuthPage() {
-        return "index";
+    @GetMapping({"/auth", "/"})
+    public String showAuthPage(HttpSession session) {
+        // Vérifiez si l'utilisateur est déjà authentifié
+        if (session.getAttribute("isAuthenticated") != null && (Boolean) session.getAttribute("isAuthenticated")) {
+            // Redirigez l'utilisateur vers son tableau de bord en fonction de son type
+            String userType = (String) session.getAttribute("userType");
+            UUID userId = (UUID) session.getAttribute("userId");
+
+            switch (userType) {
+                case "teacher":
+                    return "redirect:/teachers/" + userId;
+                case "student":
+                    return "redirect:/students/" + userId;
+                case "admin":
+                    return "redirect:/admin/" + userId;
+                default:
+                    break;
+            }
+        }
+        return "index"; // Si non authentifié, montre la page d'authentification
     }
 
     @PostMapping("/register")

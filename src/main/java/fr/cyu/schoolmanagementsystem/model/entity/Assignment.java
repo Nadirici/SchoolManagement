@@ -21,7 +21,7 @@ public class Assignment extends BaseEntity {
 
     private double coefficient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 

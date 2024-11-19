@@ -21,6 +21,6 @@ public class Grade extends BaseEntity {
     private Enrollment enrollment;
 
     @Column(name = "score")
-    private double score;
+    private Double score;
 
 }

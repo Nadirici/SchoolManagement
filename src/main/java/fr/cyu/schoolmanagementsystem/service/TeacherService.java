@@ -1,13 +1,21 @@
 package fr.cyu.schoolmanagementsystem.service;
 
+import org.springframework.ui.Model;
+
+import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
-import fr.cyu.schoolmanagementsystem.model.entity.Student;
+
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
+
 import fr.cyu.schoolmanagementsystem.repository.TeacherRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +26,22 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
 
+
+
     private final ModelMapper mapper;
 
     @Autowired
     public TeacherService(TeacherRepository teacherRepository, ModelMapper mapper) {
         this.teacherRepository = teacherRepository;
+
         this.mapper = mapper;
     }
+
+    public List<Teacher> getTeachersByDepartment(String department) {
+        return teacherRepository.findByDepartment(department);
+    }
+
+
     @Transactional
     public List<TeacherDTO> getAllTeachers() {
         return teacherRepository.findAll().stream().map(this::mapToTeacherDTO).toList();

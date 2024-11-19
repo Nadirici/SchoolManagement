@@ -8,7 +8,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.UUID;
 
-
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
@@ -29,21 +28,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // Si l'utilisateur est authentifié et tente d'accéder à /auth, redirection vers le tableau de bord
         if (Boolean.TRUE.equals(session.getAttribute("isAuthenticated")) && requestURI.startsWith("/auth")) {
-            String userType = (String) session.getAttribute("userType");
-            UUID userId = (UUID) session.getAttribute("userId");
-
-            switch (userType) {
-                case "teacher":
-                    response.sendRedirect("/teachers/" + userId);
-                    break;
-                case "student":
-                    response.sendRedirect("/students/" + userId);
-                    break;
-                case "admin":
-                    response.sendRedirect("/admin/" + userId);
-                    break;
-            }
-            return false; // Empêche l'accès à /auth si déjà connecté
+            // Empêcher l'accès à /auth si déjà connecté
+            response.sendRedirect(getRedirectUrl(session));
+            return false; // Empêche l'accès à /auth
         }
 
         // Récupérer le type d'utilisateur de la session
@@ -95,7 +82,23 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         return true;
     }
-}
 
+    // Méthode pour déterminer l'URL de redirection en fonction du type d'utilisateur
+    private String getRedirectUrl(HttpSession session) {
+        String userType = (String) session.getAttribute("userType");
+        UUID userId = (UUID) session.getAttribute("userId");
+
+        switch (userType) {
+            case "teacher":
+                return "/teachers/" + userId;
+            case "student":
+                return "/students/" + userId;
+            case "admin":
+                return "/admin/" + userId;
+            default:
+                return "/"; // Redirection par défaut si le type d'utilisateur est inconnu
+        }
+    }
+}
 
 

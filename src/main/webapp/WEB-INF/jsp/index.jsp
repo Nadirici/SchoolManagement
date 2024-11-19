@@ -1,4 +1,4 @@
-
+<%@ page import="java.util.UUID" %>
 
 <%@page language="java" contentType="text/html; ISO-8859-1"
         pageEncoding="UTF-8" %>
@@ -19,6 +19,32 @@
 
 </head>
 <body>
+
+<%-- Vérifier si l'utilisateur est déjà authentifié --%>
+<%
+    Boolean isAuthenticated = (Boolean) session.getAttribute("isAuthenticated");
+    if (isAuthenticated != null && isAuthenticated) {
+        String userType = (String) session.getAttribute("userType");
+        UUID userId = (UUID) session.getAttribute("userId");
+
+        // Rediriger selon le type d'utilisateur
+        if (userType != null && userId != null) {
+            switch (userType) {
+                case "teacher":
+                    response.sendRedirect(request.getContextPath() + "/teachers/" + userId);
+                    return;
+                case "student":
+                    response.sendRedirect(request.getContextPath() + "/students/" + userId);
+                    return;
+                case "admin":
+                    response.sendRedirect(request.getContextPath() + "/admin/" + userId);
+                    return;
+                default:
+                    break;
+            }
+        }
+    }
+%>
 
 <div class="container" id="container">
     <div class="form-container sign-up-container">
@@ -55,10 +81,10 @@
             <div class="infield" id="departmentField" style="display: none;">
                 <select id="department" name="department">
                     <option value="" disabled selected>-- Choisissez votre d�partement --</option>
-                    <option value="INFORMATIQUE">Informatique</option>
-                    <option value="MATHEMATIQUES">Math�matiques</option>
-                    <option value="PHYSIQUE">Physique</option>
-                    <option value="CHIMIE">Chimie</option>
+                    <option value="INFORMATIQUE">INFORMATIQUE</option>
+                    <option value="MATHEMATIQUES">MATHEMATIQUES</option>
+                    <option value="PHYSIQUE">PHYSIQUE</option>
+                    <option value="CHIMIE">CHIMIE</option>
                     <!-- Ajoutez d'autres d�partements ici si n�cessaire -->
                 </select>
             </div>

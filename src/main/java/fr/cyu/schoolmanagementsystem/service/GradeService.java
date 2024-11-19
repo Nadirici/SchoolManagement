@@ -84,7 +84,7 @@ public class GradeService {
         List<Grade> grades = gradeRepository.findAllByEnrollmentId(enrollmentId);
 
         if (grades.isEmpty()) {
-            return 0.0; // Si aucun grade n'est disponible, la moyenne est 0.
+            return Double.NaN; // Si aucun grade n'est disponible, la moyenne est 0.
         }
 
         double totalWeightedScore = 0.0;
@@ -96,9 +96,14 @@ public class GradeService {
             totalWeightedScore += grade.getScore() * coefficient;
             totalCoefficients += coefficient;
         }
+        // Calcul de la moyenne pondérée
+        if (totalCoefficients == 0) {
+            // Si les coefficients sont nuls, cela signifie qu'il n'y a pas de coefficient à appliquer.
+            // Vous pouvez soit retourner NaN, soit une moyenne par défaut.
+            return Double.NaN;
+        }
 
-
-        return (totalCoefficients > 0) ? totalWeightedScore / grades.size() : 0.0; // Moyenne des notes pour cet étudiant dans ce cours
+        return totalWeightedScore / totalCoefficients;
     }
 
     //calculate the class average of an assignment in a course
@@ -117,7 +122,6 @@ public class GradeService {
         return totalScore / grades.size(); // Moyenne des notes pour cet assignment
     }
 
-    //calculate the class average grade for a course
     public double calculateAverageGradeForCourse(UUID courseId) {
         // Récupérer la liste des assignments associés à ce cours
         List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
@@ -129,37 +133,42 @@ public class GradeService {
         double totalWeightedAverage = 0.0;
         double totalCoefficients = 0.0;
 
-        // Calculer la moyenne de chaque assignment et la pondérer
+        // Calculer la moyenne de chaque assignment et la pondérer, en excluant les NaN
         for (AssignmentDTO assignment : assignments) {
             double assignmentAverage = calculateAverageGradeForAssignment(assignment.getId());
-            double coefficient = assignment.getCoefficient();
-
-            totalWeightedAverage += assignmentAverage * coefficient;
-            totalCoefficients += coefficient;
+            if (!Double.isNaN(assignmentAverage)) { // Vérifier que la moyenne est valide
+                double coefficient = assignment.getCoefficient();
+                totalWeightedAverage += assignmentAverage * coefficient;
+                totalCoefficients += coefficient;
+            }
         }
 
         // Retourner la moyenne pondérée du cours
         return (totalCoefficients > 0) ? (totalWeightedAverage / totalCoefficients) : 0.0;
     }
 
+
     public double getMinGradeForAssignment(UUID assignmentId) {
         List<Grade> grades = gradeRepository.findAllByAssignmentId(assignmentId);
 
         return grades.stream()
-                .min(Comparator.comparingDouble(Grade::getScore))
                 .map(Grade::getScore)
-                .orElse(0.0); // Si aucun grade n'est disponible, retourner 0.
+                .filter(score -> !Double.isNaN(score)) // Exclure les NaN
+                .min(Double::compare)
+                .orElse(0.0); // Si aucun grade valide n'est disponible, retourner 0.
     }
 
-    // Récupérer la note maximale d'un assignment
+    // Récupérer la note maximale d'un assignment en excluant les NaN
     public double getMaxGradeForAssignment(UUID assignmentId) {
         List<Grade> grades = gradeRepository.findAllByAssignmentId(assignmentId);
 
         return grades.stream()
-                .max(Comparator.comparingDouble(Grade::getScore))
                 .map(Grade::getScore)
-                .orElse(0.0); // Si aucun grade n'est disponible, retourner 0.
+                .filter(score -> !Double.isNaN(score)) // Exclure les NaN
+                .max(Double::compare)
+                .orElse(0.0); // Si aucun grade valide n'est disponible, retourner 0.
     }
+
     public double getMinAverageForCourse(UUID courseId) {
         // Récupérer la liste des inscriptions pour ce cours
         List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
@@ -168,11 +177,12 @@ public class GradeService {
             return 0.0; // Si aucun étudiant n'est inscrit, la moyenne minimale est 0.
         }
 
-        // Calculer la moyenne pondérée des notes pour chaque étudiant
+        // Calculer la moyenne pondérée des notes pour chaque étudiant, en excluant les NaN
         return enrollments.stream()
                 .map(enrollment -> calculateAverageGradeForEnrollment(enrollment.getId()))
+                .filter(average -> !Double.isNaN(average)) // Exclure les NaN
                 .min(Double::compare)
-                .orElse(0.0); // Si aucun grade n'est disponible, retourner 0.
+                .orElse(0.0); // Si aucun grade valide n'est disponible, retourner 0.
     }
 
     public double getMaxAverageForCourse(UUID courseId) {
@@ -183,30 +193,41 @@ public class GradeService {
             return 0.0; // Si aucun étudiant n'est inscrit, la moyenne maximale est 0.
         }
 
-        // Calculer la moyenne pondérée des notes pour chaque étudiant
+        // Calculer la moyenne pondérée des notes pour chaque étudiant, en excluant les NaN
         return enrollments.stream()
                 .map(enrollment -> calculateAverageGradeForEnrollment(enrollment.getId()))
+                .filter(average -> !Double.isNaN(average)) // Exclure les NaN
                 .max(Double::compare)
-                .orElse(0.0); // Si aucun grade n'est disponible, retourner 0.
+                .orElse(0.0); // Si aucun grade valide n'est disponible, retourner 0.
     }
 
-    //calculate the global average of a student
-    public double calculateAverageGradeForStudent(UUID studentId) {
 
+// Calculate the global average of a student
+    public double calculateAverageGradeForStudent(UUID studentId) {
         List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByStudentId(studentId);
 
         if (enrollments.isEmpty()) {
             return 0.0; // Si aucun grade n'est disponible, la moyenne est 0.
         }
-        double totalAverage=0.0;
+
+        double totalAverage = 0.0;
+        int validEnrollmentsCount = 0;
+
         for (EnrollmentDTO enrollment : enrollments) {
-            double averageEnrollment= this.calculateAverageGradeForEnrollment(enrollment.getId());
-            totalAverage+=averageEnrollment;
+            double averageEnrollment = this.calculateAverageGradeForEnrollment(enrollment.getId());
+            if (!Double.isNaN(averageEnrollment)) { // Vérifie si la note est valide
+                totalAverage += averageEnrollment;
+                validEnrollmentsCount++;
+            }
         }
 
+        if (validEnrollmentsCount == 0) {
+            return 0.0; // Si aucune note valide n'est disponible, la moyenne est 0.
+        }
 
-        return totalAverage / enrollments.size() ; // Moyenne des notes pour cet étudiant dans ce cours
+        return totalAverage / validEnrollmentsCount; // Moyenne des notes pour cet étudiant
     }
+
 
     public Optional<GradeDTO> getAllGradesByAssignmentIdAndEnrollmentId(UUID assignmentId, UUID enrollmentId) {
         return gradeRepository.findByAssignmentIdAndEnrollmentId(assignmentId, enrollmentId).map(this::mapToGradeDTO);
