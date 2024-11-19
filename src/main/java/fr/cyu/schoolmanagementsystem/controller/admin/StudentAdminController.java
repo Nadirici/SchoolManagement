@@ -1,14 +1,20 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
+import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
 import fr.cyu.schoolmanagementsystem.entity.Course;
+import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.entity.Student;
 import fr.cyu.schoolmanagementsystem.service.CourseService;
 import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
+import fr.cyu.schoolmanagementsystem.service.stats.CourseStatsService;
+import fr.cyu.schoolmanagementsystem.service.stats.EnrollmentStatsService;
+import fr.cyu.schoolmanagementsystem.service.stats.StudentStatsService;
+import fr.cyu.schoolmanagementsystem.util.CompositeStats;
 import fr.cyu.schoolmanagementsystem.util.HashPassword;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
@@ -21,6 +27,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @WebServlet("/students")
@@ -29,12 +36,16 @@ public class StudentAdminController extends HttpServlet {
     private StudentService studentService;
     private RequestService requestService;
     private CourseService courseService;
+    private EnrollmentStatsService enrollmentStatsService;
+    private StudentStatsService studentStatsService;
 
     @Override
     public void init() throws ServletException {
         studentService = new StudentService(new StudentDAO(Student.class));
         requestService = new RequestService(new RegistrationRequestDAO(RegistrationRequest.class));
         courseService = new CourseService(new CourseDAO(Course.class));
+        enrollmentStatsService =  new EnrollmentStatsService();
+        studentStatsService =  new StudentStatsService();
     }
 
     @Override
@@ -47,8 +58,13 @@ public class StudentAdminController extends HttpServlet {
             try {
                 Student student = studentService.getById(id);
                 List<Course> availableCourses = courseService.getAllNotEnroll(student.getId());
+                CompositeStats studentStats = studentStatsService.getStatsForStudent(student.getId());
+                Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForStudent(student.getId());
+
                 request.setAttribute("student", student);
                 request.setAttribute("availableCourses", availableCourses);
+                request.setAttribute("studentStats", studentStats);
+                request.setAttribute("enrollmentStats", enrollmentStatsMap);
                 request.getRequestDispatcher("/WEB-INF/views/admin/students/student-details.jsp").forward(request, response);
             } catch (EntityNotFoundException e) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Student not found");
