@@ -31,17 +31,18 @@ public class CourseWebController {
     private final CourseService courseService;
     private final GradeService gradeService;
     private final AssignmentService assignmentService;
-
+    private final StudentService studentService;
     private final AdminService adminService;
 
     @Autowired
-    public CourseWebController(TeacherService teacherService, AdminService adminService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService) {
+    public CourseWebController(TeacherService teacherService, AdminService adminService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService, StudentService studentService) {
         this.teacherService = teacherService;
         this.enrollmentService = enrollmentService;
         this.courseService = courseService;
         this.gradeService = gradeService;
         this.assignmentService = assignmentService;
         this.adminService = adminService;
+        this.studentService = studentService;
     }
 
     @RequestMapping(value = {"/*/{id}/courses/{courseId}"}, method = RequestMethod.GET)
@@ -125,6 +126,8 @@ public class CourseWebController {
                     }
                 }
 
+
+                model.addAttribute("student", studentService.getStudentById(id).get());
                 model.addAttribute("studentAssignmentGrades", studentAssignmentGrades);
                 model.addAttribute("assignments", assignments);
                 model.addAttribute("averageGrades", averageGrades);
