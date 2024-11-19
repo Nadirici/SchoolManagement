@@ -36,19 +36,34 @@ public class TeacherAdminController extends HttpServlet {
         String idParam = request.getParameter("id");
 
         if (idParam != null) {
-            UUID id = UUID.fromString(idParam);
-            try {
-                Teacher teacher = teacherService.getById(id);
-                request.setAttribute("teacher", teacher);
-                request.getRequestDispatcher("/WEB-INF/views/admin/teachers/teacher-details.jsp").forward(request, response);
-            } catch (EntityNotFoundException e) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Teacher not found");
-            }
+            viewTeacher(request, response);
         } else {
-            // Récupérer la liste des étudiants
+            listTeachers(request, response);
+        }
+    }
+
+    private void listTeachers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
             List<Teacher> teachers = teacherService.getAllVerified();
+
             request.setAttribute("teachers", teachers);
+
             request.getRequestDispatcher("/WEB-INF/views/admin/teachers/teachers.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching teachers");
+        }
+    }
+
+    private void viewTeacher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UUID id = UUID.fromString(request.getParameter("id"));
+        try {
+            Teacher teacher = teacherService.getById(id);
+
+            request.setAttribute("teacher", teacher);
+
+            request.getRequestDispatcher("/WEB-INF/views/admin/teachers/teacher-details.jsp").forward(request, response);
+        } catch (EntityNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Teacher not found");
         }
     }
 
