@@ -41,12 +41,17 @@ public class EnrollmentService {
         return enrollmentRepository.findById(enrollmentId).map(this::mapToEnrollmentDTO);
     }
 
-    public UUID enrollStudentToCourse(EnrollmentDTO enrollmentDTO) {
+
+
+
+    public boolean enrollStudentToCourse(EnrollmentDTO enrollmentDTO) {
         Optional<StudentDTO> student = studentService.getStudentById(enrollmentDTO.getStudentId());
         Optional<CourseDTO> course = courseService.getCourseById(enrollmentDTO.getCourseId());
 
         if (student.isEmpty() || course.isEmpty()) {
-            throw new RuntimeException("Can't enroll because Student or Course not found");
+
+        return false;
+
         }
 
         Enrollment enrollment = mapper.map(enrollmentDTO, Enrollment.class);
@@ -59,7 +64,7 @@ public class EnrollmentService {
 
         enrollmentRepository.save(enrollment);
 
-        return enrollment.getId();
+        return true ;
     }
 
     public void deleteEnrollment(UUID enrollmentId) {

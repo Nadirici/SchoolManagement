@@ -17,7 +17,7 @@ public class Student extends BasePersonEntity {
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Enrollment> enrollments;
 
     public Student() {

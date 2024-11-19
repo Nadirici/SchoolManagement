@@ -10,6 +10,9 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +38,11 @@ public class CourseService {
     public List<CourseDTO> getAllCourses() {
         return courseRepository.findAll().stream().map(this::mapsToCourseDTO).toList();
     }
+
+
+
+
+
 
     @Transactional
     public Optional<CourseDTO> getCourseById(UUID id) {

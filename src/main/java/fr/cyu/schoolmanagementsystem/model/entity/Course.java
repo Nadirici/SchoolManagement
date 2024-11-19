@@ -21,19 +21,25 @@ public class Course extends BaseEntity {
     private String description;
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private Set<Enrollment> enrollments;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private Set<Assignment> assignments;
 
     public Course() {
         enrollments = new HashSet<>();
         assignments = new HashSet<>();
+    }
+
+    public Course(String name, String description, Teacher teacher) {
+        this.name = name;
+        this.description = description;
+        this.teacher = teacher;
     }
 
     public void addEnrollment(Enrollment enrollment) {

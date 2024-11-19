@@ -55,10 +55,10 @@
             <div class="infield" id="departmentField" style="display: none;">
                 <select id="department" name="department">
                     <option value="" disabled selected>-- Choisissez votre d�partement --</option>
-                    <option value="INFORMATIQUE">Informatique</option>
-                    <option value="MATHEMATIQUES">Math�matiques</option>
-                    <option value="PHYSIQUE">Physique</option>
-                    <option value="CHIMIE">Chimie</option>
+                    <option value="INFORMATIQUE">INFORMATIQUE</option>
+                    <option value="MATHEMATIQUES">MATHEMATIQUES</option>
+                    <option value="PHYSIQUE">PHYSIQUE</option>
+                    <option value="CHIMIE">CHIMIE</option>
                     <!-- Ajoutez d'autres d�partements ici si n�cessaire -->
                 </select>
             </div>
