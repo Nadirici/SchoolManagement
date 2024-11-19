@@ -127,6 +127,7 @@ public class CourseWebController {
                 }
 
 
+
                 model.addAttribute("student", studentService.getStudentById(id).get());
                 model.addAttribute("studentAssignmentGrades", studentAssignmentGrades);
                 model.addAttribute("assignments", assignments);
