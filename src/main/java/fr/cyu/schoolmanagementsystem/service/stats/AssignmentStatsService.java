@@ -23,26 +23,6 @@ public class AssignmentStatsService {
         this.assignmentService = new AssignmentService(new AssignmentDAO(Assignment.class));
     }
 
-    public List<Grade> getAllGradesForAssignment(UUID assignmentId) {
-        assignmentService.getById(assignmentId);
-        return gradeService.getAllForAssignment(assignmentId);
-    }
-
-    public double getAverageGradeForAssignment(UUID assignmentId) {
-        List<Grade> grades = getAllGradesForAssignment(assignmentId);
-        return gradeService.getAverage(grades);
-    }
-
-    public double getMinGradeForAssignment(UUID assignmentId) {
-        List<Grade> grades = getAllGradesForAssignment(assignmentId);
-        return gradeService.getMin(grades);
-    }
-
-    public double getMaxGradeForAssignment(UUID assignmentId) {
-        List<Grade> grades = getAllGradesForAssignment(assignmentId);
-        return gradeService.getMax(grades);
-    }
-
     public CompositeStats getStatsForAssignment(UUID assignmentId) {
         List<Grade> grades = gradeService.getAllForAssignment(assignmentId);
         return gradeService.calculateStats(grades);

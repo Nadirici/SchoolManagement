@@ -45,24 +45,38 @@ public class AssignmentAdminController extends HttpServlet {
         String idParam = request.getParameter("id");
 
         if (idParam != null) {
-            UUID id = UUID.fromString(idParam);
-            try {
-                Assignment assignment = assignmentService.getById(id);
-                CompositeStats assignmentStats = assignmentStatsService.getStatsForAssignment(id);
-                Map<Enrollment, Grade> enrollmentGradeMap = enrollmentService.getEnrollmentsAndGradesForAssignment(id);
-                request.setAttribute("assignment", assignment);
-                request.setAttribute("assignmentStats", assignmentStats);
-                request.setAttribute("enrollmentGrade", enrollmentGradeMap);
-                request.getRequestDispatcher("/WEB-INF/views/admin/assignments/assignment-details.jsp").forward(request, response);
-            } catch (Exception e) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Assignment not found");
-            }
+            viewAssignment(request, response);
         } else {
+            listAssignments(request, response);
+        }
+    }
+
+    private void listAssignments(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
             List<Assignment> assignments = assignmentService.getAll();
             List<Course> availableCourses = courseService.getAll();
+
             request.setAttribute("assignments", assignments);
             request.setAttribute("availableCourses", availableCourses);
+
             request.getRequestDispatcher("/WEB-INF/views/admin/assignments/assignments.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching assignments");
+        }
+    }
+
+    private void viewAssignment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UUID id = UUID.fromString(request.getParameter("id"));
+        try {
+            Assignment assignment = assignmentService.getById(id);
+            CompositeStats assignmentStats = assignmentStatsService.getStatsForAssignment(id);
+            Map<Enrollment, Grade> enrollmentGradeMap = enrollmentService.getEnrollmentsAndGradesForAssignment(id);
+            request.setAttribute("assignment", assignment);
+            request.setAttribute("assignmentStats", assignmentStats);
+            request.setAttribute("enrollmentGrade", enrollmentGradeMap);
+            request.getRequestDispatcher("/WEB-INF/views/admin/assignments/assignment-details.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Assignment not found");
         }
     }
 

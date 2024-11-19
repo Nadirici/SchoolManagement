@@ -1,7 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
-import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
 import fr.cyu.schoolmanagementsystem.entity.Course;
@@ -11,7 +10,6 @@ import fr.cyu.schoolmanagementsystem.entity.Student;
 import fr.cyu.schoolmanagementsystem.service.CourseService;
 import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
-import fr.cyu.schoolmanagementsystem.service.stats.CourseStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.EnrollmentStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.StudentStatsService;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;
@@ -53,27 +51,40 @@ public class StudentAdminController extends HttpServlet {
         String idParam = request.getParameter("id");
 
         if (idParam != null) {
-            // Récupérer un étudiant spécifique
-            UUID id = UUID.fromString(idParam);
-            try {
-                Student student = studentService.getById(id);
-                List<Course> availableCourses = courseService.getAllNotEnroll(student.getId());
-                CompositeStats studentStats = studentStatsService.getStatsForStudent(student.getId());
-                Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForStudent(student.getId());
-
-                request.setAttribute("student", student);
-                request.setAttribute("availableCourses", availableCourses);
-                request.setAttribute("studentStats", studentStats);
-                request.setAttribute("enrollmentStats", enrollmentStatsMap);
-                request.getRequestDispatcher("/WEB-INF/views/admin/students/student-details.jsp").forward(request, response);
-            } catch (EntityNotFoundException e) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Student not found");
-            }
+            viewStudent(request, response);
         } else {
-            // Récupérer la liste des étudiants
+            listStudents(request, response);
+        }
+    }
+
+    private void listStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
             List<Student> students = studentService.getAllVerified();
+
             request.setAttribute("students", students);
+
             request.getRequestDispatcher("/WEB-INF/views/admin/students/students.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching students");
+        }
+    }
+
+    private void viewStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UUID id = UUID.fromString(request.getParameter("id"));
+        try {
+            Student student = studentService.getById(id);
+            List<Course> availableCourses = courseService.getAllNotEnroll(student.getId());
+            CompositeStats studentStats = studentStatsService.getStatsForStudent(student.getId());
+            Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForStudent(student.getId());
+
+            request.setAttribute("student", student);
+            request.setAttribute("availableCourses", availableCourses);
+            request.setAttribute("studentStats", studentStats);
+            request.setAttribute("enrollmentStats", enrollmentStatsMap);
+
+            request.getRequestDispatcher("/WEB-INF/views/admin/students/student-details.jsp").forward(request, response);
+        } catch (EntityNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Student not found");
         }
     }
 

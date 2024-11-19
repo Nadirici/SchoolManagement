@@ -1,7 +1,6 @@
 package fr.cyu.schoolmanagementsystem.service.stats;
 
 import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
-import fr.cyu.schoolmanagementsystem.entity.Assignment;
 import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;

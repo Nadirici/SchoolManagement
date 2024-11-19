@@ -45,22 +45,38 @@ public class EnrollmentAdminController extends HttpServlet {
         String idParam = request.getParameter("id");
 
         if (idParam != null) {
-            UUID id = UUID.fromString(idParam);
-            try {
-                Enrollment enrollment = enrollmentService.getById(id);
-                CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(id);
-                Map<Assignment, Grade> assignmentGradeMap = assignmentService.getAssignmentsAndGradesForEnrollment(id);
-                request.setAttribute("enrollment", enrollment);
-                request.setAttribute("enrollmentStats", enrollmentStats);
-                request.setAttribute("assignmentGrade", assignmentGradeMap);
-                request.getRequestDispatcher("/WEB-INF/views/admin/enrollments/enrollment-details.jsp").forward(request, response);
-            } catch (Exception e) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Enrollment not found");
-            }
+            viewEnrollment(request, response);
         } else {
+            listEnrollments(request, response);
+        }
+    }
+
+    private void listEnrollments(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
             List<Enrollment> enrollments = enrollmentService.getAll();
+
             request.setAttribute("enrollments", enrollments);
+
             request.getRequestDispatcher("/WEB-INF/views/admin/enrollments/enrollments.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching enrollments");
+        }
+    }
+
+    private void viewEnrollment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UUID id = UUID.fromString(request.getParameter("id"));
+        try {
+            Enrollment enrollment = enrollmentService.getById(id);
+            CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(id);
+            Map<Assignment, Grade> assignmentGradeMap = assignmentService.getAssignmentsAndGradesForEnrollment(id);
+
+            request.setAttribute("enrollment", enrollment);
+            request.setAttribute("enrollmentStats", enrollmentStats);
+            request.setAttribute("assignmentGrade", assignmentGradeMap);
+
+            request.getRequestDispatcher("/WEB-INF/views/admin/enrollments/enrollment-details.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Enrollment not found");
         }
     }
 

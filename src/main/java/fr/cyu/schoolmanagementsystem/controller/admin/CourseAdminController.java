@@ -48,39 +48,20 @@ public class CourseAdminController extends HttpServlet {
         String idParam = request.getParameter("id");
 
         if (idParam != null) {
-            UUID id = UUID.fromString(idParam);
-            try {
-                Course course = courseService.getById(id);
-                CompositeStats courseStats = courseStatsService.getStatsForCourse(course.getId());
-                Map<Assignment, CompositeStats> assignmentStatsMap = assignmentStatsService.getAssignmentsStatsMap(id);
-                Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForCourse(id);
-                List<Student> availableStudents = studentService.getAllStudentsNotEnrollInCourse(course.getId());
-                List<Teacher> availableTeachers = teacherService.getAllVerified();
-
-                request.setAttribute("course", course);
-                request.setAttribute("courseStats", courseStats);
-                request.setAttribute("enrollmentStats", enrollmentStatsMap);
-                request.setAttribute("assignmentStats", assignmentStatsMap);
-                request.setAttribute("availableStudents", availableStudents);
-                request.setAttribute("availableTeachers", availableTeachers);
-
-                request.getRequestDispatcher("/WEB-INF/views/admin/courses/course-details.jsp").forward(request, response);
-            } catch (EntityNotFoundException e) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
-            }
+            viewCourse(request, response);
         } else {
-            List<Course> courses = courseService.getAll();
-            List<Teacher> availableTeachers = teacherService.getAllVerified();
-            request.setAttribute("courses", courses);
-            request.setAttribute("availableTeachers", availableTeachers);
-            request.getRequestDispatcher("/WEB-INF/views/admin/courses/courses.jsp").forward(request, response);
+            listCourses(request, response);
         }
     }
 
     private void listCourses(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Course> courses = courseService.getAll();
+            List<Teacher> availableTeachers = teacherService.getAllVerified();
+
             request.setAttribute("courses", courses);
+            request.setAttribute("availableTeachers", availableTeachers);
+
             request.getRequestDispatcher("/WEB-INF/views/admin/courses/courses.jsp").forward(request, response);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching courses");
@@ -88,19 +69,25 @@ public class CourseAdminController extends HttpServlet {
     }
 
     private void viewCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String courseId = request.getParameter("id");
+        UUID id = UUID.fromString(request.getParameter("id"));
+        try {
+            Course course = courseService.getById(id);
+            CompositeStats courseStats = courseStatsService.getStatsForCourse(course.getId());
+            Map<Assignment, CompositeStats> assignmentStatsMap = assignmentStatsService.getAssignmentsStatsMap(id);
+            Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForCourse(id);
+            List<Student> availableStudents = studentService.getAllStudentsNotEnrollInCourse(course.getId());
+            List<Teacher> availableTeachers = teacherService.getAllVerified();
 
-        if (courseId != null && !courseId.isEmpty()) {
-            UUID id = UUID.fromString(courseId);
-            try {
-                Course course = courseService.getById(id);
-                request.setAttribute("course", course);
-                request.getRequestDispatcher("/WEB-INF/views/admin/courses/course-details.jsp").forward(request, response);
-            } catch (EntityNotFoundException e) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
-            }
-        } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Course ID is required for viewing");
+            request.setAttribute("course", course);
+            request.setAttribute("courseStats", courseStats);
+            request.setAttribute("enrollmentStats", enrollmentStatsMap);
+            request.setAttribute("assignmentStats", assignmentStatsMap);
+            request.setAttribute("availableStudents", availableStudents);
+            request.setAttribute("availableTeachers", availableTeachers);
+
+            request.getRequestDispatcher("/WEB-INF/views/admin/courses/course-details.jsp").forward(request, response);
+        } catch (EntityNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
         }
     }
 
