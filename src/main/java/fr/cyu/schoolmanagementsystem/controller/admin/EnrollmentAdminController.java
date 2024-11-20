@@ -68,11 +68,11 @@ public class EnrollmentAdminController extends HttpServlet {
         try {
             Enrollment enrollment = enrollmentService.getById(id);
             CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(id);
-            Map<Assignment, Grade> assignmentGradeMap = assignmentService.getAssignmentsAndGradesForEnrollment(id);
+            Map<Assignment, Grade> assignmentGrade = assignmentService.getAssignmentsAndGradesForEnrollment(id);
 
             request.setAttribute("enrollment", enrollment);
             request.setAttribute("enrollmentStats", enrollmentStats);
-            request.setAttribute("assignmentGrade", assignmentGradeMap);
+            request.setAttribute("assignmentGrade", assignmentGrade);
 
             request.getRequestDispatcher("/WEB-INF/views/admin/enrollments/enrollment-details.jsp").forward(request, response);
         } catch (Exception e) {
