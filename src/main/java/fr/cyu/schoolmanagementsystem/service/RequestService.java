@@ -75,8 +75,4 @@ public class RequestService extends GenericServiceImpl<RegistrationRequest> {
             throw new RuntimeException("Demande non trouve avec id: " + requestId, e);
         }
     }
-
-    public List<RegistrationRequest> getByStudent(UUID studentId) {
-        return ((RegistrationRequestDAO) dao).findByStudentId(studentId);
-    }
 }

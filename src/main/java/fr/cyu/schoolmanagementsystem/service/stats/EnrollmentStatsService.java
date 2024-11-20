@@ -23,26 +23,6 @@ public class EnrollmentStatsService {
         this.enrollmentService = new EnrollmentService(new EnrollmentDAO(Enrollment.class));
     }
 
-    public List<Grade> getAllGradesForEnrollment(UUID enrollmentId) {
-        enrollmentService.getById(enrollmentId);
-        return gradeService.getAllForEnrollment(enrollmentId);
-    }
-
-    public double getAverageGradeForEnrollment(UUID enrollmentId) {
-        List<Grade> grades = getAllGradesForEnrollment(enrollmentId);
-        return gradeService.getAverage(grades);
-    }
-
-    public double getMinGradeForEnrollment(UUID enrollmentId) {
-        List<Grade> grades = getAllGradesForEnrollment(enrollmentId);
-        return gradeService.getMin(grades);
-    }
-
-    public double getMaxGradeForEnrollment(UUID enrollmentId) {
-        List<Grade> grades = getAllGradesForEnrollment(enrollmentId);
-        return gradeService.getMax(grades);
-    }
-
     public CompositeStats getStatsForEnrollment(UUID enrollmentId) {
         List<Grade> grades = gradeService.getAllForEnrollment(enrollmentId);
         return gradeService.calculateStats(grades);
