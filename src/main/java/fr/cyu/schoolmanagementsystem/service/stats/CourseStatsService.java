@@ -37,17 +37,4 @@ public class CourseStatsService {
 
         return courseStats;
     }
-
-    public CompositeStats getStatsForStudent(UUID studentId) {
-        List<Enrollment> enrollments = enrollmentService.getEnrollmentsForStudent(studentId);
-
-        CompositeStats studentStats = new CompositeStats();
-
-        for (Enrollment enrollment : enrollments) {
-            CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(enrollment.getId());
-            studentStats.addComponent(enrollmentStats);
-        }
-
-        return studentStats;
-    }
 }

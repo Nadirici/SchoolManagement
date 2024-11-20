@@ -27,47 +27,14 @@ public class GradeService extends GenericServiceImpl<Grade> {
     public List<Grade> getAllForAssignment(UUID assignmentId) {
         return ((GradeDAO) dao).findAllByAssignmentId(assignmentId);
     }
-
-    public double getAverage(List<Grade> grades) {
-        if (grades.isEmpty()) {
-            return 0;
-        }
-
-        double totalWeightedScore = 0;
-        double totalCoefficients = 0;
-
-        for (Grade grade : grades) {
-            double coefficient = grade.getAssignment().getCoefficient();
-            totalWeightedScore += coefficient * grade.getScore();
-            totalCoefficients += coefficient;
-        }
-
-        return (totalCoefficients > 0) ? totalWeightedScore / totalCoefficients : 0.0;
-    }
-
-    public double getMin(List<Grade> grades) {
-        return grades.stream().mapToDouble(Grade::getScore).min().orElse(0);
-    }
-
-    public double getMax(List<Grade> grades) {
-        return grades.stream().mapToDouble(Grade::getScore).max().orElse(0);
-    }
-
+    
     public CompositeStats calculateStats(List<Grade> grades) {
 
         CompositeStats compositeStats = new CompositeStats();
 
-        if (grades.isEmpty()) {
-            LeafStats stats = new LeafStats(Double.NaN, Double.NaN, Double.NaN);
-            compositeStats = new CompositeStats();
-            compositeStats.addComponent(stats);
-        } else {
-            double average = getAverage(grades);
-            double min = getMin(grades);
-            double max = getMax(grades);
-
-            LeafStats stats = new LeafStats(average, min, max);
-
+        for (Grade grade: grades) {
+            Double score = grade.getScore();
+            LeafStats stats = new LeafStats(score, score, score);
             compositeStats.addComponent(stats);
         }
 
