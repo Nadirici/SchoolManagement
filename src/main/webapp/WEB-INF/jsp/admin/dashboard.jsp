@@ -30,9 +30,7 @@
             <li><a href="/admin/${id}/courses" >Courses</a></li>
             <li><a href="#">Results</a></li>
             <li><a href="/admin/${id}/requests">Demandes d'inscription</a></li>
-            <form action="/logout" method="post">
-                <li><input type="submit" value="Déconnexion"></li>
-            </form>
+            <li><a href="/logout">Se déconnecter</a></li>
 
         </ul>
     </div>

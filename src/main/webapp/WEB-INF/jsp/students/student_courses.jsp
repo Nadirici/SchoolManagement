@@ -23,12 +23,12 @@
     <ul>
 
       <% StudentDTO studentDTO = (StudentDTO) request.getAttribute("student"); %>
-
+      <li><a href="/students/${student.id}" class="active">Dashboard</a></li>
       <li><a href="/students/<%= studentDTO.getId()%>/enroll">S'inscrire</a></li>
       <li><a href="/students/<%= studentDTO.getId()%>/profile">Profile</a></li>
-      <form action="/logout" method="post">
-        <li><input type="submit" value="Logout"></li>
-      </form>
+
+      <li><a href="/logout">Se déconnecter</a></li>
+
     </ul>
   </div>
 

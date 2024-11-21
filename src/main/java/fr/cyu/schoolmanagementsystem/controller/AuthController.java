@@ -173,7 +173,7 @@ public class AuthController {
     }
 
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         session.invalidate();
         redirectAttributes.addFlashAttribute("flashSuccess", "Vous avez été déconnecté avec succès.");

@@ -7,96 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create a New Course</title>
   <link rel="stylesheet" href="/css/style.css">
-  <script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-      // Vérifier l'existence des éléments avant d'ajouter des écouteurs d'événements
-      const teacherSelect = document.getElementById('teacherSelect');
-      const submitButton = document.getElementById('submitButton');
-
-      if (teacherSelect) {
-        teacherSelect.addEventListener('change', validateForm);
-      }
-
-      if (submitButton) {
-        submitButton.disabled = true;  // Désactiver le bouton par défaut
-      }
-    });
-
-    // Fonction pour charger les enseignants dynamiquement selon le département
-    function loadTeachers(department) {
-      const teacherSelect = document.getElementById('teacherSelect');
-      const submitButton = document.getElementById('submitButton');  // Assurez-vous que le bouton submit a cet ID
-      teacherSelect.innerHTML = '';  // Réinitialiser la liste des enseignants
-
-      // Désactiver le bouton de soumission par défaut
-      submitButton.disabled = true;
-
-      if (department) {
-        console.log("Fetching teachers for department:", department);  // Vérifier la sélection du département
-
-        // Effectuer une requête POST avec les données nécessaires
-        fetch(`/admin/${admin.id}/teachers/` + department, {  // Correcte l'URL en incluant le département
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-                .then(response => {
-                  if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                  }
-                  return response.json();
-                })
-                .then(data => {
-                  console.log("Data received from server:", data);  // Vérifier ce qui est renvoyé par le serveur
-
-                  // Ajouter une option par défaut
-                  const defaultOption = document.createElement('option');
-                  defaultOption.value = '';
-                  defaultOption.text = 'Selectionner un professeur de ce département';
-                  teacherSelect.appendChild(defaultOption);
-
-                  if (data.length === 0) {
-                    console.log('No teachers found for this department');
-                    // Si aucun professeur, modifier le message par défaut
-                    defaultOption.text = 'Aucun professeur disponible pour ce département';
-                  } else {
-                    // Ajouter les enseignants comme options dans le select
-                    data.forEach(teacher => {
-                      const option = document.createElement('option');
-                      option.value = teacher.email;  // Utilisez l'ID de l'enseignant pour la valeur
-                      option.text = teacher.firstname + ' ' + teacher.lastname;  // Nom et prénom de l'enseignant
-                      teacherSelect.appendChild(option);
-                    });
-                  }
-                })
-                .catch(error => {
-                  console.error('Error fetching teachers:', error);  // Gestion des erreurs
-                });
-      }
-    }
-
-    // Fonction pour vérifier si tous les champs sont remplis
-    function validateForm() {
-      const teacherSelect = document.getElementById('teacherSelect');
-      const submitButton = document.getElementById('submitButton');
-
-      // Activer le bouton de soumission si tous les champs sont remplis
-      if (teacherSelect.value && teacherSelect.value !== 'Aucun professeur disponible pour ce département') {
-        submitButton.disabled = false;
-      } else {
-        submitButton.disabled = true;
-      }
-    }
-
-
-  </script>
-
-
+  <script src="/js/course-management.js"></script>
 
 </head>
 <body>
+
+
 <div class="container">
   <div class="sidebar">
     <div class="dashboard-icon">
@@ -111,9 +27,7 @@
       <li><a href="/admin/${id}/courses">Courses</a></li>
       <li><a href="/admin/${id}/results">Results</a></li>
       <li><a href="/admin/${id}/requests">Demandes d'inscription</a></li>
-      <form action="/logout" method="post">
-        <li><input type="submit" value="Déconnexion"></li>
-      </form>
+      <li><a href="/logout">Se déconnecter</a></li>
     </ul>
   </div>
 
@@ -189,6 +103,8 @@
 
         <!-- Bouton pour créer le cours -->
         <button id="submitButton" type="submit">Create Course</button>
+        <div id="admin" data-id="${admin.id}" data-firstname="${admin.firstname}" data-lastname="${admin.lastname}" data-email="${admin.email}"></div>
+
       </form>
     </div>
   </div>
