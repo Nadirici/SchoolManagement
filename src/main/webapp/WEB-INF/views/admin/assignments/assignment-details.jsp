@@ -49,8 +49,14 @@
                     <tr>
                         <td>${entry.key.student.firstname} ${entry.key.student.lastname}</td> <!-- Student Name -->
                         <td>
-                            <input type="hidden" name="gradeId" value="${entry.value.id}">
-                            <input type="number" name="gradeScore" value="${entry.value.score}" min="0" max="20" required />
+                            <input
+                                    type="number"
+                                    name="grades[${entry.value.id}]"
+                                    value="${entry.value.score}"
+                                    min="0"
+                                    max="20"
+                                    step="0.01"
+                                    required />
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/enrollments?view=action&id=${entry.key.id}">View Enrollment Details</a>

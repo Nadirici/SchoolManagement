@@ -6,10 +6,7 @@ import fr.cyu.schoolmanagementsystem.dao.GradeDAO;
 import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.Grade;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class EnrollmentService extends GenericServiceImpl<Enrollment> {
 
@@ -34,7 +31,9 @@ public class EnrollmentService extends GenericServiceImpl<Enrollment> {
     }
 
     public Map<Enrollment, Grade> getEnrollmentsAndGradesForAssignment(UUID assignmentId) {
-        Map<Enrollment, Grade> enrollmentGradeMap = new HashMap<>();
+        Map<Enrollment, Grade> enrollmentGradeMap = new TreeMap<>(Comparator.comparing(
+                enrollment -> enrollment.getStudent().getLastname(), String.CASE_INSENSITIVE_ORDER
+        ));
 
         try {
             List<Grade> grades = gradeService.getAllForAssignment(assignmentId);

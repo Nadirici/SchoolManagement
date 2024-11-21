@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -141,15 +142,25 @@ public class AssignmentAdminController extends HttpServlet {
     }
 
     private void saveGrades(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] gradeIds = request.getParameterValues("gradeId");
-        String[] gradeScores = request.getParameterValues("gradeScore");
 
-        for (int i = 0; i < gradeIds.length; i++) {
-            UUID gradeUUID = UUID.fromString(gradeIds[i]);
-            Grade grade = gradeService.getById(gradeUUID);
-            grade.setScore(Double.parseDouble(gradeScores[i]));
+        Map<String, String[]> parameterMap = request.getParameterMap();
+
+        Map<UUID, Double> gradesMap = new HashMap<>();
+
+        parameterMap.forEach((key, value) -> {
+            if (key.startsWith("grades[")) {
+                String id = key.substring(7, key.length() - 1);
+                UUID gradeId = UUID.fromString(id);
+                Double score = Double.parseDouble(value[0]);
+                gradesMap.put(gradeId, score);
+            }
+        });
+
+        gradesMap.forEach((gradeId, score) -> {
+            Grade grade = gradeService.getById(gradeId);
+            grade.setScore(score);
             gradeService.update(grade);
-        }
+        });
     }
 
 }
