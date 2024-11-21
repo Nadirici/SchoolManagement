@@ -8,7 +8,7 @@
 <body>
 
 <p>
-    <a href="${pageContext.request.contextPath}/teachers">Back to Teacher List</a>
+    <a href="${pageContext.request.contextPath}/admin/teachers">Back to Teacher List</a>
 </p>
 
 <h1>Teacher Details</h1>
@@ -38,7 +38,7 @@
                     <td>${course.name}</td>
                     <td>${course.description}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/courses?action=view&id=${course.id}">View Details</a>
+                        <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${course.id}">View Details</a>
                         <!-- Optionally add Edit or Delete actions -->
                     </td>
                 </tr>
@@ -52,7 +52,7 @@
 
     <!-- Formulaire de mise à jour des informations -->
     <h2>Update Teacher</h2>
-    <form method="post" action="${pageContext.request.contextPath}/teachers">
+    <form method="post" action="${pageContext.request.contextPath}/admin/teachers">
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="id" value="${teacher.id}" />
 
@@ -73,7 +73,7 @@
 
     <!-- Formulaire de suppression -->
     <h2>Delete Teacher</h2>
-    <form method="post" action="${pageContext.request.contextPath}/teachers">
+    <form method="post" action="${pageContext.request.contextPath}/admin/teachers">
         <input type="hidden" name="_method" value="DELETE" />
         <input type="hidden" name="id" value="${teacher.id}" />
         <button type="submit">Delete</button>

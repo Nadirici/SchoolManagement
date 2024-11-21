@@ -9,7 +9,7 @@
 <body>
 
 <p>
-  <a href="${pageContext.request.contextPath}/students">Back to Student List</a>
+  <a href="${pageContext.request.contextPath}/admin/students">Back to Student List</a>
 </p>
 
 <h1>Student Details</h1>
@@ -73,7 +73,7 @@
 
         <!-- Actions -->
         <td>
-          <a href="${pageContext.request.contextPath}/courses?action=view&id=${enrollment.key.course.id}">
+          <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${enrollment.key.course.id}">
             View Course
           </a>
         </td>
@@ -98,7 +98,7 @@
 
   <!-- Liste déroulante pour ajouter un nouveau cours -->
   <h2>Enroll in a New Course</h2>
-  <form method="post" action="${pageContext.request.contextPath}/enrollments">
+  <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="studentId" value="${student.id}" />
 
@@ -115,7 +115,7 @@
 
   <!-- Formulaire de mise à jour des informations -->
   <h2>Update Student</h2>
-  <form method="post" action="${pageContext.request.contextPath}/students">
+  <form method="post" action="${pageContext.request.contextPath}/admin/students">
     <input type="hidden" name="_method" value="PUT" />
     <input type="hidden" name="id" value="${student.id}" />
 
@@ -136,7 +136,7 @@
 
   <!-- Formulaire de suppression -->
   <h2>Delete Student</h2>
-  <form method="post" action="${pageContext.request.contextPath}/students">
+  <form method="post" action="${pageContext.request.contextPath}/admin/students">
     <input type="hidden" name="_method" value="DELETE" />
     <input type="hidden" name="id" value="${student.id}" />
     <button type="submit">Delete</button>

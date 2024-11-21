@@ -27,10 +27,10 @@
         <c:forEach var="enrollment" items="${enrollments}">
             <tr>
                 <td>${enrollment.id}</td>
-                <td><a href="${pageContext.request.contextPath}/students?action=view&id=${enrollment.student.id}">${enrollment.student.firstname} ${enrollment.student.lastname}</a></td>
-                <td><a href="${pageContext.request.contextPath}/courses?action=view&id=${enrollment.course.id}">${enrollment.course.name}</a></td>
+                <td><a href="${pageContext.request.contextPath}/admin/students?action=view&id=${enrollment.student.id}">${enrollment.student.firstname} ${enrollment.student.lastname}</a></td>
+                <td><a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${enrollment.course.id}">${enrollment.course.name}</a></td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/enrollments?action=view&id=${enrollment.id}">View Details</a>
+                    <a href="${pageContext.request.contextPath}/admin/enrollments?action=view&id=${enrollment.id}">View Details</a>
                 </td>
             </tr>
         </c:forEach>

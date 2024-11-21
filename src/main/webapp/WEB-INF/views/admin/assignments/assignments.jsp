@@ -14,7 +14,7 @@
 <h1>Assignments</h1>
 
 <h2>Add New Assignment</h2>
-<form action="${pageContext.request.contextPath}/assignments" method="post">
+<form action="${pageContext.request.contextPath}/admin/assignments" method="post">
   <table>
     <tr>
       <td><label for="courseId">Select Course:</label></td>
@@ -65,9 +65,9 @@
       <tr>
         <td>${assignment.id}</td>
         <td>${assignment.title}</td>
-        <td><a href="${pageContext.request.contextPath}/courses?action=view&id=${assignment.course.id}">${assignment.course.name}</a></td>
+        <td><a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${assignment.course.id}">${assignment.course.name}</a></td>
         <td>
-          <a href="${pageContext.request.contextPath}/assignments?action=view&id=${assignment.id}">View Details</a>
+          <a href="${pageContext.request.contextPath}/admin/assignments?action=view&id=${assignment.id}">View Details</a>
         </td>
       </tr>
     </c:forEach>

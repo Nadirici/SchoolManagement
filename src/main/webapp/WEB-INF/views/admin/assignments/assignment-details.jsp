@@ -9,7 +9,7 @@
 <body>
 
 <p>
-    <a href="${pageContext.request.contextPath}/assignments">Back to Assignments List</a>
+    <a href="${pageContext.request.contextPath}/admin/assignments">Back to Assignments List</a>
 </p>
 
 <h1>Assignment Details</h1>
@@ -20,11 +20,11 @@
     <p><strong>Title:</strong> ${assignment.title}</p>
     <p><strong>Description:</strong> ${assignment.description}</p>
     <p><strong>Coefficient:</strong> ${assignment.coefficient}</p>
-    <p><strong>Course:</strong><a href="${pageContext.request.contextPath}/courses?action=view&id=${assignment.course.id}">${assignment.course.name}</a></p>
+    <p><strong>Course:</strong><a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${assignment.course.id}">${assignment.course.name}</a></p>
 
     <!-- Formulaire de suppression -->
     <h2>Delete Assignment</h2>
-    <form method="post" action="${pageContext.request.contextPath}/assignments">
+    <form method="post" action="${pageContext.request.contextPath}/admin/assignments">
         <input type="hidden" name="_method" value="DELETE" />
         <input type="hidden" name="id" value="${assignment.id}" />
         <button type="submit">Delete Assignment</button>
@@ -33,7 +33,7 @@
     <!-- Liste des étudiants inscrits à cet assignment avec leurs notes -->
     <h2>Enrolled Students and Grades</h2>
     <c:if test="${not empty enrollmentGrade}">
-        <form action="${pageContext.request.contextPath}/assignments" method="post">
+        <form action="${pageContext.request.contextPath}/admin/assignments" method="post">
             <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="action" value="saveGrades">
             <table border="1">
@@ -59,7 +59,7 @@
                                     required />
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/enrollments?view=action&id=${entry.key.id}">View Enrollment Details</a>
+                            <a href="${pageContext.request.contextPath}/admin/enrollments?view=action&id=${entry.key.id}">View Enrollment Details</a>
                         </td>
                     </tr>
                 </c:forEach>

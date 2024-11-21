@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
+import fr.cyu.schoolmanagementsystem.controller.Routes;
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
 import fr.cyu.schoolmanagementsystem.dao.TeacherDAO;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet("/courses")
+@WebServlet(Routes.ADMIN_COURSES)
 public class CourseAdminController extends HttpServlet {
 
     private CourseService courseService;
@@ -102,7 +103,7 @@ public class CourseAdminController extends HttpServlet {
         } else {
             createCourse(request, response);
         }
-        response.sendRedirect(request.getContextPath() + "/courses");
+        response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
     }
 
     private void updateCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
