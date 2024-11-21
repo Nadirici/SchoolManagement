@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Admin Dashboard</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin/style.css">
 </head>
 <body>
 <div class="container">
@@ -29,7 +29,7 @@
             <li><a href="#">Teachers</a></li>
             <li><a href="#">Courses</a></li>
             <li><a href="#">Results</a></li>
-            <li><a href="/admin/${id}/requests">Demandes d'inscription</a></li>
+            <li><a href="/admin/${id}/requests">Registration Requests</a></li>
         </ul>
     </div>
 

@@ -9,28 +9,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Tableau de bord</title>
+    <link rel="stylesheet" href="/css/teachers/style.css">
 </head>
 <body>
-<h1>Bonjour ${teacher.lastname} ${teacher.firstname} !</h1>
+<h1>👋 Hi ${teacher.lastname} ${teacher.firstname} !</h1>
 <div>
-    <h2>Mes infos personnelles</h2>
+    <h2>Personal Information</h2>
     <ul>
-        <li>Nom : ${teacher.lastname}</li>
-        <li>Prénom : ${teacher.firstname}</li>
-        <li>Département : ${teacher.department}</li>
-        <li>Email : ${teacher.email}</li>
+        <li>Last Name : ${teacher.lastname}</li>
+        <li>First Name : ${teacher.firstname}</li>
+        <li>Department : ${teacher.department}</li>
+        <li>E-mail : ${teacher.email}</li>
     </ul>
 </div>
 <div>
-    <h2>Mes cours enseignés</h2>
+    <h2>My Courses Taught</h2>
     <table border="1">
         <thead>
         <tr>
-            <th>Nom</th>
-            <th>Moyenne de la classe</th>
-            <th>Moyenne minimale</th>
-            <th>Moyenne maximale</th>
+            <th>Name</th>
+            <th>Class Average</th>
+            <th>Minimum Average</th>
+            <th>Maximum Average</th>
         </tr>
         </thead>
         <tbody>

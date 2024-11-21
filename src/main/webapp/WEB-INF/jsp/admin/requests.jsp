@@ -5,24 +5,24 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Demandes d'inscription</title>
-    <link rel="stylesheet" type="text/css" href="<your-css-file.css>"> <!-- Lien vers votre fichier CSS -->
+    <title>Registration Requests</title>
+    <link rel="stylesheet" href="/css/admin/requests.css">
 </head>
 <body>
-<h1>Demandes d'inscription en attente</h1>
+<h1>Registration Requests in Progress</h1>
 
 <!-- Affichage d'un message flash si disponible -->
 <c:if test="${not empty flashError}">
     <div>${flashError}</div>
 </c:if>
 
-<h2>Demandes des Professeurs</h2>
+<h2>Teacher Requests</h2>
 <table border="1">
     <tr>
         <th>ID</th>
         <th>Email</th>
-        <th>Nom</th>
-        <th>Prénom</th>
+        <th>Last Name</th>
+        <th>First Name</th>
         <th>Actions</th>
     </tr>
     <c:choose>
@@ -46,19 +46,19 @@
         </c:when>
         <c:otherwise>
             <tr>
-                <td colspan="5">Aucune demande en attente.</td>
+                <td colspan="5">No Requests in Progress.</td>
             </tr>
         </c:otherwise>
     </c:choose>
 </table>
 
-<h2>Demandes des Étudiants</h2>
+<h2>Student Requests</h2>
 <table border="1">
     <tr>
         <th>ID</th>
         <th>Email</th>
-        <th>Nom</th>
-        <th>Prénom</th>
+        <th>Last Name</th>
+        <th>First Name</th>
         <th>Actions</th>
     </tr>
     <c:choose>
@@ -82,7 +82,7 @@
         </c:when>
         <c:otherwise>
             <tr>
-                <td colspan="5">Aucune demande en attente.</td>
+                <td colspan="5">No Requests in Progress.</td>
             </tr>
         </c:otherwise>
     </c:choose>

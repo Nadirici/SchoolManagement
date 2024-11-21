@@ -9,29 +9,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Tableau de bord</title>
+    <link rel="stylesheet" href="/css/students/style.css">
 </head>
 <body>
-    <h1>Bonjour ${student.firstname} !</h1>
+    <h1>👋 Hi ${student.firstname} !</h1>
     <div>
-        <h2>Mes infos personnelles</h2>
+        <h2>Personal Information</h2>
         <ul>
-            <li>Nom : ${student.lastname}</li>
-            <li>Prénom : ${student.firstname}</li>
-            <li>Date de naissance : ${student.dateOfBirth}</li>
-            <li>Email : ${student.email}</li>
+            <li>Last Name : ${student.lastname}</li>
+            <li>First Name : ${student.firstname}</li>
+            <li>Date of Birth : ${student.dateOfBirth}</li>
+            <li>E-mail : ${student.email}</li>
         </ul>
     </div>
     <div>
-        <h2>Mes cours</h2>
+        <h2>My Courses</h2>
         <table border="1">
             <thead>
             <tr>
-                <th>Nom</th>
-                <th>Ma moyenne</th>
-                <th>Moyenne de la classe</th>
-                <th>Moyenne minimale</th>
-                <th>Moyenne maximale</th>
+                <th>Name</th>
+                <th>My Average</th>
+                <th>Class Average</th>
+                <th>Minimum Average</th>
+                <th>Maximum Average</th>
             </tr>
             </thead>
             <tbody>
@@ -45,7 +47,7 @@
                 </tr>
             </c:forEach>
             <tr>
-                <th>Moyenne générale</th>
+                <th>General Average</th>
                 <td><%--${generalMyAverage}--%></td>
                 <td><%--${generalClassAverage}--%></td>
                 <td><%--${generalMinAverage}--%></td>
