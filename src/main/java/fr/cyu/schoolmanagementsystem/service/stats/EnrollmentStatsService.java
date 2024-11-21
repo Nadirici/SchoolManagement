@@ -28,7 +28,7 @@ public class EnrollmentStatsService {
         return gradeService.calculateStats(grades);
     }
 
-    public Map<Enrollment, CompositeStats> getEnrollmentsStatsMapForCourse(UUID courseId) {
+    public Map<Enrollment, CompositeStats> getEnrollmentsAndStatsForCourse(UUID courseId) {
         Map<Enrollment, CompositeStats> statsMap = new HashMap<>();
 
         try {
@@ -49,7 +49,7 @@ public class EnrollmentStatsService {
         return statsMap;
     }
 
-    public Map<Enrollment, CompositeStats> getEnrollmentsStatsMapForStudent(UUID studentId) {
+    public Map<Enrollment, CompositeStats> getEnrollmentsAndStatsForStudent(UUID studentId) {
         Map<Enrollment, CompositeStats> statsMap = new HashMap<>();
 
         try {

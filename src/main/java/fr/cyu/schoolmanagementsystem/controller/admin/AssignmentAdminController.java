@@ -70,10 +70,10 @@ public class AssignmentAdminController extends HttpServlet {
         try {
             Assignment assignment = assignmentService.getById(id);
             CompositeStats assignmentStats = assignmentStatsService.getStatsForAssignment(id);
-            Map<Enrollment, Grade> enrollmentGradeMap = enrollmentService.getEnrollmentsAndGradesForAssignment(id);
+            Map<Enrollment, Grade> enrollmentGrade = enrollmentService.getEnrollmentsAndGradesForAssignment(id);
             request.setAttribute("assignment", assignment);
             request.setAttribute("assignmentStats", assignmentStats);
-            request.setAttribute("enrollmentGrade", enrollmentGradeMap);
+            request.setAttribute("enrollmentGrade", enrollmentGrade);
             request.getRequestDispatcher("/WEB-INF/views/admin/assignments/assignment-details.jsp").forward(request, response);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Assignment not found");

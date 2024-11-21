@@ -75,12 +75,12 @@ public class StudentAdminController extends HttpServlet {
             Student student = studentService.getById(id);
             List<Course> availableCourses = courseService.getAllNotEnroll(student.getId());
             CompositeStats studentStats = studentStatsService.getStatsForStudent(student.getId());
-            Map<Enrollment, CompositeStats> enrollmentStatsMap = enrollmentStatsService.getEnrollmentsStatsMapForStudent(student.getId());
+            Map<Enrollment, CompositeStats> enrollmentStats = enrollmentStatsService.getEnrollmentsAndStatsForStudent(student.getId());
 
             request.setAttribute("student", student);
             request.setAttribute("availableCourses", availableCourses);
             request.setAttribute("studentStats", studentStats);
-            request.setAttribute("enrollmentStats", enrollmentStatsMap);
+            request.setAttribute("enrollmentStats", enrollmentStats);
 
             request.getRequestDispatcher("/WEB-INF/views/admin/students/student-details.jsp").forward(request, response);
         } catch (EntityNotFoundException e) {
