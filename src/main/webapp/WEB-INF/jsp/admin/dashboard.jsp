@@ -27,11 +27,15 @@
             <li><a href="/admin/${id}" class="active">Overview</a></li>
             <li><a href="/admin/${id}/students">Students</a></li>
             <li><a href="#">Teachers</a></li>
-            <li><a href="#">Courses</a></li>
+            <li><a href="/admin/${id}/courses" >Courses</a></li>
             <li><a href="#">Results</a></li>
             <li><a href="/admin/${id}/requests">Demandes d'inscription</a></li>
+            <li><a href="/logout">Se déconnecter</a></li>
+
         </ul>
     </div>
+
+
 
     <div class="main-content">
         <header class="header">
@@ -48,6 +52,9 @@
         </header>
 
         <div class="overview">
+
+
+
             <!-- Add content -->
         </div>
     </div>

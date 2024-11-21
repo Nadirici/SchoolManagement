@@ -2,21 +2,21 @@ package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Admin;
 import fr.cyu.schoolmanagementsystem.model.entity.RegistrationRequest;
-import fr.cyu.schoolmanagementsystem.service.AdminService;
-import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
-import fr.cyu.schoolmanagementsystem.service.RequestService;
-import fr.cyu.schoolmanagementsystem.service.StudentService;
+import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
+import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
+import fr.cyu.schoolmanagementsystem.service.*;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -30,11 +30,17 @@ public class AdminWebController {
 
     private final AdminService adminService;
 
-    public AdminWebController(StudentService studentService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
+    private final TeacherService teacherService;
+
+    private final CourseService courseService;
+
+    public AdminWebController(StudentService studentService,CourseService courseService, TeacherService teacherService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
         this.requestService = requestService;
         this.adminService = adminService;
+        this.teacherService = teacherService;
+        this.courseService = courseService;
     }
 
     @GetMapping("/{id}")
@@ -43,6 +49,111 @@ public class AdminWebController {
         model.addAttribute("admin", admin);
         return "admin/dashboard";
     }
+
+    @PostMapping("/{adminId}/courses/create")
+    public String createCourse(
+            @PathVariable("adminId") String adminId,
+            @RequestParam("department") String department,
+            @RequestParam("teacher") String teacherEmail,
+            @RequestParam("courseName") String courseName,
+            @RequestParam("courseDescription") String courseDescription,
+            Model model) {
+
+        // Récupérer l'enseignant par son email
+        Optional<Teacher> optionalTeacher = teacherService.getTeacherByEmail(teacherEmail);
+
+        // Vérifier si l'enseignant est présent dans l'Optional
+        Teacher teacher;
+        if (optionalTeacher.isPresent()) {
+            teacher = optionalTeacher.get();
+        } else {
+            System.out.println("Teacher not found!");
+
+            return "/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
+        }
+
+        // Créer un objet CourseDTO avec les informations du formulaire
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setName(courseName);
+        courseDTO.setDescription(courseDescription);
+        courseDTO.setTeacher(teacher); // Mapper l'enseignant à un TeacherDTO
+
+        try {
+            // Utiliser CourseService pour ajouter le cours
+            UUID courseId = courseService.addCourse(courseDTO);  // Sauvegarder le cours dans la base de données
+
+            // Ajouter les données au modèle
+            model.addAttribute("department", department);
+            model.addAttribute("teacher", teacher);
+            model.addAttribute("courseName", courseName);
+            model.addAttribute("courseDescription", courseDescription);
+            model.addAttribute("successMessage", "Course created successfully!");
+
+            // Redirection vers la page des cours de l'administrateur avec un message flash
+            return "redirect:/admin/" + adminId + "/courses?flashMessage=courseCreated";
+        } catch (RuntimeException e) {
+            // Gestion des erreurs si l'ajout du cours échoue
+            model.addAttribute("errorMessage", e.getMessage());
+            return "/admin/"+adminId+"/courses";  // Retourner à la page de création en cas d'erreur
+        }
+    }
+
+
+
+
+
+    @PostMapping("/{adminId}/teachers/{department}")
+    @ResponseBody
+    public List<Teacher> getTeachersByDepartment(@PathVariable("adminId") UUID adminId,
+                                                 @PathVariable("department") String department) {
+        // Convertir la chaîne du département en un objet de l'énumération Departement
+        Departement departementEnum = Departement.fromDisplayName(department);
+
+        // Récupérer les enseignants associés à ce département
+        List<Teacher> teachers = teacherService.getTeachersByDepartment(departementEnum.name());
+
+        // Vérifiez si la liste des enseignants est vide et renvoyez une réponse adéquate
+        if (teachers == null || teachers.isEmpty()) {
+            return Collections.emptyList();  // Retourner un tableau vide si aucun professeur n'est trouvé
+        }
+
+        // Retourner la liste des enseignants sous forme de JSON
+        return teachers.stream()
+                .map(teacher -> new Teacher(
+                        teacher.getFirstname(),
+                        teacher.getLastname(),
+                        teacher.getEmail(),
+                        teacher.getPassword(),
+                        Departement.fromDisplayName(teacher.getDepartment()),
+                        teacher.getSalt()))
+                .collect(Collectors.toList());
+    }
+
+
+    @GetMapping ("/{id}/courses")
+    public String showCreateCoursePage(@PathVariable ("id") UUID adminId,Model model) {
+
+        Admin admin = adminService.getAdmin(adminId);
+        // Récupérer tous les départements à partir de l'énumération
+        model.addAttribute("departments", Departement.values());
+        model.addAttribute("admin", admin);
+
+        return "admin/courses/create-course"; // Le nom de votre JSP ou template
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/{id}/students")
     public String getAllStudents(Model model) {

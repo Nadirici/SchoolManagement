@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.model.dto;
 
+import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,16 @@ public class GradeDTO {
     private UUID assignmentId;
 
     @NotNull
-    private double score;
+    private Double score;
+
+    private GradeDTO mapToGradeDTO(Grade grade) {
+        GradeDTO gradeDTO = new GradeDTO();
+        gradeDTO.setId(grade.getId());
+        gradeDTO.setScore(grade.getScore());
+        gradeDTO.setAssignmentId(grade.getAssignment().getId());
+        gradeDTO.setEnrollmentId(grade.getEnrollment().getId());
+        return gradeDTO;
+    }
+
 
 }

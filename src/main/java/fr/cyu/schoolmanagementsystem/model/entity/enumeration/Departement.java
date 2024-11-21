@@ -4,16 +4,16 @@ import lombok.Getter;
 
 @Getter
 public enum Departement {
-    SCIENCES("Sciences"),
-    LITTERATURE("Littérature"),
-    MATHEMATIQUES("Mathématiques"),
-    HISTOIRE("Histoire"),
-    GEOGRAPHIE("Géographie"),
-    INFORMATIQUE("Informatique"),
-    ARTS("Arts"),
-    PHYSIQUE("Physique"),
-    CHIMIE("Chimie"),
-    LANGUES("Langues");
+    SCIENCES("SCIENCES"),
+    LITTERATURE("LITTERATURE"),
+    MATHEMATIQUES("MATHEMATIQUES"),
+    HISTOIRE("HISTOIRE"),
+    GEOGRAPHIE("GEOGRAPHIE"),
+    INFORMATIQUE("INFORMATIQUE"),
+    ARTS("ARTS"),
+    PHYSIQUE("PHYSIQUE"),
+    CHIMIE("CHIMIE"),
+    LANGUES("LANGUES");
 
     private final String nom;
 

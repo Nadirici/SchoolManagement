@@ -37,16 +37,33 @@ public class AuthController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/auth")
-    public String showAuthPage() {
-        return "index";
+    @GetMapping({"/auth", "/"})
+    public String showAuthPage(HttpSession session) {
+        // Vérifiez si l'utilisateur est déjà authentifié
+        if (session.getAttribute("isAuthenticated") != null && (Boolean) session.getAttribute("isAuthenticated")) {
+            // Redirigez l'utilisateur vers son tableau de bord en fonction de son type
+            String userType = (String) session.getAttribute("userType");
+            UUID userId = (UUID) session.getAttribute("userId");
+
+            switch (userType) {
+                case "teacher":
+                    return "redirect:/teachers/" + userId;
+                case "student":
+                    return "redirect:/students/" + userId;
+                case "admin":
+                    return "redirect:/admin/" + userId;
+                default:
+                    break;
+            }
+        }
+        return "index"; // Si non authentifié, montre la page d'authentification
     }
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegistrationDTO userDto, RedirectAttributes redirectAttributes) {
         if (studentService.getStudentByEmail(userDto.getEmail()).isPresent() || teacherService.getTeacherByEmail(userDto.getEmail()).isPresent()) {
-            redirectAttributes.addFlashAttribute("flashError", "Un utilisateur avec cet e-mail existe déjà.");
-            return "redirect:/auth";
+
+            return "redirect:/auth?flashMessage=emailAlreadyExists";
         }
         try {
             if ("student".equalsIgnoreCase(userDto.getUserType())) {
@@ -59,7 +76,7 @@ public class AuthController {
                 RegistrationRequest request = new RegistrationRequest(student);
                 requestService.saveRequest(request);
                 // Crée une demande
-                redirectAttributes.addFlashAttribute("flashSuccess", "Demande d'inscription d'étudiant soumise avec succès !");
+                return "redirect:/auth?flashMessage=studentRequestSubmitted";
             } else if ("teacher".equalsIgnoreCase(userDto.getUserType())) {
                 String salt = Base64.getEncoder().encodeToString(HashPassword.generateSalt());
                 String hashedPassword = HashPassword.hashPassword(userDto.getPassword(), Base64.getDecoder().decode(salt));
@@ -69,92 +86,94 @@ public class AuthController {
                 // Crée une demande
                 RegistrationRequest request = new RegistrationRequest(teacher);
                 requestService.saveRequest(request);
-                redirectAttributes.addFlashAttribute("flashSuccess", "Demande d'inscription de professeur soumise avec succès !");
+
+                return "redirect:/auth?flashMessage=teacherRequestSubmitted";
             } else {
-                redirectAttributes.addFlashAttribute("flashError", "Type d'utilisateur invalide.");
-                return "redirect:/auth";
+                return "redirect:/auth?flashMessage=invalidUserType";
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("flashError", "Erreur lors de la soumission de la demande : " + e.getMessage());
-            return "redirect:/auth";
+            return "redirect:/auth?flashMessage=generalError";
         }
-        return "redirect:/auth";
+
     }
 
-    @PostMapping("/login")
-    public String login(@NonNull @RequestParam("email") String email,
-                        @NonNull @RequestParam("password") String password,
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login"; // Assurez-vous que vous avez une page login.jsp ou login.html
+    }
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@RequestParam("email") String email,
+                        @RequestParam("password") String password,
                         RedirectAttributes redirectAttributes, HttpSession session) {
 
-        Optional<Student> studentOptional = studentService.getStudentByEmail(email);
+        try {
+            Optional<Student> studentOptional = studentService.getStudentByEmail(email);
 
-        if (studentOptional.isPresent()) {
-            Student student = studentOptional.get();
-            if (HashPassword.verifyPassword(password, student.getPassword(), student.getSalt())) {
-                if (student.isVerified()) {
-                    // Stockage de l'ID dans la session
-                    // TODO: Check the ID is in every session
-                    session.setAttribute("userId", student.getId());
-                    return "redirect:/students/" + student.getId();
+            if (studentOptional.isPresent()) {
+                Student student = studentOptional.get();
+                if (HashPassword.verifyPassword(password, student.getPassword(), student.getSalt())) {
+                    if (student.isVerified()) {
+                        session.setAttribute("userId", student.getId());
+                        session.setAttribute("isAuthenticated", true);
+                        session.setAttribute("userType", "student");
+                        return "redirect:/students/" + student.getId();
+                    } else {
+                        return "redirect:/auth?flashMessage=unVerifiedStudent";
+                    }
                 } else {
-                    redirectAttributes.addFlashAttribute("flashError", "Votre compte étudiant n'est pas encore vérifié.");
-                    return "redirect:/auth";
+                    return "redirect:/auth?flashMessage=incorrectPassword";
                 }
-            } else {
-                redirectAttributes.addFlashAttribute("flashError", "Mot de passe incorrect");
-                return "redirect:/auth";
             }
-        } else {
-            redirectAttributes.addFlashAttribute("flashError", "Email incorrect");
-        }
 
-        Optional<Teacher> teacherOptional = teacherService.getTeacherByEmail(email);
+            Optional<Teacher> teacherOptional = teacherService.getTeacherByEmail(email);
 
-        if (teacherOptional.isPresent()) {
-            Teacher teacher = teacherOptional.get();
-            if (HashPassword.verifyPassword(password, teacher.getPassword(), teacher.getSalt())) {
-                if (teacher.isVerified()) {
-                    session.setAttribute("userId", teacher.getId());
-                    // Stockage de l'ID dans la session
-                    // TODO: Check the ID is in every session
-                    return "redirect:/teachers/" + teacher.getId();
+            if (teacherOptional.isPresent()) {
+                Teacher teacher = teacherOptional.get();
+                if (HashPassword.verifyPassword(password, teacher.getPassword(), teacher.getSalt())) {
+                    if (teacher.isVerified()) {
+                        session.setAttribute("userId", teacher.getId());
+                        session.setAttribute("isAuthenticated", true);
+                        session.setAttribute("userType", "teacher");
+                        return "redirect:/teachers/" + teacher.getId();
+                    } else {
+                        return "redirect:/auth?flashMessage=unVerifiedTeacher";
+                    }
                 } else {
-                    redirectAttributes.addFlashAttribute("flashError", "Votre compte enseignant n'est pas vérifié.");
-                    return "redirect:/auth";
+                    return "redirect:/auth?flashMessage=incorrectPassword";
                 }
-            } else {
-                redirectAttributes.addFlashAttribute("flashError", "Mot de passe incorrect");
-                return "redirect:/auth";
             }
-        } else {
-            redirectAttributes.addFlashAttribute("flashError", "Email incorrect");
+
+            Admin optionalAdmin = adminService.getAdminByEmail(email);
+
+            if (optionalAdmin != null) {
+                if (HashPassword.verifyPassword(password, optionalAdmin.getPassword(), optionalAdmin.getSalt())) {
+                    session.setAttribute("userId", optionalAdmin.getId());
+                    session.setAttribute("userType", "admin");
+                    session.setAttribute("isAuthenticated", true);
+                    return "redirect:/admin/" + optionalAdmin.getId();
+                } else {
+                    return "redirect:/auth?flashMessage=incorrectEmailOrPassword";
+                }
+            }
+
+            // Si aucun utilisateur n'a été trouvé avec cet email
+            return "redirect:/auth?flashMessage=incorrectEmail";
+
+        } catch (RuntimeException e) {
+            return "redirect:/auth?flashMessage=generalError";
         }
-
-
-        //UUID uuid = UUID.fromString("e2437152-2648-41ac-bdd6-5f6f273839b0");
-
-
-        Admin optionalAdmin = adminService.getAdminByEmail(email);
-
-
-
-
-
-
-        // Vérifier si l'utilisateur est un administrateur
-        if (email.equals(optionalAdmin.getEmail()) && HashPassword.verifyPassword(password, optionalAdmin.getPassword(), optionalAdmin.getSalt())) {
-            session.setAttribute("userId", optionalAdmin.getId());
-            // Stockage de l'ID dans la session
-            // TODO: Check the ID is in every session
-            return "redirect:/admin/"+optionalAdmin.getId();
-        }
-
-        // Si aucun utilisateur trouvé, ajouter un message d'erreur et rediriger vers la page de connexion
-        redirectAttributes.addFlashAttribute("flashError", "Email ou mot de passe incorrect.");
-        return "redirect:/auth";
     }
 
-    @PostMapping("/logout")
+
+    @RequestMapping("/noaccess")
+    public String showNoAccesPage() {
+        return "noaccess";
+    }
+
+
+    @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         session.invalidate();
         redirectAttributes.addFlashAttribute("flashSuccess", "Vous avez été déconnecté avec succès.");
