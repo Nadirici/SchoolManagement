@@ -73,7 +73,7 @@
 
         <!-- Actions -->
         <td>
-          <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${enrollment.key.course.id}">
+          <a href="${pageContext.request.contextPath}/admin/courses/${enrollment.key.course.id}">
             View Course
           </a>
         </td>

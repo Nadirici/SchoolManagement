@@ -20,7 +20,7 @@
     <p><strong>Title:</strong> ${assignment.title}</p>
     <p><strong>Description:</strong> ${assignment.description}</p>
     <p><strong>Coefficient:</strong> ${assignment.coefficient}</p>
-    <p><strong>Course:</strong><a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${assignment.course.id}">${assignment.course.name}</a></p>
+    <p><strong>Course:</strong><a href="${pageContext.request.contextPath}/admin/courses/${assignment.course.id}">${assignment.course.name}</a></p>
 
     <!-- Formulaire de suppression -->
     <h2>Delete Assignment</h2>
@@ -59,7 +59,7 @@
                                     required />
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/admin/enrollments?view=action&id=${entry.key.id}">View Enrollment Details</a>
+                            <a href="${pageContext.request.contextPath}/admin/enrollments/${entry.key.id}">View Enrollment Details</a>
                         </td>
                     </tr>
                 </c:forEach>

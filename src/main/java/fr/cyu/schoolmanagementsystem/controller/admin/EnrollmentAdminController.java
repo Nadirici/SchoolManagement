@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet(Routes.ADMIN_ENROLLMENTS)
+@WebServlet(Routes.ADMIN_ENROLLMENTS + "/*")
 public class EnrollmentAdminController extends HttpServlet {
 
     private EnrollmentService enrollmentService;
@@ -43,12 +43,23 @@ public class EnrollmentAdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idParam = request.getParameter("id");
+        String pathInfo = request.getPathInfo();
 
-        if (idParam != null) {
-            viewEnrollment(request, response);
-        } else {
-            listEnrollments(request, response);
+        try {
+            if (pathInfo == null || pathInfo.equals("/")) {
+                listEnrollments(request, response);
+            } else {
+                String[] pathParts = pathInfo.split("/");
+
+                if (pathParts.length == 2) {
+                    String idSegment = pathParts[1];
+                    viewEnrollment(request, response, idSegment);
+                } else {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+                }
+            }
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
         }
     }
 
@@ -64,8 +75,8 @@ public class EnrollmentAdminController extends HttpServlet {
         }
     }
 
-    private void viewEnrollment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UUID id = UUID.fromString(request.getParameter("id"));
+    private void viewEnrollment(HttpServletRequest request, HttpServletResponse response, String idSegment) throws ServletException, IOException {
+        UUID id = UUID.fromString(idSegment);
         try {
             Enrollment enrollment = enrollmentService.getById(id);
             CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(id);

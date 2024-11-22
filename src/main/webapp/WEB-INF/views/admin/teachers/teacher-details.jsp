@@ -38,7 +38,7 @@
                     <td>${course.name}</td>
                     <td>${course.description}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${course.id}">View Details</a>
+                        <a href="${pageContext.request.contextPath}/admin/courses/${course.id}">View Details</a>
                         <!-- Optionally add Edit or Delete actions -->
                     </td>
                 </tr>

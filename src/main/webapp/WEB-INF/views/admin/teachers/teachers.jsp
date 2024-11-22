@@ -65,7 +65,7 @@
                 <td>${teacher.department}</td>
                 <td>${teacher.email}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/teachers?id=${teacher.id}">View Details</a>
+                    <a href="${pageContext.request.contextPath}/admin/teachers/${teacher.id}">View Details</a>
                 </td>
             </tr>
         </c:forEach>

@@ -65,9 +65,9 @@
       <tr>
         <td>${assignment.id}</td>
         <td>${assignment.title}</td>
-        <td><a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${assignment.course.id}">${assignment.course.name}</a></td>
+        <td><a href="${pageContext.request.contextPath}/admin/courses/${assignment.course.id}">${assignment.course.name}</a></td>
         <td>
-          <a href="${pageContext.request.contextPath}/admin/assignments?action=view&id=${assignment.id}">View Details</a>
+          <a href="${pageContext.request.contextPath}/admin/assignments/${assignment.id}">View Details</a>
         </td>
       </tr>
     </c:forEach>
