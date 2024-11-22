@@ -6,17 +6,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Demandes d'inscription</title>
-    <link rel="stylesheet" type="text/css" href="<your-css-file.css>"> <!-- Lien vers votre fichier CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <!-- Lien vers votre fichier CSS -->
 </head>
 <body>
+<div class="container">
+<%@include file="../headers/admin_header.jsp" %>
+<div class="main-content">
 <h1>Demandes d'inscription en attente</h1>
 
 <!-- Affichage d'un message flash si disponible -->
 <c:if test="${not empty flashError}">
     <div>${flashError}</div>
 </c:if>
-
+    <div class="overviewStudent">
 <h2>Demandes des Professeurs</h2>
+        <div class="stats">
 <table border="1">
     <tr>
         <th>ID</th>
@@ -51,8 +55,11 @@
         </c:otherwise>
     </c:choose>
 </table>
+        </div>
+
 
 <h2>Demandes des Étudiants</h2>
+    <div class="stats">
 <table border="1">
     <tr>
         <th>ID</th>
@@ -87,5 +94,9 @@
         </c:otherwise>
     </c:choose>
 </table>
+    </div>
+    </div>
+
+</div>
 </body>
 </html>

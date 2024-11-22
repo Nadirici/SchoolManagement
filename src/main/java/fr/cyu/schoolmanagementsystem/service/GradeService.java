@@ -7,6 +7,7 @@ import fr.cyu.schoolmanagementsystem.model.entity.Assignment;
 import fr.cyu.schoolmanagementsystem.model.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import fr.cyu.schoolmanagementsystem.repository.GradeRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,9 +62,22 @@ public class GradeService {
         gradeRepository.deleteById(gradeId);
     }
 
-    public UUID updateGrade(UUID gradeId, GradeDTO gradeDTO) {
-        // TODO: Implementing logic and RuntimeException
-        return null;
+    public void deleteGradesByAssignmentId(UUID assignmentId) {
+
+        List<Grade> grades= gradeRepository.findAllByAssignmentId(assignmentId);
+        for (Grade grade: grades){
+            gradeRepository.deleteById(grade.getId());
+        }
+    }
+
+@Transactional
+    public UUID updateGrade(GradeDTO gradeDTO) {
+        if (gradeRepository.findById(gradeDTO.getId()).isEmpty()) {
+            throw new RuntimeException("A grade with this id doesn't exists.");
+        }
+        Grade grade = mapper.map(gradeDTO, Grade.class);
+        gradeRepository.save(grade);
+        return grade.getId();
     }
 
     public List<GradeDTO> getAllGradesByEnrollmentId(UUID enrollmentId) {

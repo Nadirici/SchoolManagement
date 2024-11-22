@@ -1,13 +1,12 @@
 package fr.cyu.schoolmanagementsystem.controller.web;
 
-import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
-import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
-import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
+import fr.cyu.schoolmanagementsystem.model.dto.*;
 import fr.cyu.schoolmanagementsystem.model.entity.Admin;
 import fr.cyu.schoolmanagementsystem.model.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import fr.cyu.schoolmanagementsystem.service.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,14 +32,18 @@ public class AdminWebController {
     private final TeacherService teacherService;
 
     private final CourseService courseService;
+    private final  AssignmentService assignmentService;
+    private final  GradeService gradeService;
 
-    public AdminWebController(StudentService studentService,CourseService courseService, TeacherService teacherService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
+    public AdminWebController(StudentService studentService,CourseService courseService, GradeService gradeService, AssignmentService assignmentService, TeacherService teacherService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
         this.requestService = requestService;
         this.adminService = adminService;
         this.teacherService = teacherService;
         this.courseService = courseService;
+        this.assignmentService=assignmentService;
+        this.gradeService=gradeService;
     }
 
     @GetMapping("/{id}")
@@ -131,26 +134,92 @@ public class AdminWebController {
 
 
     @GetMapping ("/{id}/courses")
-    public String showCreateCoursePage(@PathVariable ("id") UUID adminId,Model model) {
-
+    public String showCreateCoursePage(@PathVariable ("id") UUID adminId,Model model, RedirectAttributes redirectAttributes) {
+        try {
         Admin admin = adminService.getAdmin(adminId);
+
+        // Récupérer tous les en attente
+        List<CourseDTO> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        model.addAttribute("user", admin);
         // Récupérer tous les départements à partir de l'énumération
         model.addAttribute("departments", Departement.values());
         model.addAttribute("admin", admin);
 
-        return "admin/courses/create-course"; // Le nom de votre JSP ou template
+        return "admin/courses/create-course";
+
+        }catch (RuntimeException ex) {
+            redirectAttributes.addFlashAttribute("flashError", "Vous n'êtes pas admin.");
+            return "redirect:/noaccess";
+        }
     }
 
+    @RequestMapping(value = {"/{id}/courses/{courseId}"}, method = RequestMethod.GET)
+    public String showCourseDashboard(@PathVariable UUID id, @PathVariable UUID courseId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+
+        // Log - Début de la méthode
+
+        System.out.println("Affichage du tableau de bord du cours : " + courseId + " pour l'utilisateur : " + id);
+
+        Optional<CourseDTO> course = courseService.getCourseById(courseId);
+
+        if (course.isPresent()) {
+
+            System.out.println("Cours trouvé : " + course.get().getName()); // Log - Cours trouvé
+
+            List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
+            System.out.println("Nombre d'inscriptions pour le cours : " + enrollments.size()); // Log - Nombre d'inscriptions
+            boolean isAssignedTeacher = course.get().getTeacher().getId().equals(id);
+            boolean isAdmin = adminService.isAdmin(id);
+            boolean isEnrolledStudent = enrollments.stream().anyMatch(enrollment -> enrollment.getStudentId().equals(id));
+
+            // Tous les devoirs associés à ce cours
+            List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
+            System.out.println("Nombre de devoirs pour le cours : " + assignments.size()); // Log - Nombre de devoirs
+
+            Map<UUID, Double> averageGrades = new HashMap<>();
+            Map<UUID, Double> minGrade = new HashMap<>();
+            Map<UUID, Double> maxGrade = new HashMap<>();
 
 
+            for (AssignmentDTO assignment : assignments) {
+                System.out.println("Calcul des moyennes pour le devoir : " + assignment.getId());
 
+                Double grade = gradeService.calculateAverageGradeForAssignment(assignment.getId());
+                Double minGradeValue = gradeService.getMinGradeForAssignment(assignment.getId());
+                Double maxGradeValue = gradeService.getMaxGradeForAssignment(assignment.getId());
 
+                // Log - Valeurs calculées pour chaque devoir
+                System.out.println("Moyenne pour le devoir " + assignment.getId() + ": " + grade);
+                System.out.println("Note min pour le devoir " + assignment.getId() + ": " + minGradeValue);
+                System.out.println("Note max pour le devoir " + assignment.getId() + ": " + maxGradeValue);
 
+                averageGrades.put(assignment.getId(), grade);
+                minGrade.put(assignment.getId(), minGradeValue);
+                maxGrade.put(assignment.getId(), maxGradeValue);
+            }
 
+            model.addAttribute("assignments", assignments);
+            model.addAttribute("averageGrades", averageGrades);
+            model.addAttribute("minGrade", minGrade);
+            model.addAttribute("maxGrade", maxGrade);
+            model.addAttribute("canViewDetails", isAdmin || isAssignedTeacher || isEnrolledStudent);
+            model.addAttribute("isAssignedTeacher", isAssignedTeacher);
+            model.addAttribute("isEnrolledStudent", isEnrolledStudent);
+            model.addAttribute("course", course.get());
+            model.addAttribute("admin", adminService.getAdmin(id));
 
+            System.out.println("Retour vers la vue du tableau de bord du cours.");
+            return "admin/course_details";
 
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Ce cours n'existe pas");
+            // Log - Accès non autorisé
+            System.out.println("Accès refusé pour l'utilisateur : " + id + " pour le cours " + courseId);
+            return "redirect:admin/"+ id +"/courses";
+        }
 
-
+    }
 
 
 
