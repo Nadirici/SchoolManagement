@@ -26,6 +26,11 @@ public class RequestAdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Admin admin = AdminServlet.checkAdminSession(request, response);
+
+        // Ajouter l'admin en tant qu'attribut de la requête
+        request.setAttribute("admin", admin);
+
         List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
         List<RegistrationRequest> pendingStudentRequests = requestService.getPendingStudentRequests();
 

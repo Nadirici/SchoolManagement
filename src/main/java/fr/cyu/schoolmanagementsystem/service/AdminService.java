@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class AdminService extends GenericServiceImpl<Admin> {
 
-    protected AdminService(GenericDAO<Admin> dao) {
+    public AdminService(GenericDAO<Admin> dao) {
         super(dao);
     }
 
