@@ -43,6 +43,12 @@ public class EnrollmentAdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Admin admin = AdminServlet.checkAdminSession(request, response);
+
+        // Ajouter l'admin en tant qu'attribut de la requête
+        request.setAttribute("admin", admin);
+
         String pathInfo = request.getPathInfo();
 
         try {

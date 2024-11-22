@@ -1,13 +1,12 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
 import fr.cyu.schoolmanagementsystem.controller.Routes;
+import fr.cyu.schoolmanagementsystem.dao.AdminDAO;
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
-import fr.cyu.schoolmanagementsystem.entity.Course;
-import fr.cyu.schoolmanagementsystem.entity.Enrollment;
-import fr.cyu.schoolmanagementsystem.entity.RegistrationRequest;
-import fr.cyu.schoolmanagementsystem.entity.Student;
+import fr.cyu.schoolmanagementsystem.entity.*;
+import fr.cyu.schoolmanagementsystem.service.AdminService;
 import fr.cyu.schoolmanagementsystem.service.CourseService;
 import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
@@ -37,6 +36,7 @@ public class StudentAdminController extends HttpServlet {
     private CourseService courseService;
     private EnrollmentStatsService enrollmentStatsService;
     private StudentStatsService studentStatsService;
+    private AdminService adminService;
 
     @Override
     public void init() throws ServletException {
@@ -45,10 +45,17 @@ public class StudentAdminController extends HttpServlet {
         courseService = new CourseService(new CourseDAO(Course.class));
         enrollmentStatsService =  new EnrollmentStatsService();
         studentStatsService =  new StudentStatsService();
+        adminService = new AdminService(new AdminDAO(Admin.class));
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Admin admin = AdminServlet.checkAdminSession(request, response);
+
+        // Ajouter l'admin en tant qu'attribut de la requête
+        request.setAttribute("admin", admin);
+
         String pathInfo = request.getPathInfo();
 
         try {
