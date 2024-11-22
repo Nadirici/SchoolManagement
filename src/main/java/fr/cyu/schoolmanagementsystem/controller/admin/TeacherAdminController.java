@@ -20,7 +20,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet(Routes.ADMIN_TEACHERS)
+@WebServlet(Routes.ADMIN_TEACHERS + "/*")
 public class TeacherAdminController extends HttpServlet {
 
     private TeacherService teacherService;

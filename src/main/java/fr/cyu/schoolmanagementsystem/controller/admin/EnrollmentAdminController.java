@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet(Routes.ADMIN_ENROLLMENTS)
+@WebServlet(Routes.ADMIN_ENROLLMENTS + "/*")
 public class EnrollmentAdminController extends HttpServlet {
 
     private EnrollmentService enrollmentService;

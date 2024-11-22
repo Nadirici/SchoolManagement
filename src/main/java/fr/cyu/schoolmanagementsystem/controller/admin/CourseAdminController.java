@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet(Routes.ADMIN_COURSES)
+@WebServlet(Routes.ADMIN_COURSES + "/*")
 public class CourseAdminController extends HttpServlet {
 
     private CourseService courseService;

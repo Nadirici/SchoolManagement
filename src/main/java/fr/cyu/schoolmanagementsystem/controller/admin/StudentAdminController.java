@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet(Routes.ADMIN_STUDENTS)
+@WebServlet(Routes.ADMIN_STUDENTS + "/*")
 public class StudentAdminController extends HttpServlet {
 
     private StudentService studentService;

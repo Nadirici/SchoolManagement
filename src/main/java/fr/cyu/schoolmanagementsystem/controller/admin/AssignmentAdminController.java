@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet(Routes.ADMIN_ASSIGNMENTS)
+@WebServlet(Routes.ADMIN_ASSIGNMENTS + "/*")
 public class AssignmentAdminController extends HttpServlet {
 
     private AssignmentService assignmentService;
