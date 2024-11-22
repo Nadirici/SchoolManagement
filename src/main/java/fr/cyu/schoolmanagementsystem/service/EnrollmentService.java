@@ -5,6 +5,7 @@ import fr.cyu.schoolmanagementsystem.dao.GenericDAO;
 import fr.cyu.schoolmanagementsystem.dao.GradeDAO;
 import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.Grade;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.*;
 
@@ -15,6 +16,14 @@ public class EnrollmentService extends GenericServiceImpl<Enrollment> {
     public EnrollmentService(GenericDAO<Enrollment> dao) {
         super(dao);
         gradeService = new GradeService(new GradeDAO(Grade.class));
+    }
+
+    public Enrollment getByStudentAndCourse(UUID studentId, UUID courseId) {
+        Optional<Enrollment> enrollment = ((EnrollmentDAO) dao).findByStudentIdAndCourseId(studentId, courseId);
+        if (enrollment.isEmpty()) {
+            throw new EntityNotFoundException("Entity of type " + getEntityTypeName() + " does not exist.");
+        }
+        return enrollment.get();
     }
 
     @Override

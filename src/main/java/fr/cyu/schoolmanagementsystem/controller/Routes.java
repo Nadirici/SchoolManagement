@@ -10,8 +10,8 @@ public class Routes {
     public static final String ADMIN_STUDENTS = ADMIN + "/students";
     public static final String ADMIN_TEACHERS = ADMIN + "/teachers";
 
-    public static final String STUDENT = "/students/*";
+    public static final String STUDENT = "/students";
 
-    public static final String TEACHER = "/teachers/*";
+    public static final String TEACHER = "/teachers";
 
 }

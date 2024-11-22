@@ -79,16 +79,16 @@ CREATE TABLE IF NOT EXISTS admins (
     salt VARCHAR(255)
 );
 
-INSERT INTO students (id, email, firstname, lastname, date_of_birth, is_verified) VALUES
-    (UNHEX(REPLACE('82107de4-968c-46de-84ea-c75a443d42ba', '-', '')), 'jdoe@example.com', 'John', 'Doe', '2000-01-15', 1),
-    (UNHEX(REPLACE('3f17a404-6b04-4e49-bf47-5c97a9fef2a6', '-', '')), 'asmith@example.com', 'Alice', 'Smith', '1999-07-23', 1),
-    (UNHEX(REPLACE('39b3c9e6-e72f-4c75-a83f-c7c097a36eec', '-', '')), 'bwhite@example.com', 'Bob', 'White', '2001-03-10', 1),
-    (UNHEX(REPLACE('c9f6e1a8-2d8b-4f3c-9e0d-5b9f3d8a0c7f', '-', '')), 'unis_verified@example.com', 'Charlie', 'Brown', '2002-05-15', 0);
+INSERT INTO students (id, email, firstname, lastname, date_of_birth, is_verified, password, salt) VALUES
+    (UNHEX(REPLACE('82107de4-968c-46de-84ea-c75a443d42ba', '-', '')), 'jdoe@example.com', 'John', 'Doe', '2000-01-15', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('3f17a404-6b04-4e49-bf47-5c97a9fef2a6', '-', '')), 'asmith@example.com', 'Alice', 'Smith', '1999-07-23', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('39b3c9e6-e72f-4c75-a83f-c7c097a36eec', '-', '')), 'bwhite@example.com', 'Bob', 'White', '2001-03-10', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('c9f6e1a8-2d8b-4f3c-9e0d-5b9f3d8a0c7f', '-', '')), 'unis_verified@example.com', 'Charlie', 'Brown', '2002-05-15', 0, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
 
-INSERT INTO teachers (id, email, firstname, lastname, is_verified) VALUES
-    (UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', '')), 'prof.jones@example.com', 'Emma', 'Jones', 1),
-    (UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', '')), 'prof.brown@example.com', 'Liam', 'Brown', 1),
-    (UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')), 'prof.smith@example.com', 'Olivia', 'Smith', 1);
+INSERT INTO teachers (id, email, firstname, lastname, is_verified, password, salt) VALUES
+    (UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', '')), 'prof.jones@example.com', 'Emma', 'Jones', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', '')), 'prof.brown@example.com', 'Liam', 'Brown', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')), 'prof.smith@example.com', 'Olivia', 'Smith', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
 
 INSERT INTO courses (id, name, description, teacher_id) VALUES
     (UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', '')), 'Mathematics', 'An introductory course to Mathematics', UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', ''))),
