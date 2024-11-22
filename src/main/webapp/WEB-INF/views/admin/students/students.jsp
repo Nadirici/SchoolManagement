@@ -59,7 +59,7 @@
                 <td>${student.dateOfBirth}</td>
                 <td>${student.email}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/students?id=${student.id}">View Details</a>
+                    <a href="${pageContext.request.contextPath}/admin/students/${student.id}">View Details</a>
                 </td>
             </tr>
         </c:forEach>

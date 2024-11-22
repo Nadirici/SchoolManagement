@@ -15,9 +15,9 @@
 <h1>Enrollment Details</h1>
 
 <c:if test="${not empty enrollment}">
-    <p><strong>Student:</strong><a href="${pageContext.request.contextPath}/admin/students?action=view&id=${enrollment.student.id}">${enrollment.student.firstname} ${enrollment.student.lastname}</a></p>
+    <p><strong>Student:</strong><a href="${pageContext.request.contextPath}/admin/students/${enrollment.student.id}">${enrollment.student.firstname} ${enrollment.student.lastname}</a></p>
     <p><strong>Course:</strong>
-        <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${enrollment.course.id}">
+        <a href="${pageContext.request.contextPath}/admin/courses/${enrollment.course.id}">
                 ${enrollment.course.name}
         </a>
     </p>
@@ -45,7 +45,7 @@
             <c:forEach var="entry" items="${assignmentGrade}">
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/assignments?action=view&id=${entry.key.id}">
+                        <a href="${pageContext.request.contextPath}/admin/assignments/${entry.key.id}">
                                 ${entry.key.title}
                         </a>
                     </td>

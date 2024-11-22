@@ -19,7 +19,7 @@
 <div>
   <h2>${course.name}</h2>
   <p><strong>Description:</strong> ${course.description}</p>
-  <p><strong>Teacher:</strong><a href="${pageContext.request.contextPath}/admin/teachers?action=view&id=${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
+  <p><strong>Teacher:</strong><a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
 
   <h3>Edit Course</h3>
   <form method="post" action="${pageContext.request.contextPath}/admin/courses">
@@ -114,7 +114,7 @@
           </c:choose>
         </td>
         <td>
-          <a href="${pageContext.request.contextPath}/admin/assignments?action=view&id=${assignment.key.id}">View Details</a>
+          <a href="${pageContext.request.contextPath}/admin/assignments/${assignment.key.id}">View Details</a>
         </td>
       </tr>
     </c:forEach>
@@ -183,7 +183,7 @@
           </c:choose>
         </td>
         <td>
-          <a href="${pageContext.request.contextPath}/admin/enrollments?action=view&id=${enrollment.key.id}">View Enrollment</a><br/>
+          <a href="${pageContext.request.contextPath}/admin/enrollments/${enrollment.key.id}">View Enrollment</a><br/>
           <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
             <input type="hidden" name="_method" value="DELETE"/>
             <input type="hidden" name="id" value="${enrollment.key.id}"/>
