@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
+import fr.cyu.schoolmanagementsystem.controller.Routes;
 import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
 import fr.cyu.schoolmanagementsystem.service.*;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet("/requests")
+@WebServlet(Routes.ADMIN_REQUESTS)
 public class RequestAdminController extends HttpServlet {
 
     private RequestService requestService;
@@ -45,10 +46,10 @@ public class RequestAdminController extends HttpServlet {
             try {
                 if ("approve".equalsIgnoreCase(action)) {
                     requestService.approveRequest(id);
-                    response.sendRedirect(request.getContextPath() + "/requests?status=approved");
+                    response.sendRedirect(request.getContextPath() + Routes.ADMIN_REQUESTS + "?status=approved");
                 } else if ("reject".equalsIgnoreCase(action)) {
                     requestService.rejectRequest(id);
-                    response.sendRedirect(request.getContextPath() + "/requests?status=rejected");
+                    response.sendRedirect(request.getContextPath() + Routes.ADMIN_REQUESTS + "?status=rejected");
                 } else {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
                 }

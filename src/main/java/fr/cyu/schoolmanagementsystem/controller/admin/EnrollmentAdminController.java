@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
+import fr.cyu.schoolmanagementsystem.controller.Routes;
 import fr.cyu.schoolmanagementsystem.dao.AssignmentDAO;
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
 import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet("/enrollments")
+@WebServlet(Routes.ADMIN_ENROLLMENTS)
 public class EnrollmentAdminController extends HttpServlet {
 
     private EnrollmentService enrollmentService;
@@ -104,7 +105,7 @@ public class EnrollmentAdminController extends HttpServlet {
 
             enrollmentService.add(newEnrollment);
         }
-        response.sendRedirect(request.getContextPath() + "/enrollments");
+        response.sendRedirect(request.getContextPath() + Routes.ADMIN_ENROLLMENTS);
     }
 
 }

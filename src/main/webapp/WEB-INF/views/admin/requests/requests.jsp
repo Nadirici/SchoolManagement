@@ -39,12 +39,12 @@
                     <td>${teacherRequest.teacher.lastname}</td>
                     <td>${teacherRequest.teacher.firstname}</td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/requests" method="post" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/admin/requests" method="post" style="display:inline;">
                             <input type="hidden" name="action" value="approve" />
                             <input type="hidden" name="id" value="${teacherRequest.id}" />
                             <button type="submit">Approuver</button>
                         </form>
-                        <form action="${pageContext.request.contextPath}/requests" method="post" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/admin/requests" method="post" style="display:inline;">
                             <input type="hidden" name="action" value="reject" />
                             <input type="hidden" name="id" value="${teacherRequest.id}" />
                             <button type="submit">Rejeter</button>
@@ -79,12 +79,12 @@
                     <td>${studentRequest.student.lastname}</td>
                     <td>${studentRequest.student.firstname}</td>
                     <td>
-                        <form method="post" action="${pageContext.request.contextPath}/requests">
+                        <form method="post" action="${pageContext.request.contextPath}/admin/requests">
                             <input type="hidden" name="action" value="approve" />
                             <input type="hidden" name="id" value="${studentRequest.id}" />
                             <button type="submit">Approuver</button>
                         </form>
-                        <form method="post" action="${pageContext.request.contextPath}/requests">
+                        <form method="post" action="${pageContext.request.contextPath}/admin/requests">
                             <input type="hidden" name="action" value="reject" />
                             <input type="hidden" name="id" value="${studentRequest.id}" />
                             <button type="submit">Rejeter</button>

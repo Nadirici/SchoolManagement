@@ -9,22 +9,22 @@
 <body>
 
 <p>
-    <a href="${pageContext.request.contextPath}/enrollments">Back to Enrollments List</a>
+    <a href="${pageContext.request.contextPath}/admin/enrollments">Back to Enrollments List</a>
 </p>
 
 <h1>Enrollment Details</h1>
 
 <c:if test="${not empty enrollment}">
-    <p><strong>Student:</strong><a href="${pageContext.request.contextPath}/students?action=view&id=${enrollment.student.id}">${enrollment.student.firstname} ${enrollment.student.lastname}</a></p>
+    <p><strong>Student:</strong><a href="${pageContext.request.contextPath}/admin/students?action=view&id=${enrollment.student.id}">${enrollment.student.firstname} ${enrollment.student.lastname}</a></p>
     <p><strong>Course:</strong>
-        <a href="${pageContext.request.contextPath}/courses?action=view&id=${enrollment.course.id}">
+        <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${enrollment.course.id}">
                 ${enrollment.course.name}
         </a>
     </p>
 
     <!-- Formulaire de suppression -->
     <h2>Delete Enrollment</h2>
-    <form method="post" action="${pageContext.request.contextPath}/enrollments">
+    <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
         <input type="hidden" name="_method" value="DELETE" />
         <input type="hidden" name="id" value="${enrollment.id}" />
         <button type="submit">Delete Enrollment</button>
@@ -45,7 +45,7 @@
             <c:forEach var="entry" items="${assignmentGrade}">
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/assignments?action=view&id=${entry.key.id}">
+                        <a href="${pageContext.request.contextPath}/admin/assignments?action=view&id=${entry.key.id}">
                                 ${entry.key.title}
                         </a>
                     </td>

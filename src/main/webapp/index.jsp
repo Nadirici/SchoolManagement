@@ -9,12 +9,12 @@
 <body>
 <h1>Dashboard Index</h1>
 <ul>
-    <li><a href="students">Students Dashboard</a></li>
-    <li><a href="teachers">Teachers Dashboard</a></li>
-    <li><a href="courses">Courses Dashboard</a></li>
-    <li><a href="assignments">Assignments Dashboard</a></li>
-    <li><a href="enrollments">Enrollments Dashboard</a></li>
-    <li><a href="requests">Requests Dashboard</a></li>
+    <li><a href="admin/students">Students Dashboard</a></li>
+    <li><a href="admin/teachers">Teachers Dashboard</a></li>
+    <li><a href="admin/courses">Courses Dashboard</a></li>
+    <li><a href="admin/assignments">Assignments Dashboard</a></li>
+    <li><a href="admin/enrollments">Enrollments Dashboard</a></li>
+    <li><a href="admin/requests">Requests Dashboard</a></li>
 </ul>
 </body>
 </html>

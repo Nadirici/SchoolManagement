@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
+import fr.cyu.schoolmanagementsystem.controller.Routes;
 import fr.cyu.schoolmanagementsystem.dao.AssignmentDAO;
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
 import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet("/assignments")
+@WebServlet(Routes.ADMIN_ASSIGNMENTS)
 public class AssignmentAdminController extends HttpServlet {
 
     private AssignmentService assignmentService;
@@ -95,7 +96,7 @@ public class AssignmentAdminController extends HttpServlet {
         } else {
             createAssignment(request, response);
         }
-        response.sendRedirect(request.getContextPath() + "/assignments");
+        response.sendRedirect(request.getContextPath() + Routes.ADMIN_ASSIGNMENTS);
     }
 
     private void deleteAssignment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -15,7 +15,7 @@
 
 <!-- Form to add a new student -->
 <h2>Add a New Teacher</h2>
-<form method="post" action="${pageContext.request.contextPath}/teachers">
+<form method="post" action="${pageContext.request.contextPath}/admin/teachers">
     <label for="firstname">First Name:</label>
     <input type="text" id="firstname" name="firstname" required /><br />
 
@@ -65,7 +65,7 @@
                 <td>${teacher.department}</td>
                 <td>${teacher.email}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/teachers?id=${teacher.id}">View Details</a>
+                    <a href="${pageContext.request.contextPath}/admin/teachers?id=${teacher.id}">View Details</a>
                 </td>
             </tr>
         </c:forEach>

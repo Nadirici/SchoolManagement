@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
+import fr.cyu.schoolmanagementsystem.controller.Routes;
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet("/students")
+@WebServlet(Routes.ADMIN_STUDENTS)
 public class StudentAdminController extends HttpServlet {
 
     private StudentService studentService;
@@ -99,7 +100,7 @@ public class StudentAdminController extends HttpServlet {
         } else {
             handleAddStudent(request, response);
         }
-        response.sendRedirect(request.getContextPath() + "/students");
+        response.sendRedirect(request.getContextPath() + Routes.ADMIN_STUDENTS);
     }
 
     private void handleAddStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {

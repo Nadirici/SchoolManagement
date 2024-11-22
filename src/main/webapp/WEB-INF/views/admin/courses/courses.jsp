@@ -18,7 +18,7 @@
 
 <!-- Form to add a new course -->
 <h2>Add a New Course</h2>
-<form method="post" action="${pageContext.request.contextPath}/courses">
+<form method="post" action="${pageContext.request.contextPath}/admin/courses">
   <label for="name">Name:</label>
   <input type="text" id="name" name="name" required /><br />
 
@@ -56,9 +56,9 @@
       <td>${course.id}</td>
       <td>${course.name}</td>
       <td>${course.description}</td>
-      <td><a href="${pageContext.request.contextPath}/teachers?action=view&id=${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></td>
+      <td><a href="${pageContext.request.contextPath}/admin/teachers?action=view&id=${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></td>
       <td>
-        <a href="${pageContext.request.contextPath}/courses?action=view&id=${course.id}">View Details</a>
+        <a href="${pageContext.request.contextPath}/admin/courses?action=view&id=${course.id}">View Details</a>
         <!-- Optionally add Edit or Delete actions -->
       </td>
     </tr>

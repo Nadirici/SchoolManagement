@@ -11,7 +11,7 @@
 <body>
 
 <p>
-  <a href="${pageContext.request.contextPath}/courses">Back to Courses List</a>
+  <a href="${pageContext.request.contextPath}/admin/courses">Back to Courses List</a>
 </p>
 
 <h1>Course Details</h1>
@@ -19,10 +19,10 @@
 <div>
   <h2>${course.name}</h2>
   <p><strong>Description:</strong> ${course.description}</p>
-  <p><strong>Teacher:</strong><a href="${pageContext.request.contextPath}/teachers?action=view&id=${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
+  <p><strong>Teacher:</strong><a href="${pageContext.request.contextPath}/admin/teachers?action=view&id=${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
 
   <h3>Edit Course</h3>
-  <form method="post" action="${pageContext.request.contextPath}/courses">
+  <form method="post" action="${pageContext.request.contextPath}/admin/courses">
     <input type="hidden" name="_method" value="PUT" />
     <input type="hidden" name="id" value="${course.id}"/>
     <label for="name">Course Name:</label>
@@ -46,7 +46,7 @@
   </form>
 
   <h3>Add New Assignment</h3>
-  <form method="post" action="${pageContext.request.contextPath}/assignments">
+  <form method="post" action="${pageContext.request.contextPath}/admin/assignments">
     <input type="hidden" name="_method" value="POST">
     <!-- Champ caché pour lier l'Assignment au cours actuel -->
     <input type="hidden" name="courseId" value="${course.id}"/>
@@ -114,7 +114,7 @@
           </c:choose>
         </td>
         <td>
-          <a href="${pageContext.request.contextPath}/assignments?action=view&id=${assignment.key.id}">View Details</a>
+          <a href="${pageContext.request.contextPath}/admin/assignments?action=view&id=${assignment.key.id}">View Details</a>
         </td>
       </tr>
     </c:forEach>
@@ -183,8 +183,8 @@
           </c:choose>
         </td>
         <td>
-          <a href="${pageContext.request.contextPath}/enrollments?action=view&id=${enrollment.key.id}">View Enrollment</a><br/>
-          <form method="post" action="${pageContext.request.contextPath}/enrollments">
+          <a href="${pageContext.request.contextPath}/admin/enrollments?action=view&id=${enrollment.key.id}">View Enrollment</a><br/>
+          <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
             <input type="hidden" name="_method" value="DELETE"/>
             <input type="hidden" name="id" value="${enrollment.key.id}"/>
             <button type="submit">Remove</button>
@@ -195,7 +195,7 @@
     </tbody>
   </table>
 
-  <form method="post" action="${pageContext.request.contextPath}/enrollments">
+  <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="courseId" value="${course.id}"/>
     <label for="studentId">Add Student:</label>
@@ -210,7 +210,7 @@
 
   <!-- Formulaire de suppression -->
   <h2>Delete Course</h2>
-  <form method="post" action="${pageContext.request.contextPath}/courses">
+  <form method="post" action="${pageContext.request.contextPath}/admin/courses">
     <input type="hidden" name="_method" value="DELETE" />
     <input type="hidden" name="id" value="${course.id}" />
     <button type="submit">Delete Course</button>
