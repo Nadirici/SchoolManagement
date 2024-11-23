@@ -33,6 +33,7 @@ public class AdminDashboardServlet extends HttpServlet {
         this.adminService = AdminService.createInstance(adminDAO);
         this.requestService = new RequestService(new RegistrationRequestDAO(RegistrationRequest.class), new EnrollmentService(new EnrollmentDAO(Enrollment.class)),new GradeService(new GradeDAO(Grade.class)));
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -83,47 +84,39 @@ public class AdminDashboardServlet extends HttpServlet {
             pathInfo = pathInfo.substring(1); // Supprimer le premier "/"
         }
 
-        // Affichage des segments du chemin avec leur index
+        // Vérifie si le chemin correspond à "/admin/{adminId}/requests"
         if (pathInfo != null) {
             String[] pathParts = pathInfo.split("/");
 
-            // Affiche chaque partie du chemin avec son index
-            for (int i = 0; i < pathParts.length; i++) {
-                System.out.println("Path Part " + i + ": " + pathParts[i]);
-            }
-
             // Si nous avons au moins un segment, vérifier si c'est un ID d'administrateur
-            if (pathParts.length > 1) {
+            if (pathParts.length > 0) {
                 try {
-                    // Accédez à l'ID de l'administrateur
-                    UUID adminId = UUID.fromString(pathParts[0]); // L'ID de l'administrateur
+                    UUID adminId = UUID.fromString(pathParts[0]); // L'id de l'admin
                     Admin admin = adminService.getById(adminId);
 
                     if (admin != null) {
+                        // Si le chemin contient "requests", charger les demandes d'inscription
+                        if (pathParts.length > 1 && "requests".equals(pathParts[1])) {
 
+                            List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
+                            List<RegistrationRequest> pendingStudentRequests = requestService.getPendingStudentRequests();
 
+                            // Passer les informations à la JSP
+                            request.setAttribute("admin", admin);
+                            request.setAttribute("pendingTeacherRequests", pendingTeacherRequests);
+                            request.setAttribute("pendingStudentRequests", pendingStudentRequests);
 
-
-                        if (pathParts.length >= 2) {
-                            String userId = pathParts[0];  // {userId}
-                            String action = pathParts[1];  // 'requests'
-                            if ("requests".equals(pathParts[1])) {
-                                List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
-                                List<RegistrationRequest> pendingStudentRequests = requestService.getPendingStudentRequests();
-
-                                // Passer les informations à la JSP
-                                request.setAttribute("admin", admin);
-                                request.setAttribute("pendingTeacherRequests", pendingTeacherRequests);
-                                request.setAttribute("pendingStudentRequests", pendingStudentRequests);
-
-                                request.getRequestDispatcher("/WEB-INF/views/admin/requests/requests.jsp").forward(request, response);
-                                return;
+                            for (RegistrationRequest registrationRequest : pendingTeacherRequests) {
+                                System.out.println(registrationRequest.getTeacher());
                             }
 
-                        // Vérifier si le chemin contient "requests"
-
+                            request.getRequestDispatcher("/WEB-INF/views/admin/requests/requests.jsp").forward(request, response);
+                            return;
                         } else {
+
                             request.setAttribute("admin", admin);
+
+
                             request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
                         }
                     } else {
@@ -132,14 +125,9 @@ public class AdminDashboardServlet extends HttpServlet {
                 } catch (IllegalArgumentException e) {
                     response.sendRedirect(request.getContextPath() + "/jsp/login?flashMessage=invalidAdminId");
                 }
-            } else {
-                // Traitez le cas où il n'y a pas de "requests" dans le chemin
-                response.sendRedirect(request.getContextPath() + "/login?flashMessage=invalidPath");
             }
-
         }
     }
-
 }
 
 
