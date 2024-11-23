@@ -29,6 +29,10 @@ public class Teacher extends BasePersonEntity {
         this.department = department;
     }
 
+    public Teacher(String firstName, String lastName, String email, String hashedPassword, String salt) {
+        super(firstName, lastName, email, hashedPassword, salt, false);
+    }
+
     public void addCourse(Course course) {
         this.courses.add(course);
     }

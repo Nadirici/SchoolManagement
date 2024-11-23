@@ -15,6 +15,7 @@
     <li><a href="assignments">Assignments Dashboard</a></li>
     <li><a href="enrollments">Enrollments Dashboard</a></li>
     <li><a href="requests">Requests Dashboard</a></li>
+    <li><a href="login">Index</a></li>
 </ul>
 </body>
 </html>

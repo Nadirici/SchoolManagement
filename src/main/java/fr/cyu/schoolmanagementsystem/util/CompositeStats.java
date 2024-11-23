@@ -2,12 +2,19 @@ package fr.cyu.schoolmanagementsystem.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CompositeStats {
     private double average;
     private double min;
     private double max;
     private int count;
+
+
+
+
+
+
 
     private final List<CompositeStats> components;
 
@@ -53,4 +60,10 @@ public class CompositeStats {
     public int getCount() {
         return count;
     }
+
+
+
+
+
+
 }

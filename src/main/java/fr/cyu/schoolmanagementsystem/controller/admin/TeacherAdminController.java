@@ -1,9 +1,15 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
+import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
+import fr.cyu.schoolmanagementsystem.dao.GradeDAO;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.TeacherDAO;
+import fr.cyu.schoolmanagementsystem.entity.Enrollment;
+import fr.cyu.schoolmanagementsystem.entity.Grade;
 import fr.cyu.schoolmanagementsystem.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.entity.Teacher;
+import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
+import fr.cyu.schoolmanagementsystem.service.GradeService;
 import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.TeacherService;
 import fr.cyu.schoolmanagementsystem.util.HashPassword;
@@ -28,7 +34,8 @@ public class TeacherAdminController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         teacherService = new TeacherService(new TeacherDAO(Teacher.class));
-        requestService = new RequestService(new RegistrationRequestDAO(RegistrationRequest.class));
+
+        requestService = new RequestService(new RegistrationRequestDAO(RegistrationRequest.class),new EnrollmentService(new EnrollmentDAO(Enrollment.class) ), new GradeService( new GradeDAO(Grade.class)));
     }
 
     @Override

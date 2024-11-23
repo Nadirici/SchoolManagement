@@ -20,7 +20,7 @@ public class RequestAdminController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        requestService = new RequestService(new RegistrationRequestDAO(RegistrationRequest.class));
+        requestService = new RequestService(new RegistrationRequestDAO(RegistrationRequest.class), new EnrollmentService(new EnrollmentDAO(Enrollment.class)), new GradeService(new GradeDAO(Grade.class)));
     }
 
     @Override

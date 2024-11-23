@@ -31,6 +31,10 @@ public class Student extends BasePersonEntity {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Student(String firstName, String lastName, String email, String hashedPassword, String salt) {
+        this(firstName, lastName, LocalDate.now(), email, hashedPassword, salt, false);
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }

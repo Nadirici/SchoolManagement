@@ -4,6 +4,7 @@ import fr.cyu.schoolmanagementsystem.dao.GenericDAO;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
 import fr.cyu.schoolmanagementsystem.dao.TeacherDAO;
+import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.entity.Student;
 import fr.cyu.schoolmanagementsystem.entity.Teacher;
@@ -17,9 +18,9 @@ public class RequestService extends GenericServiceImpl<RegistrationRequest> {
     private final StudentService studentService;
     private final TeacherService teacherService;
 
-    public RequestService(GenericDAO<RegistrationRequest> dao) {
+    public RequestService(GenericDAO<RegistrationRequest> dao, EnrollmentService enrollmentService,GradeService gradeService) {
         super(dao);
-        studentService = new StudentService(new StudentDAO(Student.class));
+        studentService = new StudentService(new StudentDAO(Student.class),enrollmentService,gradeService);
         teacherService = new TeacherService(new TeacherDAO(Teacher.class));
     }
 

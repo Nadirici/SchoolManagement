@@ -1,14 +1,8 @@
 package fr.cyu.schoolmanagementsystem.controller.admin;
 
-import fr.cyu.schoolmanagementsystem.dao.AssignmentDAO;
-import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
-import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
-import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
+import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
-import fr.cyu.schoolmanagementsystem.service.AssignmentService;
-import fr.cyu.schoolmanagementsystem.service.CourseService;
-import fr.cyu.schoolmanagementsystem.service.EnrollmentService;
-import fr.cyu.schoolmanagementsystem.service.StudentService;
+import fr.cyu.schoolmanagementsystem.service.*;
 import fr.cyu.schoolmanagementsystem.service.stats.EnrollmentStatsService;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;
 import jakarta.servlet.ServletException;
@@ -36,7 +30,7 @@ public class EnrollmentAdminController extends HttpServlet {
         enrollmentService = new EnrollmentService(new EnrollmentDAO(Enrollment.class));
         enrollmentStatsService = new EnrollmentStatsService();
         assignmentService = new AssignmentService(new AssignmentDAO(Assignment.class));
-        studentService = new StudentService(new StudentDAO(Student.class));
+        studentService = new StudentService(new StudentDAO(Student.class), new EnrollmentService(new EnrollmentDAO(Enrollment.class)), new GradeService(new GradeDAO(Grade.class)));
         courseService = new CourseService(new CourseDAO(Course.class));
     }
 
