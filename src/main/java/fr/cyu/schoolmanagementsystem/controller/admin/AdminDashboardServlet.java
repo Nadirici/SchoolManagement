@@ -96,6 +96,7 @@ public class AdminDashboardServlet extends HttpServlet {
 
                     if (admin != null) {
                         // Si le chemin contient "requests", charger les demandes d'inscription
+                        //TODO Régler le problème, le servlet ne reconnait pas le path
                         if (pathParts.length > 1 && "requests".equals(pathParts[1])) {
 
                             List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
@@ -109,6 +110,8 @@ public class AdminDashboardServlet extends HttpServlet {
                             for (RegistrationRequest registrationRequest : pendingTeacherRequests) {
                                 System.out.println(registrationRequest.getTeacher());
                             }
+
+
 
                             request.getRequestDispatcher("/WEB-INF/views/admin/requests/requests.jsp").forward(request, response);
                             return;
