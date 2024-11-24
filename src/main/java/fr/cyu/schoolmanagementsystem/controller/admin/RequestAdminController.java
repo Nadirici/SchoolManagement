@@ -28,8 +28,12 @@ public class RequestAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Admin admin = AdminServlet.checkAdminSession(request, response);
 
-        // Ajouter l'admin en tant qu'attribut de la requête
-        request.setAttribute("admin", admin);
+        if (admin != null) {
+            // Ajouter l'admin en tant qu'attribut de la requête
+            request.setAttribute("admin", admin);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
+        }
 
         List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
         List<RegistrationRequest> pendingStudentRequests = requestService.getPendingStudentRequests();

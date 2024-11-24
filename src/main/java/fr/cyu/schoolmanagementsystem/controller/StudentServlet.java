@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.controller;
 
+import fr.cyu.schoolmanagementsystem.controller.admin.AdminServlet;
 import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
 import fr.cyu.schoolmanagementsystem.service.*;
@@ -15,14 +16,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(Routes.STUDENT + "/*")
+@WebServlet("/students/*")
 public class StudentServlet extends HttpServlet {
 
-    private StudentService studentService;
+    private static StudentService studentService;
     private CourseService courseService;
     private EnrollmentStatsService enrollmentStatsService;
     private StudentStatsService studentStatsService;
@@ -45,39 +47,38 @@ public class StudentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pathInfo = request.getPathInfo();
 
-        try {
-            if (pathInfo == null || pathInfo.equals("/")) {
-                response.sendRedirect(request.getContextPath());
-            } else {
-                String[] pathParts = pathInfo.split("/");
+        Student student = checkStudentSession(request, response);
 
-                // Vérifie si l'URL est du type /students/{id}
-                if (pathParts.length == 2) {
-                    String studentId = pathParts[1];
-                    viewDashboard(request, response, studentId);
+        if (student == null) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
+        } else {
+            String pathInfo = request.getPathInfo();
 
-                    // Vérifie si l'URL est du type /students/{id}/courses/{courseId}
-                } else if (pathParts.length == 4 && "courses".equals(pathParts[2])) {
-                    String studentId = pathParts[1];
-                    String courseId = pathParts[3];
-                    System.out.println(studentId + " " + courseId);
-                    viewCourseDetails(request, response, studentId, courseId);
-
+            try {
+                if (pathInfo == null || pathInfo.equals("/")) {
+                    viewDashboard(request, response, student.getId());
                 } else {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+                    String[] pathParts = pathInfo.split("/");
+
+                    // Vérifie si l'URL est du type /students
+                    if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
+                        UUID courseId = UUID.fromString(pathParts[2]);
+                        viewCourseDetails(request, response, student.getId(), courseId);
+
+                    } else {
+                        viewDashboard(request, response, student.getId());
+                    }
                 }
+            } catch (Exception e) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
             }
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
         }
     }
 
-    private void viewDashboard(HttpServletRequest request, HttpServletResponse response, String studentId) throws ServletException, IOException {
+    private void viewDashboard(HttpServletRequest request, HttpServletResponse response, UUID studentId) throws ServletException, IOException {
         try {
-            UUID id = UUID.fromString(studentId);
-            Student student = studentService.getById(id);
+            Student student = studentService.getById(studentId);
             List<Course> availableCourses = courseService.getAllNotEnroll(student.getId());
             CompositeStats studentStats = studentStatsService.getStatsForStudent(student.getId());
             Map<Enrollment, CompositeStats> enrollmentStats = enrollmentStatsService.getEnrollmentsAndStatsForStudent(student.getId());
@@ -91,11 +92,9 @@ public class StudentServlet extends HttpServlet {
         }
     }
 
-    private void viewCourseDetails(HttpServletRequest request, HttpServletResponse response, String studentId, String courseId) throws ServletException, IOException {
+    private void viewCourseDetails(HttpServletRequest request, HttpServletResponse response, UUID studentId, UUID courseId) throws ServletException, IOException {
         try {
-            UUID sId = UUID.fromString(studentId);
-            UUID cId = UUID.fromString(courseId);
-            Enrollment enrollment = enrollmentService.getByStudentAndCourse(sId, cId);
+            Enrollment enrollment = enrollmentService.getByStudentAndCourse(studentId, courseId);
             CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(enrollment.getId());
             Map<Assignment, AssignmentData> combinedMap = new HashMap<>();
 
@@ -144,8 +143,37 @@ public class StudentServlet extends HttpServlet {
                 newEnrollment.setCourse(courseService.getById(UUID.fromString(courseId)));
 
                 enrollmentService.add(newEnrollment);
-                response.sendRedirect(request.getContextPath() + "/students/" + studentId);
+                response.sendRedirect(request.getContextPath() + "/students");
             }
         }
+    }
+
+    // Méthode statique pour vérifier la session et récupérer l'admin
+    public static Student checkStudentSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Vérifier si l'utilisateur est authentifié
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("isAuthenticated") == null || !(boolean) session.getAttribute("isAuthenticated")) {
+            return null;
+        }
+
+        // Vérifier si l'utilisateur est un administrateur
+        String userType = (String) session.getAttribute("userType");
+        if (!"student".equals(userType)) {
+
+            return null;
+        }
+
+        // Si l'ID dans la session est un UUID, le convertir en UUID
+        UUID sessionId = (UUID) session.getAttribute("userId");
+
+        // Charger l'admin depuis la base de données
+        Student student = studentService.getById(sessionId);
+        if (student == null) {
+            // Si l'admin n'existe pas, renvoyer une erreur
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Student not found");
+            return null;
+        }
+
+        return student;  // Retourner l'admin si la session est valide
     }
 }

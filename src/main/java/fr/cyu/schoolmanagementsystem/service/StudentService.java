@@ -1,6 +1,7 @@
 package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.dao.*;
+import fr.cyu.schoolmanagementsystem.entity.Admin;
 import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.Student;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +28,14 @@ public class StudentService extends GenericServiceImpl<Student> {
             throw new EntityNotFoundException("A student with this email already exists");
         }
         return dao.save(student);
+    }
+
+    public Student getByEmail(String email) {
+        Optional<Student> studentOptional = ((StudentDAO) dao).findByEmail(email);
+        if (studentOptional.isEmpty()) {
+            throw new EntityNotFoundException("Entity of type " + getEntityTypeName() + " with email " + email + " does not exist.");
+        }
+        return studentOptional.get();
     }
 
     public List<Student> getAllVerified() {

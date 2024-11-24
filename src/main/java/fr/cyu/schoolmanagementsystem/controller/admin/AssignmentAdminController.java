@@ -47,8 +47,12 @@ public class AssignmentAdminController extends HttpServlet {
 
         Admin admin = AdminServlet.checkAdminSession(request, response);
 
-        // Ajouter l'admin en tant qu'attribut de la requête
-        request.setAttribute("admin", admin);
+        if (admin != null) {
+            // Ajouter l'admin en tant qu'attribut de la requête
+            request.setAttribute("admin", admin);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
+        }
 
         String pathInfo = request.getPathInfo();
 

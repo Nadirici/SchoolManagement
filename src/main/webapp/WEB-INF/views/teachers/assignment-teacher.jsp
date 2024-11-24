@@ -4,121 +4,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Assignment Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment Details | Teacher Dashboard</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+<div class="container">
+  <div class="sidebar">
+    <div class="dashboard-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M304 240l0-223.4c0-9 7-16.6 16-16.6C443.7 0 544 100.3 544 224c0 9-7.6 16-16.6 16L304 240zM32 272C32 150.7 122.1 50.3 239 34.3c9.2-1.3 17 6.1 17 15.4L256 288 412.5 444.5c6.7 6.7 6.2 17.7-1.5 23.1C371.8 495.6 323.8 512 272 512C139.5 512 32 404.6 32 272zm526.4 16c9.3 0 16.6 7.8 15.4 17c-7.7 55.9-34.6 105.6-73.9 142.3c-6 5.6-15.4 5.2-21.2-.7L320 288l238.4 0z"/></svg>
+    </div>
+    <h3>Teacher Dashboard</h3>
+    <h2>Assignments</h2>
+    <ul>
+      <li><a href="${pageContext.request.contextPath}/teachers" >Overview</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/courses">Courses</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/assignments" class="active">Assignments</a></li>
+      <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
+    </ul>
+  </div>
 
-<h1>Assignment Details</h1>
+  <div class="main-content">
+    <header class="header">
+      <div class="header-left">
+        <h1>👋 Hi ${teacher.firstname},</h1>
+        <h2>Welcome to <span>Assignments Dashboard!</span></h2>
+      </div>
+      <div class="header-right">
+        <div class="user-profile">
+          <span class="username">${teacher.firstname} ${teacher.lastname}</span>
+          <span class="user-email">${teacher.email}</span>
+        </div>
+      </div>
+    </header>
 
-<!-- Vérifie si l'assignement est présent -->
-<c:if test="${not empty assignment}">
-  <p><strong>ID:</strong> ${assignment.id}</p>
-  <p><strong>Title:</strong> ${assignment.title}</p>
-  <p><strong>Description:</strong> ${assignment.description}</p>
-  <p><strong>Coefficient:</strong> ${assignment.coefficient}</p>
-  <p><strong>Course:</strong><a href="${pageContext.request.contextPath}/teachers/${assignment.course.teacher.id}/courses/${assignment.course.id}">${assignment.course.name}</a></p>
+    <div>
+      <h1>Assignment Details</h1>
 
-  <!-- Formulaire de suppression -->
-  <h2>Delete Assignment</h2>
-  <form method="post" action="${pageContext.request.contextPath}/teachers">
-    <input type="hidden" name="_method" value="DELETE" />
-    <input type="hidden" name="action" value="deleteAssignment" />
-    <input type="hidden" name="id" value="${assignment.id}" />
-    <button type="submit">Delete Assignment</button>
-  </form>
+      <!-- Vérifie si l'assignement est présent -->
+      <c:if test="${not empty assignment}">
+        <p><strong>Title:</strong> ${assignment.title}</p>
+        <p><strong>Description:</strong> ${assignment.description}</p>
+        <p><strong>Coefficient:</strong> ${assignment.coefficient}</p>
+        <p><strong>Course:</strong><a href="${pageContext.request.contextPath}/teachers/courses/${assignment.course.id}">${assignment.course.name}</a></p>
 
-  <!-- Liste des étudiants inscrits à cet assignment avec leurs notes -->
-  <h2>Enrolled Students and Grades</h2>
-  <c:if test="${not empty enrollmentGrade}">
-    <form action="${pageContext.request.contextPath}/admin/assignments" method="post">
-      <input type="hidden" name="_method" value="PUT">
-      <input type="hidden" name="action" value="saveGrades">
-      <table border="1">
-        <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Grade</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="entry" items="${enrollmentGrade}">
+        <!-- Formulaire de suppression -->
+        <h2>Delete Assignment</h2>
+        <form method="post" action="${pageContext.request.contextPath}/teachers">
+          <input type="hidden" name="_method" value="DELETE" />
+          <input type="hidden" name="action" value="deleteAssignment" />
+          <input type="hidden" name="id" value="${assignment.id}" />
+          <button type="submit">Delete Assignment</button>
+        </form>
+
+        <!-- Liste des étudiants inscrits à cet assignment avec leurs notes -->
+        <h2>Enrolled Students and Grades</h2>
+        <c:if test="${not empty enrollmentGrade}">
+          <form action="${pageContext.request.contextPath}/teachers" method="post">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="action" value="saveGrades">
+            <input type="hidden" name="courseId" value="${assignment.course.id}">
+            <table border="1">
+              <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Grade</th>
+              </tr>
+              </thead>
+              <tbody>
+              <c:forEach var="entry" items="${enrollmentGrade}">
+                <tr>
+                  <td>${entry.key.student.firstname} ${entry.key.student.lastname}</td> <!-- Student Name -->
+                  <td>
+                    <input
+                            type="number"
+                            name="grades[${entry.value.id}]"
+                            value="${entry.value.score}"
+                            min="0"
+                            max="20"
+                            step="0.01"
+                            required />
+                  </td>
+                </tr>
+              </c:forEach>
+              </tbody>
+            </table>
+            <button type="submit">Save</button>
+          </form>
+        </c:if>
+        <c:if test="${empty enrollmentGrade}">
+          <p>No students enrolled in this assignment.</p>
+        </c:if>
+
+        <!-- Statistiques des notes des étudiants -->
+        <h3>Grade Statistics for this Assignment</h3>
+        <table border="1">
+          <thead>
           <tr>
-            <td>${entry.key.student.firstname} ${entry.key.student.lastname}</td> <!-- Student Name -->
+            <th>Average Grade</th>
+            <th>Minimum Grade</th>
+            <th>Maximum Grade</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
             <td>
-              <input
-                      type="number"
-                      name="grades[${entry.value.id}]"
-                      value="${entry.value.score}"
-                      min="0"
-                      max="20"
-                      step="0.01"
-                      required />
+              <c:choose>
+                <c:when test="${not empty assignmentStats}">
+                  <fmt:formatNumber value="${assignmentStats.average}" maxFractionDigits="2"/>
+                </c:when>
+                <c:otherwise>
+                  N/A
+                </c:otherwise>
+              </c:choose>
             </td>
             <td>
-              <a href="${pageContext.request.contextPath}/admin/enrollments/${entry.key.id}">View Enrollment Details</a>
+              <c:choose>
+                <c:when test="${not empty assignmentStats}">
+                  <fmt:formatNumber value="${assignmentStats.min}" maxFractionDigits="2"/>
+                </c:when>
+                <c:otherwise>
+                  N/A
+                </c:otherwise>
+              </c:choose>
+            </td>
+            <td>
+              <c:choose>
+                <c:when test="${not empty assignmentStats}">
+                  <fmt:formatNumber value="${assignmentStats.max}" maxFractionDigits="2"/>
+                </c:when>
+                <c:otherwise>
+                  N/A
+                </c:otherwise>
+              </c:choose>
             </td>
           </tr>
-        </c:forEach>
-        </tbody>
-      </table>
-      <button type="submit">Save</button>
-    </form>
-  </c:if>
-  <c:if test="${empty enrollmentGrade}">
-    <p>No students enrolled in this assignment.</p>
-  </c:if>
+          </tbody>
+        </table>
+      </c:if>
 
-  <!-- Statistiques des notes des étudiants -->
-  <h3>Grade Statistics for this Assignment</h3>
-  <table border="1">
-    <thead>
-    <tr>
-      <th>Average Grade</th>
-      <th>Minimum Grade</th>
-      <th>Maximum Grade</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>
-        <c:choose>
-          <c:when test="${not empty assignmentStats}">
-            <fmt:formatNumber value="${assignmentStats.average}" maxFractionDigits="2"/>
-          </c:when>
-          <c:otherwise>
-            N/A
-          </c:otherwise>
-        </c:choose>
-      </td>
-      <td>
-        <c:choose>
-          <c:when test="${not empty assignmentStats}">
-            <fmt:formatNumber value="${assignmentStats.min}" maxFractionDigits="2"/>
-          </c:when>
-          <c:otherwise>
-            N/A
-          </c:otherwise>
-        </c:choose>
-      </td>
-      <td>
-        <c:choose>
-          <c:when test="${not empty assignmentStats}">
-            <fmt:formatNumber value="${assignmentStats.max}" maxFractionDigits="2"/>
-          </c:when>
-          <c:otherwise>
-            N/A
-          </c:otherwise>
-        </c:choose>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</c:if>
-
-<c:if test="${empty assignment}">
-  <p>Assignment not found.</p>
-</c:if>
-
+      <c:if test="${empty assignment}">
+        <p>Assignment not found.</p>
+      </c:if>
+    </div>
+  </div>
+</div>
 </body>
 </html>
