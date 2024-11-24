@@ -10,54 +10,55 @@
 <html>
 <head>
     <title>Tableau de bord</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h1>Bonjour ${teacher.lastname} ${teacher.firstname} !</h1>
-<div>
-    <h2>Mes infos personnelles</h2>
-    <ul>
-        <li>Nom : ${teacher.lastname}</li>
-        <li>Prénom : ${teacher.firstname}</li>
-        <li>Département : ${teacher.department}</li>
-        <li>Email : ${teacher.email}</li>
-    </ul>
-</div>
-<div>
+<div class="container">
+    <%@include file="../headers/teacher_header.jsp"%>
+    <div class="main-content">
 
-    <div>
-        <h2>Créer un nouveau cours</h2>
-        <form action="${teacher.id}/courses/create" method="post">
-            <label for="courseName">Nom du cours :</label>
-            <input type="text" id="courseName" name="name" required />
-            <br />
-            <label for="description">Description :</label>
-            <textarea id="description" name="description" required></textarea>
-            <br />
-            <button type="submit">Créer le cours</button>
-        </form>
+        <div class="overviewStudent">
+            <h2>Bonjour ${teacher.lastname} ${teacher.firstname} !</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h2>Mes infos personnelles</h2>
+                    <ul>
+                        <li>Nom : ${teacher.lastname}</li>
+                        <li>Prénom : ${teacher.firstname}</li>
+                        <li>Département : ${teacher.department}</li>
+                        <li>Email : ${teacher.email}</li>
+                    </ul>
+                 </div>
+            <div>
+
+                <h2>Mes cours enseignés</h2>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Moyenne de la classe</th>
+                        <th>Moyenne minimale</th>
+                        <th>Moyenne maximale</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="course" items="${courses}">
+                        <tr>
+                            <td><a href="${teacher.id}/courses/${course.id}">${course.name}</a></td>
+                            <td><c:out value="${courseAverages[course.id]}" /></td>
+                            <td><c:out value="${minAverages[course.id]}" /></td>
+                            <td><c:out value="${maxAverages[course.id]}" /></td>
+                            <td><a href="${teacher.id}/courses/${course.id}" class="button">More</a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <h2>Mes cours enseignés</h2>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Moyenne de la classe</th>
-            <th>Moyenne minimale</th>
-            <th>Moyenne maximale</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="course" items="${courses}">
-            <tr>
-                <td><a href="${teacher.id}/courses/${course.id}">${course.name}</a></td>
-                <td><c:out value="${courseAverages[course.id]}" /></td>
-                <td><c:out value="${minAverages[course.id]}" /></td>
-                <td><c:out value="${maxAverages[course.id]}" /></td>
-                <td><a href="courses/${course.id}" class="button">More</a></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+    </div>
 </div>
 </body>
 </html>

@@ -14,7 +14,5 @@ public interface GradeRepository extends JpaRepository<Grade, UUID> {
     List<Grade> findAllByEnrollmentId(UUID enrollmentId);
     List<Grade> findAllByAssignmentId(UUID assignmentId);
     Optional<Grade> findByAssignmentIdAndEnrollmentId(UUID assignmentId, UUID enrollmentId);
-    List<Grade> findAllByAssignmentIdAndEnrollmentId(UUID assignmentId, UUID enrollmentId);
-
 
 }

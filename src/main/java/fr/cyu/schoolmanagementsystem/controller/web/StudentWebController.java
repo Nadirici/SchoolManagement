@@ -4,6 +4,7 @@ import fr.cyu.schoolmanagementsystem.model.dto.*;
 import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.service.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,104 @@ public class StudentWebController {
     }
 
 
+    @RequestMapping(value = {"/{id}/courses/{courseId}"}, method = RequestMethod.GET)
+    public String showCourseDashboard(@PathVariable UUID id, @PathVariable("courseId") UUID courseId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        // Log - Début de la méthode
+        System.out.println("Affichage du tableau de bord du cours : " + courseId + " pour l'utilisateur : " + id);
+        Optional<CourseDTO> course = courseService.getCourseById(courseId);
+
+        if (course.isPresent()) {
+
+            System.out.println("Cours trouvé : " + course.get().getName()); // Log - Cours trouvé
+
+            List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
+            System.out.println("Nombre d'inscriptions pour le cours : " + enrollments.size()); // Log - Nombre d'inscriptions
+
+            boolean isAssignedTeacher = false;
+            boolean isAdmin = false;
+            boolean isEnrolledStudent = enrollments.stream().anyMatch(enrollment -> enrollment.getStudentId().equals(id));
+
+            // Log - Statut d'autorisation
+            System.out.println("isAssignedTeacher: " + isAssignedTeacher);
+            System.out.println("isEnrolledStudent: " + isEnrolledStudent);
+
+            if (isEnrolledStudent) {
+
+
+                // Collect all assignments related to the course
+                List<AssignmentDTO> assignments = assignmentService.getAllAssignmentsByCourseId(courseId);
+                System.out.println("Nombre de devoirs pour le cours : " + assignments.size()); // Log - Nombre de devoirs
+
+                Map<UUID, Double> averageGrades = new HashMap<>();
+                Map<UUID, Double> minGrade = new HashMap<>();
+                Map<UUID, Double> maxGrade = new HashMap<>();
+                Map<UUID, Double> studentAssignmentGrades = new HashMap<>();
+
+
+                for (AssignmentDTO assignment : assignments) {
+                    // Log - Calcul des moyennes pour chaque devoir
+                    System.out.println("Calcul des moyennes pour le devoir : " + assignment.getId());
+
+                    Double grade = gradeService.calculateAverageGradeForAssignment(assignment.getId());
+                    Double minGradeValue = gradeService.getMinGradeForAssignment(assignment.getId());
+                    Double maxGradeValue = gradeService.getMaxGradeForAssignment(assignment.getId());
+
+                    // Log - Valeurs calculées pour chaque devoir
+                    System.out.println("Moyenne pour le devoir " + assignment.getId() + ": " + grade);
+                    System.out.println("Note min pour le devoir " + assignment.getId() + ": " + minGradeValue);
+                    System.out.println("Note max pour le devoir " + assignment.getId() + ": " + maxGradeValue);
+
+                    averageGrades.put(assignment.getId(), grade);
+                    minGrade.put(assignment.getId(), minGradeValue);
+                    maxGrade.put(assignment.getId(), maxGradeValue);
+                }
+
+                Optional<EnrollmentDTO> enrollment = enrollmentService.getEnrollmentByStudentIdAndCourseId(id, courseId);
+
+                if (enrollment.isPresent()) {
+                    // Log - L'étudiant est inscrit
+                    System.out.println("L'étudiant " + id + " est inscrit à ce cours.");
+
+                    for (AssignmentDTO assignment : assignments) {
+                        Optional<GradeDTO> studentGrade = gradeService.getAllGradesByAssignmentIdAndEnrollmentId(assignment.getId(), enrollment.get().getId());
+
+                        if (studentGrade.isPresent()) {
+                            // Log - Note de l'étudiant pour chaque devoir
+                            System.out.println("Note de l'étudiant pour le devoir " + assignment.getId() + ": " + studentGrade.get().getScore());
+                            studentAssignmentGrades.put(assignment.getId(), studentGrade.get().getScore());
+                        } else {
+                            System.out.println("Aucune note trouvée pour l'étudiant " + id + " pour le devoir " + assignment.getId());
+                        }
+                    }
+
+                } else {
+                    System.out.println("L'étudiant " + id + " n'est pas inscrit à ce cours.");
+                }
+                model.addAttribute("student", studentService.getStudentById(id).get());
+                model.addAttribute("studentAssignmentGrades", studentAssignmentGrades);
+                model.addAttribute("assignments", assignments);
+                model.addAttribute("averageGrades", averageGrades);
+                model.addAttribute("minGrade", minGrade);
+                model.addAttribute("maxGrade", maxGrade);
+                model.addAttribute("canViewDetails", isAdmin || isAssignedTeacher || isEnrolledStudent);
+                model.addAttribute("isAssignedTeacher", isAssignedTeacher);
+                model.addAttribute("isEnrolledStudent", isEnrolledStudent);
+                model.addAttribute("course", course.get());
+
+                System.out.println("Retour vers la vue du tableau de bord du cours.");
+
+            }
+            model.addAttribute("student", studentService.getStudentById(id).get());
+            return "students/course_details";
+
+
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Cours introuvable.");
+            // Log - Cours introuvable
+            System.out.println("Cours introuvable pour le cours ID : " + courseId);
+            return "redirect:student/"+id+"/courses"; // Redirection vers la liste des étudiants si le cours est introuvable
+        }
+    }
 
 
 
