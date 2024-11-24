@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet("/admin")
+@WebServlet("/admin/*")
 public class AdminServlet extends HttpServlet {
 
     private static AdminService adminService;
@@ -28,30 +28,37 @@ public class AdminServlet extends HttpServlet {
 
         Admin admin = checkAdminSession(request, response);
 
-        // Ajouter l'admin en tant qu'attribut de la requête
-        request.setAttribute("admin", admin);
+        if (admin != null) {
+            // Ajouter l'admin en tant qu'attribut de la requête
+            request.setAttribute("admin", admin);
 
-        request.getRequestDispatcher("/WEB-INF/views/admin/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/index.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
+        }
+
     }
 
     // Méthode statique pour vérifier la session et récupérer l'admin
     public static Admin checkAdminSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Simulation d'un ID fixe temporaire
-        String adminId = "e2437152-2648-41ac-bdd6-5f6f273839b0"; // Exemple d'ID fixe
-
-/*        // Vérifier la session pour l'adminId  (à activer une fois implémentée)
+        // Vérifier si l'utilisateur est authentifié
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("adminId") == null) {
-            // Rediriger si la session est invalide ou si l'adminId est manquant
-            response.sendRedirect(request.getContextPath() + "/login");
-            return null;  // Retourner null car la session n'est pas valide
+        if (session == null || session.getAttribute("isAuthenticated") == null || !(boolean) session.getAttribute("isAuthenticated")) {
+            return null;
         }
 
-        // Récupérer l'adminId depuis la session
-        String adminId = (String) session.getAttribute("adminId");*/
+        // Vérifier si l'utilisateur est un administrateur
+        String userType = (String) session.getAttribute("userType");
+        if (!"admin".equals(userType)) {
+
+            return null;
+        }
+
+        // Si l'ID dans la session est un UUID, le convertir en UUID
+        UUID sessionId = (UUID) session.getAttribute("userId");
 
         // Charger l'admin depuis la base de données
-        Admin admin = adminService.getById(UUID.fromString(adminId));
+        Admin admin = adminService.getById(sessionId);
         if (admin == null) {
             // Si l'admin n'existe pas, renvoyer une erreur
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Admin not found");

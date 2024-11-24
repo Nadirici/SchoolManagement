@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,7 +20,7 @@ import java.util.*;
 @WebServlet(Routes.TEACHER + "/*")
 public class TeacherServlet extends HttpServlet {
 
-    private TeacherService teacherService;
+    private static TeacherService teacherService;
     private CourseService courseService;
     private EnrollmentStatsService enrollmentStatsService;
     private CourseStatsService courseStatsService;
@@ -42,43 +43,43 @@ public class TeacherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pathInfo = request.getPathInfo();
 
-        try {
-            if (pathInfo == null || pathInfo.equals("/")) {
-                response.sendRedirect(request.getContextPath());
-            } else {
-                String[] pathParts = pathInfo.split("/");
+        Teacher teacher = checkTeacherSession(request, response);
 
-                // Vérifie si l'URL est du type /teachers/{id}
-                if (pathParts.length == 2) {
-                    String teacherId = pathParts[1];
-                    viewDashboard(request, response, teacherId);
+        if (teacher == null) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
+        } else {
+            String pathInfo = request.getPathInfo();
 
-                    // Vérifie si l'URL est du type /teachers/{id}/courses/{courseId}
-                } else if (pathParts.length == 4 && "courses".equals(pathParts[2])) {
-                    String teacherId = pathParts[1];
-                    String courseId = pathParts[3];
-                    viewCourseDetails(request, response, courseId);
+            try {
+                if (pathInfo == null || pathInfo.equals("/")) {
+                    viewDashboard(request, response, teacher.getId());
+                } else {
+                    String[] pathParts = pathInfo.split("/");
 
-                } else if (pathParts.length == 4 && "assignments".equals(pathParts[2])) {
-                    String teacherId = pathParts[1];
-                    String assignmentId = pathParts[3];
-                    viewAssignmentDetails(request, response, assignmentId);
+                    if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
+                        String courseId = pathParts[2];
+                        viewCourseDetails(request, response, courseId);
 
-                }  else {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+                    } else if (pathParts.length == 3 && "assignments".equals(pathParts[1])) {
+                        String assignmentId = pathParts[2];
+                        viewAssignmentDetails(request, response, assignmentId);
+
+                    }  else {
+                        viewDashboard(request, response, teacher.getId());
+                    }
                 }
+            } catch (Exception e) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
             }
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
         }
+
+
     }
 
-    private void viewDashboard(HttpServletRequest request, HttpServletResponse response, String teacherId) throws ServletException, IOException {
+    private void viewDashboard(HttpServletRequest request, HttpServletResponse response, UUID teacherId) throws ServletException, IOException {
         try {
-            UUID id = UUID.fromString(teacherId);
-            Teacher teacher = teacherService.getById(id);
+            Teacher teacher = teacherService.getById(teacherId);
             request.setAttribute("teacher", teacher);
             request.getRequestDispatcher("/WEB-INF/views/teachers/index.jsp").forward(request, response);
         } catch (Exception e) {
@@ -129,7 +130,9 @@ public class TeacherServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("PUT".equalsIgnoreCase(method)) {
-
+            if ("saveGrades".equalsIgnoreCase(action)) {
+                saveGrades(request, response);
+            }
         } else if ("DELETE".equalsIgnoreCase(method)) {
             if (Objects.equals(action, "deleteAssignment")) {
                 deleteAssignment(request, response);
@@ -149,7 +152,7 @@ public class TeacherServlet extends HttpServlet {
                 UUID courseId = assignmentService.getById(id).getCourse().getId();
                 UUID teacherId = assignmentService.getById(id).getCourse().getTeacher().getId();
                 assignmentService.delete(id);
-                response.sendRedirect(request.getContextPath() + "/teachers/" + teacherId + "/courses/" + courseId);
+                response.sendRedirect(request.getContextPath() + "/teachers/courses/" + courseId);
             } catch (Exception e) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Assignment not found");
             }
@@ -182,10 +185,62 @@ public class TeacherServlet extends HttpServlet {
                 gradeService.add(grade);
             }
 
-            response.sendRedirect(request.getContextPath() + "/teachers/" + course.getTeacher().getId() + "/courses/" + course.getId());
+            response.sendRedirect(request.getContextPath() + "/teachers/courses/" + course.getId());
 
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields for assignment creation");
         }
+    }
+
+    private void saveGrades(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Map<String, String[]> parameterMap = request.getParameterMap();
+
+        Map<UUID, Double> gradesMap = new HashMap<>();
+
+        parameterMap.forEach((key, value) -> {
+            if (key.startsWith("grades[")) {
+                String id = key.substring(7, key.length() - 1);
+                UUID gradeId = UUID.fromString(id);
+                Double score = Double.parseDouble(value[0]);
+                gradesMap.put(gradeId, score);
+            }
+        });
+
+        gradesMap.forEach((gradeId, score) -> {
+            Grade grade = gradeService.getById(gradeId);
+            grade.setScore(score);
+            gradeService.update(grade);
+        });
+        response.sendRedirect(request.getContextPath() + "/teachers/courses/" + request.getParameter("courseId"));
+    }
+
+    // Méthode statique pour vérifier la session et récupérer l'admin
+    public static Teacher checkTeacherSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Vérifier si l'utilisateur est authentifié
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("isAuthenticated") == null || !(boolean) session.getAttribute("isAuthenticated")) {
+            return null;
+        }
+
+        // Vérifier si l'utilisateur est un administrateur
+        String userType = (String) session.getAttribute("userType");
+        if (!"teacher".equals(userType)) {
+
+            return null;
+        }
+
+        // Si l'ID dans la session est un UUID, le convertir en UUID
+        UUID sessionId = (UUID) session.getAttribute("userId");
+
+        // Charger l'admin depuis la base de données
+        Teacher teacher = teacherService.getById(sessionId);
+        if (teacher == null) {
+            // Si l'admin n'existe pas, renvoyer une erreur
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Teacher not found");
+            return null;
+        }
+
+        return teacher;  // Retourner l'admin si la session est valide
     }
 }
