@@ -102,7 +102,13 @@
                 </tbody>
             </table>
             <% } %>
-        </div>
+
+        <form action="/students/<%= studentDTO.getId() %>/report/pdf" method="get" target="_blank">
+            <button type="submit" class="download-pdf-button">Télécharger le bulletin en PDF</button>
+        </form>
+
+
+    </div>
     </div>
 </div>
 </body>

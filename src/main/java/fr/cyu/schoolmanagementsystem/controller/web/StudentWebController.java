@@ -7,6 +7,8 @@ import fr.cyu.schoolmanagementsystem.service.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,15 +27,86 @@ public class StudentWebController {
     private final CourseService courseService;
     private final GradeService gradeService;
     private final AssignmentService assignmentService;
+    private final PdfService pdfService;
+
+
 
     @Autowired
-    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService) {
+    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService, PdfService pdfService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
         this.courseService = courseService;
         this.gradeService = gradeService;
         this.assignmentService = assignmentService;
+        this.pdfService = pdfService;
     }
+
+    @GetMapping("/{id}/report/pdf")
+    public ResponseEntity<byte[]> generatePdfReport(@PathVariable UUID id) {
+        // Récupérer les données de l'étudiant
+        Optional<StudentDTO> studentOpt = studentService.getStudentById(id);
+        if (!studentOpt.isPresent()) {
+            throw new IllegalArgumentException("Étudiant introuvable avec l'ID " + id);
+        }
+        StudentDTO student = studentOpt.get();
+
+        // Récupérer les cours auxquels l'étudiant est inscrit
+        List<CourseDTO> courses = enrollmentService.getCoursesForStudent(id);
+        if (courses.isEmpty()) {
+            throw new IllegalArgumentException("Aucun cours trouvé pour l'étudiant " + student.getFirstname());
+        }
+
+        // Préparer les données nécessaires pour le PDF
+        Map<UUID, String> courseAverages = new HashMap<>();
+        Map<UUID, Double> courseMinAverages = new HashMap<>();
+        Map<UUID, Double> courseMaxAverages = new HashMap<>();
+        Map<UUID, Double> studentAverages = new HashMap<>();
+
+        for (CourseDTO course : courses) {
+            // Récupérer l'inscription de l'étudiant pour ce cours
+            Optional<EnrollmentDTO> enrollmentOpt = enrollmentService.getEnrollmentByStudentIdAndCourseId(id, course.getId());
+            if (!enrollmentOpt.isPresent()) {
+                continue;
+            }
+            EnrollmentDTO enrollment = enrollmentOpt.get();
+
+            // Calculs des moyennes pour le cours
+            double averageGrade = gradeService.calculateAverageGradeForCourse(course.getId());
+            double minAverageGrade = gradeService.getMinAverageForCourse(course.getId());
+            double maxAverageGrade = gradeService.getMaxAverageForCourse(course.getId());
+            double studentAverage = gradeService.calculateAverageGradeForEnrollment(enrollment.getId());
+
+            // Stocker les données calculées
+            if (Double.isNaN(studentAverage)) {
+                courseAverages.put(course.getId(), "Pas de note pour ce cours");
+            } else {
+                courseAverages.put(course.getId(), String.format("%.2f", studentAverage));
+            }
+            courseMinAverages.put(course.getId(), minAverageGrade);
+            courseMaxAverages.put(course.getId(), maxAverageGrade);
+            studentAverages.put(course.getId(), studentAverage);
+        }
+
+        // Calculer la moyenne générale de l'étudiant
+        double studentGlobalAverage = gradeService.calculateAverageGradeForStudent(id);
+
+        // Générer le PDF avec les données formatées
+        byte[] pdfContent = pdfService.createStudentReport(
+                student,
+                courses,
+                courseAverages,
+                courseMinAverages,
+                courseMaxAverages,
+                studentGlobalAverage
+        );
+
+        // Retourner le PDF sous forme de réponse HTTP
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Bulletin-" + student.getFirstname() + ".pdf\"")
+                .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
+                .body(pdfContent);
+    }
+
 
 
     @RequestMapping(value = {"/{id}/courses/{courseId}"}, method = RequestMethod.GET)
