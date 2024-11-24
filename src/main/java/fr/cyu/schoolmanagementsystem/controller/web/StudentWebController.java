@@ -3,6 +3,7 @@ package fr.cyu.schoolmanagementsystem.controller.web;
 import fr.cyu.schoolmanagementsystem.model.dto.*;
 import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
+import fr.cyu.schoolmanagementsystem.model.passwordmanager.HashPassword;
 import fr.cyu.schoolmanagementsystem.service.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -207,6 +208,67 @@ public class StudentWebController {
             return "redirect:student/"+id+"/courses"; // Redirection vers la liste des étudiants si le cours est introuvable
         }
     }
+
+    @GetMapping("/{id}/profile")
+    public String showStudentProfile(@PathVariable("id") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
+        Optional<StudentDTO> studentOpt = studentService.getStudentById(studentId);
+        if (studentOpt.isPresent()) {
+            model.addAttribute("student", studentOpt.get());
+            return "students/profile";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Étudiant introuvable.");
+            return "redirect:/students";
+        }
+    }
+    @PostMapping("/{id}/profile")
+    public String updateStudentProfile(@PathVariable("id") UUID studentId,
+                                       @RequestParam(value = "email", required = false) String email,
+                                       @RequestParam(value = "password", required = false) String password,
+                                       RedirectAttributes redirectAttributes) {
+        Optional<StudentDTO> studentOpt = studentService.getStudentById(studentId);
+        if (studentOpt.isPresent()) {
+            StudentDTO student = studentOpt.get();
+
+            // Si l'email est fourni et qu'il a changé, vérifier s'il existe déjà dans la base de données
+            if (email != null && !student.getEmail().equals(email) && studentService.getStudentByEmail(email).isPresent()) {
+                return "redirect:/students/" + studentId + "/profile?flashMessage=UsedEmail";
+            }
+
+            // Mettre à jour l'email si un nouveau email est fourni
+            if (email != null && !student.getEmail().equals(email)) {
+                student.setEmail(email);
+            }
+
+            // Mettre à jour le mot de passe si un nouveau mot de passe est fourni
+            if (password != null && !password.isEmpty()) {
+                byte[] salt = HashPassword.generateSalt();
+                String hashedPassword = HashPassword.hashPassword(password, salt);
+                student.setPassword(hashedPassword);
+                student.setSalt(Base64.getEncoder().encodeToString(salt));
+            }
+
+            // Créer l'objet Student pour sauvegarder les modifications
+            Student student1 = new Student();
+            student1.setId(studentId);
+            student1.setEmail(student.getEmail());
+            student1.setPassword(student.getPassword());
+            student1.setDateOfBirth(student.getDateOfBirth());
+            student1.setSalt(student.getSalt());
+            student1.setFirstname(student.getFirstname());
+            student1.setLastname(student.getLastname());
+            student1.setVerified(student.isVerified());
+
+            // Sauvegarder les modifications
+            studentService.updateStudent(student1);
+
+            return "redirect:/students/" + studentId + "/profile?flashMessage=StudentUpdated";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Étudiant introuvable.");
+            return "redirect:/students";
+        }
+    }
+
+
 
 
 

@@ -50,7 +50,7 @@
                             <td><c:out value="${courseAverages[course.id]}" /></td>
                             <td><c:out value="${minAverages[course.id]}" /></td>
                             <td><c:out value="${maxAverages[course.id]}" /></td>
-                            <td><a href="${teacher.id}/courses/${course.id}" class="button">More</a></td>
+                            <td><a href="${teacher.id}/courses/${course.id}" class="button">Voir plus</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>

@@ -54,7 +54,7 @@
             <div class="infield">
                 <select id="userType" name="userType" required onchange="toggleDepartmentField()">
                     <option value="" disabled selected>-- Choisissez --</option>
-                    <option value="student">�tudiant</option>
+                    <option value="student">Étudiant</option>
                     <option value="teacher">Professeur</option>
                 </select>
             </div>
@@ -80,7 +80,7 @@
             <!-- S�lecteur de d�partement cach� par d�faut -->
             <div class="infield" id="departmentField" style="display: none;">
                 <select id="department" name="department">
-                    <option value="" disabled selected>-- Choisissez votre d�partement --</option>
+                    <option value="" disabled selected>-- Choisissez votre département --</option>
                     <option value="INFORMATIQUE">INFORMATIQUE</option>
                     <option value="MATHEMATIQUES">MATHEMATIQUES</option>
                     <option value="PHYSIQUE">PHYSIQUE</option>
