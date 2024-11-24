@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Index</title>
     <link rel="stylesheet" href="./css/style.css">
+    <script>
+        // Redirection automatique après 0 secondes
+        setTimeout(function() {
+            window.location.href = "login"; // Changez l'URL cible ici
+        }, 2000);
+    </script>
 </head>
 <body>
-<h1>Dashboard Index</h1>
-<ul>
-    <li><a href="admin/students">Students Dashboard</a></li>
-    <li><a href="admin/teachers">Teachers Dashboard</a></li>
-    <li><a href="admin/courses">Courses Dashboard</a></li>
-    <li><a href="admin/assignments">Assignments Dashboard</a></li>
-    <li><a href="admin/enrollments">Enrollments Dashboard</a></li>
-    <li><a href="admin/requests">Requests Dashboard</a></li>
-</ul>
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh">
+    <h1>Veuillez patienter quelques instants</h1>
+</div>
 </body>
 </html>
