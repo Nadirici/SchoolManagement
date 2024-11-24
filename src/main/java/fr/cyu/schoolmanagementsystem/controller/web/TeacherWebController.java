@@ -2,6 +2,7 @@ package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.*;
 import fr.cyu.schoolmanagementsystem.service.*;
+import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.*;
 
 @Controller
@@ -20,14 +24,16 @@ public class TeacherWebController {
     private final CourseService courseService;
     private final GradeService gradeService;
     private final AssignmentService assignmentService;
+    private final StudentService studentService;
 
     @Autowired
-    public TeacherWebController(TeacherService teacherService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService) {
+    public TeacherWebController(TeacherService teacherService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService, StudentService studentService) {
         this.teacherService = teacherService;
         this.enrollmentService = enrollmentService;
         this.courseService = courseService;
         this.gradeService = gradeService;
         this.assignmentService = assignmentService;
+        this.studentService = studentService;
     }
 
     @GetMapping("/{id}")
@@ -210,6 +216,7 @@ public class TeacherWebController {
                         UUID studentId = UUID.fromString(studentIdStr);
                         Double gradeValue = Double.parseDouble(entry.getValue());
 
+                        Optional<StudentDTO> studentDTO = studentService.getStudentById(studentId);
                         // Récupérer l'enrollment correspondant
                         Optional<EnrollmentDTO> enrollmentOptional = enrollmentService.getEnrollmentByStudentIdAndCourseId(studentId, courseId);
                         if (enrollmentOptional.isPresent()) {
@@ -220,6 +227,14 @@ public class TeacherWebController {
 
                             // Sauvegarder la note
                             gradeService.addGrade(gradeDTO);
+
+                            Gmailer gmailer = new Gmailer();
+                            gmailer.sendMail("Nouvelle note ajoutée pour votre devoir",
+                                    "Bonjour " + studentDTO.get().getFirstname() + ",\n\n" +
+                                            "Nous vous informons qu'une nouvelle note a été attribuée pour le devoir intitulé '" + assignmentDTO.getTitle() + "'.\n\n" +
+                                            "Vous pouvez consulter votre note dans votre espace étudiant.\n\n" +
+                                            "Cordialement,\n" +
+                                            "L'équipe pédagogique de " + courseDTO.get().getName(), studentDTO.get().getEmail());
                         } else {
                             throw new RuntimeException("Inscription non trouvée pour l'étudiant avec ID: " + studentId);
                         }
@@ -231,6 +246,8 @@ public class TeacherWebController {
             } catch (RuntimeException ex) {
                 System.out.println("erreur de saisie de devoir: "+ ex.getMessage());
                 return "teachers/add_assignment"; //Reload the form with an error message
+            } catch (IOException | MessagingException | GeneralSecurityException e) {
+                throw new RuntimeException(e);
             }
 
         }else{
@@ -261,9 +278,10 @@ public class TeacherWebController {
     public String showUpdateAssignmentAndGradesForm(@PathVariable UUID id,
                                                     @PathVariable UUID courseId,
                                                     @PathVariable UUID assignmentId,
-                                                    Model model) {
+                                                    Model model) throws MessagingException, GeneralSecurityException, IOException {
         Optional<CourseDTO> courseDTO = courseService.getCourseById(courseId);
         Optional<AssignmentDTO> assignmentDTO = assignmentService.getAssignmentById(assignmentId);
+
 
         if (courseDTO.isPresent() && assignmentDTO.isPresent() && courseDTO.get().getTeacher().getId().equals(id)) {
             AssignmentDTO assignment = assignmentDTO.get();
@@ -277,7 +295,9 @@ public class TeacherWebController {
                 Optional<EnrollmentDTO> enrollmentOptional = enrollmentService.getEnrollmentById(grade.getEnrollmentId());
                 if (enrollmentOptional.isPresent()) {
                     UUID studentId = enrollmentOptional.get().getStudentId();
+                    Optional<StudentDTO> studentOptional = studentService.getStudentById(studentId);
                     studentGrades.put(studentId, grade);
+
                 }
             }
             model.addAttribute("students", students);
@@ -295,6 +315,8 @@ public class TeacherWebController {
                                    @PathVariable("assignmentId") UUID assignmentId,
                                    @RequestParam Map<String, String> params,
                                    RedirectAttributes redirectAttributes) {
+
+
         Optional<CourseDTO> courseDTO = courseService.getCourseById(courseId);
         Optional<AssignmentDTO> assignmentDTO = assignmentService.getAssignmentById(assignmentId);
 
@@ -307,30 +329,63 @@ public class TeacherWebController {
                 updatedAssignment.setCoefficient(Double.parseDouble(params.get("coefficient")));
                 assignmentService.updateAssignment(updatedAssignment);
 
+
+                Gmailer gmailer = new Gmailer();
+
                 // Update Student Grades
                 for (Map.Entry<String, String> entry : params.entrySet()) {
+
                     if (entry.getKey().startsWith("grade_")) {
-                        String studentIdStr = entry.getKey().substring(6);
-                        UUID studentId = UUID.fromString(studentIdStr);
-                        Double gradeValue = Double.parseDouble(entry.getValue());
+
+                        String studentIdStr = entry.getKey().substring(6); // Extraire l'ID de l'étudiant à partir de la clé
+                        UUID studentId = UUID.fromString(studentIdStr); // Convertir en UUID
+                        Double gradeValue = Double.parseDouble(entry.getValue()); // Récupérer la note
+
                         Optional<EnrollmentDTO> enrollmentOptional = enrollmentService.getEnrollmentByStudentIdAndCourseId(studentId, courseId);
                         if (enrollmentOptional.isPresent()) {
+                            // Récupérer l'étudiant pour obtenir son email
+                            Optional<StudentDTO> studentOpt = studentService.getStudentById(studentId);
+                            if (studentOpt.isPresent()) {
+                                String studentEmail = studentOpt.get().getEmail(); // Récupérer l'email de l'étudiant
 
-                            Optional<GradeDTO> grade = gradeService.getAllGradesByAssignmentIdAndEnrollmentId(assignmentId, enrollmentOptional.get().getId() );
-                            GradeDTO gradeDTO;
-                            if(grade.isPresent()){
-                                gradeDTO= grade.get();
-                                gradeDTO.setAssignmentId(assignmentId);
-                                gradeDTO.setScore(gradeValue);
-                                gradeDTO.setEnrollmentId(enrollmentOptional.get().getId());
-                                gradeService.updateGrade(gradeDTO);
+                                // Pour déboguer ou envoyer un mail par la suite
+                                System.out.println("L'email de l'étudiant est : " + studentEmail); // Affiche l'email dans la console
 
-                            }else{
-                                gradeDTO= new GradeDTO();
-                                gradeDTO.setAssignmentId(assignmentId);
-                                gradeDTO.setScore(gradeValue);
-                                gradeDTO.setEnrollmentId(enrollmentOptional.get().getId());
-                                gradeService.addGrade(gradeDTO);
+                                Optional<GradeDTO> grade = gradeService.getAllGradesByAssignmentIdAndEnrollmentId(assignmentId, enrollmentOptional.get().getId());
+                                GradeDTO gradeDTO;
+                                if (grade.isPresent()) {
+                                    gradeDTO = grade.get();
+                                    gradeDTO.setAssignmentId(assignmentId);
+                                    gradeDTO.setScore(gradeValue);
+                                    gradeDTO.setEnrollmentId(enrollmentOptional.get().getId());
+                                    gradeService.updateGrade(gradeDTO);
+
+
+
+                                    // TODO: Envoi d'un mail de modification de note à l'étudiant (avec studentEmail)
+
+                                    gmailer.sendMail("Modification de votre note de contrôle",
+                                            "Bonjour " + studentOpt.get().getFirstname() + ",\n\n" +
+                                                    "Nous vous informons que la note que vous avez reçue pour le devoir intitulé '" + updatedAssignment.getTitle() + "' a été modifiée.\n\n" +
+                                                    "Vous pouvez consulter la mise à jour dans votre espace étudiant.\n\n" +
+                                                    "Cordialement,\n" +
+                                                    "L'équipe pédagogique de " + courseDTO.get().getName(),studentEmail);
+
+                                } else {
+
+
+                                    System.out.println("jgn erojbenq bêriqnbreiqpob,njjZOIPK?FZeoipvj,iopkZVNZIOKBNZipbnZ¨POBZe");
+
+
+                                    gradeDTO = new GradeDTO();
+                                    gradeDTO.setAssignmentId(assignmentId);
+                                    gradeDTO.setScore(gradeValue);
+                                    gradeDTO.setEnrollmentId(enrollmentOptional.get().getId());
+                                    gradeService.addGrade(gradeDTO);
+
+
+                                }
+
                             }
 
                         } else {
