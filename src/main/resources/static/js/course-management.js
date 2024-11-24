@@ -1,11 +1,11 @@
+
+let admin;
 document.addEventListener('DOMContentLoaded', function () {
   // Récupérer les informations de l'admin depuis l'élément HTML
   const adminElement = document.getElementById('admin');
-  const admin = {
+    admin = {
     id: adminElement.getAttribute('data-id'),
-    firstname: adminElement.getAttribute('data-firstname'),
-    lastname: adminElement.getAttribute('data-lastname'),
-    email: adminElement.getAttribute('data-email')
+
   };
 
   console.log("Admin Info:", admin);
