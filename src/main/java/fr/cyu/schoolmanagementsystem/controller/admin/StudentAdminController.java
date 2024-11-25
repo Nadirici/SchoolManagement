@@ -138,7 +138,7 @@ public class StudentAdminController extends HttpServlet {
         String salt = Base64.getEncoder().encodeToString(HashPassword.generateSalt());
         String hashedPassword = HashPassword.hashPassword(password, Base64.getDecoder().decode(salt));
 
-        Student student = new Student(firstname, lastname, dateOfBirth, email, hashedPassword, salt, false);
+        Student student = new Student(firstname, lastname, dateOfBirth, email, hashedPassword, salt, true);
         UUID id = studentService.add(student);
 
         RegistrationRequest registrationRequest = new RegistrationRequest(student);

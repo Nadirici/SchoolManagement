@@ -113,7 +113,7 @@ public class TeacherAdminController extends HttpServlet {
         String salt = Base64.getEncoder().encodeToString(HashPassword.generateSalt());
         String hashedPassword = HashPassword.hashPassword(password, Base64.getDecoder().decode(salt));
 
-        Teacher teacher = new Teacher(firstname, lastname, email, hashedPassword, department, salt, false);
+        Teacher teacher = new Teacher(firstname, lastname, email, hashedPassword, department, salt, true);
         UUID id = teacherService.add(teacher);
 
         RegistrationRequest registrationRequest = new RegistrationRequest(teacher);
