@@ -41,7 +41,7 @@
             </div>
         </header>
 
-        <div>
+        <div class="overviewStudent">
             <h1>Teacher Details</h1>
 
             <!-- Vérifie si l'étudiant est présent -->

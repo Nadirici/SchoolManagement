@@ -41,7 +41,7 @@
       </div>
     </header>
 
-    <div>
+    <div class="overviewStudent">
       <h1>Course List</h1>
 
       <!-- Form to add a new course -->

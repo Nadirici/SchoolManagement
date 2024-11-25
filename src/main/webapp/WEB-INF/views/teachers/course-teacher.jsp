@@ -39,7 +39,7 @@
             </div>
         </header>
 
-        <div>
+        <div class="overviewStudent">
             <h1>Course Details</h1>
 
             <div>

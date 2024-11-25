@@ -41,7 +41,7 @@
             </div>
         </header>
 
-        <div>
+        <div class="overviewStudent">
 
         </div>
     </div>

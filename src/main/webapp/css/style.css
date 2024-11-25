@@ -181,7 +181,7 @@ body {
     font-weight: bold;
     margin-bottom: 15px;
     color: #2c3e50; /* Couleur sombre pour le contraste */
-    border-bottom: 2px solid #007BFF; /* Ligne d'accentuation */
+    border-bottom: 2px solid #2c3e50; /* Ligne d'accentuation */
     padding-bottom: 5px;
 }
 
@@ -216,7 +216,7 @@ body {
 .stat-card p {
     font-size: 20px;
     font-weight: bold;
-    color: #007BFF; /* Bleu principal */
+    color: #2c3e50; /* Bleu principal */
 }
 
 /* Effet au survol des cartes */
@@ -238,7 +238,7 @@ body {
 
 /* En-tête du tableau */
 .overviewStudent table thead {
-    background-color: #007BFF; /* Bleu principal */
+    background-color: #2c3e50; /* Bleu principal */
     color: #fff; /* Texte blanc pour contraste */
 }
 
@@ -260,7 +260,7 @@ body {
 
 /* Lien dans la colonne "Details" */
 .overviewStudent table a {
-    color: #007BFF;
+    color: #2c3e50;
     text-decoration: none;
     font-weight: bold;
 }

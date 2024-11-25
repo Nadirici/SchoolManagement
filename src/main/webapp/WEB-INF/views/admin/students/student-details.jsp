@@ -40,7 +40,7 @@
         </div>
       </div>
     </header>
-    <div>
+    <div class="overviewStudent">
       <h1>Student Details</h1>
 
       <!-- Vérifie si l'étudiant est présent -->

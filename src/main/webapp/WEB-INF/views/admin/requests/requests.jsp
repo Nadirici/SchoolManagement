@@ -41,7 +41,7 @@
             </div>
         </header>
 
-        <div>
+        <div class="overviewStudent">
             <h1>Demandes d'inscription en attente</h1>
 
             <!-- Affichage d'un message flash si disponible -->

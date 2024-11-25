@@ -39,7 +39,7 @@
       </div>
     </header>
 
-    <div>
+    <div class="overviewStudent">
       <h1>Assignment Details</h1>
 
       <!-- Vérifie si l'assignement est présent -->
