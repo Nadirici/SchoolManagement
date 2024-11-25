@@ -228,13 +228,22 @@ public class TeacherWebController {
                             // Sauvegarder la note
                             gradeService.addGrade(gradeDTO);
 
+                            String link = "http://localhost:8080/";
                             Gmailer gmailer = new Gmailer();
-                            gmailer.sendMail("Nouvelle note ajoutée pour votre devoir",
-                                    "Bonjour " + studentDTO.get().getFirstname() + ",\n\n" +
-                                            "Nous vous informons qu'une nouvelle note a été attribuée pour le devoir intitulé '" + assignmentDTO.getTitle() + "'.\n\n" +
-                                            "Vous pouvez consulter votre note dans votre espace étudiant.\n\n" +
-                                            "Cordialement,\n" +
-                                            "L'équipe pédagogique de " + courseDTO.get().getName(), studentDTO.get().getEmail());
+                            gmailer.sendMail(
+                                    "Nouvelle note ajoutée à votre compte",
+                                    "Bonjour " + studentDTO.get().getFirstname() + " " + studentDTO.get().getLastname() + ",<br><br>" +
+                                            "Une nouvelle note a été ajoutée à votre compte sur la plateforme.<br><br>" +
+                                            "Voici les détails :<br>" +
+                                            "- Cours : " + courseDTO.get().getName() + "<br>" +
+                                            "- Devoir : " + assignmentDTO.getTitle() + "<br>" +
+                                            "- Note : " + gradeDTO.getScore() + "<br><br>" +
+                                            "Pour consulter vos notes et plus de détails, connectez-vous à votre espace étudiant :<br>" +
+                                            "<a href='" + link + "'>Voir mes notes</a><br><br>" +
+                                            "Cordialement,<br>" +
+                                            "L'équipe de gestion du système.",
+                                    studentDTO.get().getEmail()
+                            );
                         } else {
                             throw new RuntimeException("Inscription non trouvée pour l'étudiant avec ID: " + studentId);
                         }
