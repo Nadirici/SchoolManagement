@@ -139,6 +139,9 @@
 
           <button type="submit">Enroll</button>
         </form>
+        <form action="${pageContext.request.contextPath}/students/report/pdf" method="get" target="_blank">
+          <button type="submit" class="download-pdf-button">Télécharger le bulletin en PDF</button>
+        </form>
       </c:if>
 
       <!-- Message si aucun étudiant n'est trouvé -->

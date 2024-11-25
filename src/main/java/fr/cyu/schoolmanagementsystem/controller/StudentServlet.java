@@ -1,6 +1,5 @@
 package fr.cyu.schoolmanagementsystem.controller;
 
-import fr.cyu.schoolmanagementsystem.controller.admin.AdminServlet;
 import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
 import fr.cyu.schoolmanagementsystem.service.*;
@@ -10,7 +9,6 @@ import fr.cyu.schoolmanagementsystem.service.stats.EnrollmentStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.StudentStatsService;
 import fr.cyu.schoolmanagementsystem.util.AssignmentData;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @WebServlet("/students/*")
 public class StudentServlet extends HttpServlet {
@@ -32,6 +31,7 @@ public class StudentServlet extends HttpServlet {
     private AssignmentStatsService assignmentStatsService;
     private EnrollmentService enrollmentService;
     private AssignmentService assignmentService;
+    private PdfService pdfService;
 
     @Override
     public void init() throws ServletException {
@@ -43,6 +43,7 @@ public class StudentServlet extends HttpServlet {
         assignmentStatsService =  new AssignmentStatsService();
         enrollmentService = new EnrollmentService(new EnrollmentDAO(Enrollment.class));
         assignmentService = new AssignmentService(new AssignmentDAO(Assignment.class));
+        pdfService = new PdfService();
     }
 
     @Override
@@ -61,8 +62,12 @@ public class StudentServlet extends HttpServlet {
                 } else {
                     String[] pathParts = pathInfo.split("/");
 
+                    // Vérifie si l'URL correspond à /students/report/pdf
+                    if (pathParts.length == 3 && "report".equals(pathParts[1]) && "pdf".equals(pathParts[2])) {
+                        generatePdfReport(student.getId(), response);
+                    }
                     // Vérifie si l'URL est du type /students
-                    if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
+                    else if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
                         UUID courseId = UUID.fromString(pathParts[2]);
                         viewCourseDetails(request, response, student.getId(), courseId);
 
@@ -145,6 +150,70 @@ public class StudentServlet extends HttpServlet {
                 enrollmentService.add(newEnrollment);
                 response.sendRedirect(request.getContextPath() + "/students");
             }
+        }
+    }
+
+    public void generatePdfReport(UUID studentId, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Récupérer les informations de l'étudiant
+            Student student = studentService.getById(studentId);
+            if (student == null) {
+                throw new IllegalArgumentException("Étudiant introuvable avec l'ID " + studentId);
+            }
+
+            // Récupérer les inscriptions de l'étudiant
+            List<Enrollment> enrollments = enrollmentService.getEnrollmentsForStudent(studentId);
+            if (enrollments.isEmpty()) {
+                throw new IllegalArgumentException("Aucun cours trouvé pour l'étudiant " + student.getFirstname());
+            }
+
+            // Préparer les statistiques et données pour le rapport
+            Map<UUID, String> courseAverages = new HashMap<>();
+            Map<UUID, Double> courseMinAverages = new HashMap<>();
+            Map<UUID, Double> courseMaxAverages = new HashMap<>();
+
+            for (Enrollment enrollment : enrollments) {
+                UUID courseId = enrollment.getCourse().getId();
+
+                CompositeStats courseStats = courseStatsService.getStatsForCourse(courseId);
+                CompositeStats enrollmentStats = enrollmentStatsService.getStatsForEnrollment(enrollment.getId());
+
+                // Stocker les moyennes calculées
+                double studentAverage = enrollmentStats.getAverage();
+                double minAverage = courseStats.getMin();
+                double maxAverage = courseStats.getMax();
+
+                courseAverages.put(courseId, Double.isNaN(studentAverage) ? "Pas de note" : String.format("%.2f", studentAverage));
+                courseMinAverages.put(courseId, minAverage);
+                courseMaxAverages.put(courseId, maxAverage);
+            }
+
+            // Calculer la moyenne générale de l'étudiant
+            CompositeStats studentStats = studentStatsService.getStatsForStudent(studentId);
+            double studentGlobalAverage = studentStats.getAverage();
+
+            // Générer le PDF
+            byte[] pdfContent = pdfService.createStudentReport(
+                    student,
+                    enrollments.stream().map(Enrollment::getCourse).collect(Collectors.toList()),
+                    courseAverages,
+                    courseMinAverages,
+                    courseMaxAverages,
+                    studentGlobalAverage
+            );
+
+            // Configurer la réponse HTTP avec le PDF
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=\"Bulletin-" + student.getFirstname() + ".pdf\"");
+            response.getOutputStream().write(pdfContent);
+
+        } catch (IllegalArgumentException e) {
+            // Gérer les erreurs spécifiques
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            // Gérer les erreurs générales
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur interne du serveur.");
+            e.printStackTrace();
         }
     }
 
