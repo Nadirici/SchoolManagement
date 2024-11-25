@@ -84,6 +84,8 @@ public class Gmailer {
         email.setSubject(subject);
         email.setText(message);
 
+        email.setContent(message, "text/html; charset=utf-8");
+
         // Encode and wrap the MIME msg into a gmail msg
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);

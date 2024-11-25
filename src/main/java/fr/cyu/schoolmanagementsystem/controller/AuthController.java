@@ -11,6 +11,7 @@ import fr.cyu.schoolmanagementsystem.service.AdminService;
 import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
 import fr.cyu.schoolmanagementsystem.service.TeacherService;
+import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,6 +69,8 @@ public class AuthController {
             return "redirect:/auth?flashMessage=emailAlreadyExists";
         }
         try {
+
+            Gmailer gmailer = new Gmailer();
             if ("student".equalsIgnoreCase(userDto.getUserType())) {
                 String salt = Base64.getEncoder().encodeToString(HashPassword.generateSalt());
                 String hashedPassword = HashPassword.hashPassword(userDto.getPassword(), Base64.getDecoder().decode(salt));
@@ -75,6 +80,32 @@ public class AuthController {
                 studentService.registerStudent(student);
                 RegistrationRequest request = new RegistrationRequest(student);
                 requestService.saveRequest(request);
+
+
+                LocalDate currentDate = LocalDate.now();
+
+                // Formater la date
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDate = currentDate.format(formatter);
+
+               Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+
+                String link = "http://localhost:8080/"; // Assurez-vous d'utiliser le bon protocole et lien
+                gmailer.sendMail(
+                        "Nouvelle demande d'inscription d'un étudiant",
+                        "Bonjour,<br><br>" +
+                                "Une nouvelle demande d'inscription a été soumise par un étudiant sur la plateforme.<br><br>" +
+                                "Voici les détails de la demande :<br>" +
+                                "- Nom complet : " + student.getFirstname() + " " + student.getLastname() + "<br>" +
+                                "- Email : " + student.getEmail() + "<br>" +
+                                "- Date de la demande : " + formattedDate + "<br><br>" +
+                                "Veuillez examiner cette demande et y répondre dans les plus brefs délais.<br>" +
+                                "Connectez-vous ici : <a href='" + link + "'>Accéder à la plateforme</a><br><br>" +
+                                "Cordialement,<br>" +
+                                "L'équipe de gestion du système.",
+                        admin.getEmail()
+                );
+
                 // Crée une demande
                 return "redirect:/auth?flashMessage=studentRequestSubmitted";
             } else if ("teacher".equalsIgnoreCase(userDto.getUserType())) {
