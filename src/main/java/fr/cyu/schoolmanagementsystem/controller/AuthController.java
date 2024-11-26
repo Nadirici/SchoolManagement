@@ -70,6 +70,11 @@ public class AuthController {
         }
         try {
 
+            LocalDate currentDate = LocalDate.now();
+            // Formater la date
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = currentDate.format(formatter);
+
             Gmailer gmailer = new Gmailer();
             if ("student".equalsIgnoreCase(userDto.getUserType())) {
                 String salt = Base64.getEncoder().encodeToString(HashPassword.generateSalt());
@@ -82,13 +87,11 @@ public class AuthController {
                 requestService.saveRequest(request);
 
 
-                LocalDate currentDate = LocalDate.now();
 
-                // Formater la date
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                String formattedDate = currentDate.format(formatter);
 
-               Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+
+
+                Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
 
                 String link = "http://localhost:8080/"; // Assurez-vous d'utiliser le bon protocole et lien
                 gmailer.sendMail(
@@ -117,6 +120,23 @@ public class AuthController {
                 // Crée une demande
                 RegistrationRequest request = new RegistrationRequest(teacher);
                 requestService.saveRequest(request);
+                Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+
+                String link = "http://localhost:8080/"; // Assurez-vous d'utiliser le bon protocole et lien
+                gmailer.sendMail(
+                        "Nouvelle demande d'inscription d'un professeur",
+                        "Bonjour,<br><br>" +
+                                "Une nouvelle demande d'inscription a été soumise par un professeur sur la plateforme.<br><br>" +
+                                "Voici les détails de la demande :<br>" +
+                                "- Nom complet : " + teacher.getFirstname() + " " + teacher.getLastname() + "<br>" +
+                                "- Email : " + teacher.getEmail() + "<br>" +
+                                "- Date de la demande : " + formattedDate + "<br><br>" +
+                                "Veuillez examiner cette demande et y répondre dans les plus brefs délais.<br>" +
+                                "Connectez-vous ici : <a href='" + link + "'>Accéder à la plateforme</a><br><br>" +
+                                "Cordialement,<br>" +
+                                "L'équipe de gestion du système.",
+                        admin.getEmail()
+                );
 
                 return "redirect:/auth?flashMessage=teacherRequestSubmitted";
             } else {

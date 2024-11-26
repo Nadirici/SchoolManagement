@@ -6,6 +6,7 @@ import fr.cyu.schoolmanagementsystem.model.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import fr.cyu.schoolmanagementsystem.service.*;
+import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.*;
 
 import java.util.stream.Collectors;
@@ -92,12 +96,35 @@ public class AdminWebController {
             model.addAttribute("courseDescription", courseDescription);
             model.addAttribute("successMessage", "Course created successfully!");
 
+
+            String link = "http://localhost:8080/";
+            Gmailer gmailer = new Gmailer();
+            gmailer.sendMail(
+                    "Nouvelle affectation à un cours",
+                    "Bonjour " + teacher.getFirstname() + " " + teacher.getLastname() + ",<br><br>" +
+                            "Vous avez été affecté ç l'enseignement d'un nouveau cours.<br><br>" +
+                            "Voici les détails :<br>" +
+                            "- Cours : " + courseName + "<br>" +
+                            "- Description : " + courseDescription + "<br><br>" +
+                            "Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :<br>" +
+                            "<a href='" + link + "'>Voir mes cours</a><br><br>" +
+                            "Cordialement,<br>" +
+                            "L'équipe de gestion du système.",
+                    teacherEmail
+            );
+
             // Redirection vers la page des cours de l'administrateur avec un message flash
             return "redirect:/admin/" + adminId + "/courses?flashMessage=courseCreated";
         } catch (RuntimeException e) {
             // Gestion des erreurs si l'ajout du cours échoue
             model.addAttribute("errorMessage", e.getMessage());
             return "/admin/"+adminId+"/courses";  // Retourner à la page de création en cas d'erreur
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
         }
     }
 
