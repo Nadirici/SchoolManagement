@@ -41,6 +41,7 @@
                         <th>Moyenne de la classe</th>
                         <th>Moyenne minimale</th>
                         <th>Moyenne maximale</th>
+                        <th>Plus d'info</th>
                     </tr>
                     </thead>
                     <tbody>

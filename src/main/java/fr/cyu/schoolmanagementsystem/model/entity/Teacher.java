@@ -4,6 +4,7 @@ import fr.cyu.schoolmanagementsystem.model.entity.base.BasePersonEntity;
 import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class Teacher extends BasePersonEntity {
     @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     private Set<Course> courses;
 
+    @Setter
     @Column(name = "department")
     private String department;
 

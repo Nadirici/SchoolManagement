@@ -1,5 +1,7 @@
 package fr.cyu.schoolmanagementsystem.service;
 
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
+import fr.cyu.schoolmanagementsystem.repository.*;
 import org.springframework.ui.Model;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
@@ -7,7 +9,6 @@ import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
 
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 
-import fr.cyu.schoolmanagementsystem.repository.TeacherRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 
@@ -26,15 +27,22 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
 
+    private final RequestRepository requestRepository;
+    private final CourseRepository courseRepository;
 
 
     private final ModelMapper mapper;
+    private final AssignmentRepository assignmentRepository;
 
     @Autowired
-    public TeacherService(TeacherRepository teacherRepository, ModelMapper mapper) {
+    public TeacherService(TeacherRepository teacherRepository, RequestRepository requestRepository, CourseRepository courseRepository,  ModelMapper mapper, AssignmentRepository assignmentRepository) {
         this.teacherRepository = teacherRepository;
+        this.requestRepository = requestRepository;
+        this.courseRepository = courseRepository;
+
 
         this.mapper = mapper;
+        this.assignmentRepository = assignmentRepository;
     }
 
     public List<Teacher> getTeachersByDepartment(String department) {
@@ -59,11 +67,27 @@ public class TeacherService {
         teacherRepository.save(teacher);
         return teacher.getId();
     }
-
+    @Transactional
     public void deleteTeacherById(UUID id) {
-        if (teacherRepository.findById(id).isEmpty()) {
+        // Vérifier si l'enseignant existe
+        if (!teacherRepository.existsById(id)) {
             throw new RuntimeException("Teacher with this id does not exist.");
         }
+
+        // Supprimer les requests associées à cet enseignant
+        requestRepository.deleteByTeacherId(id);
+
+        // Supprimer les cours associés à cet enseignant
+        List<Course> courses = courseRepository.findByTeacherId(id);
+        for (Course course : courses) {
+            // Supprimer les notes associées à chaque cours
+            assignmentRepository.deleteByCourseId(course.getId());
+        }
+
+        // Supprimer les cours
+        courseRepository.deleteByTeacherId(id);
+
+        // Supprimer l'enseignant
         teacherRepository.deleteById(id);
     }
 

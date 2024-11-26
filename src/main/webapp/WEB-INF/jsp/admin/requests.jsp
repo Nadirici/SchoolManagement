@@ -38,10 +38,10 @@
                     <td>${teacherRequest.teacher.lastname}</td>
                     <td>${teacherRequest.teacher.firstname}</td>
                     <td>
-                        <form action="/admin/${adminId}/requests/${teacherRequest.id}/approve" method="post" style="display:inline;">
+                        <form action="/admin/${admin.id}/requests/${teacherRequest.id}/approve" method="post" style="display:inline;">
                             <button type="submit">Approuver</button>
                         </form>
-                        <form action="/admin/${adminId}/requests/${teacherRequest.id}/reject" method="post" style="display:inline;">
+                        <form action="/admin/${admin.id}/requests/${teacherRequest.id}/reject" method="post" style="display:inline;">
                             <button type="submit">Rejeter</button>
                         </form>
                     </td>

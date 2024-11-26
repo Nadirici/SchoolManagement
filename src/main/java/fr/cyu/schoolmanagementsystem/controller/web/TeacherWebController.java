@@ -1,6 +1,9 @@
 package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.*;
+import fr.cyu.schoolmanagementsystem.model.entity.Student;
+import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
+import fr.cyu.schoolmanagementsystem.model.passwordmanager.HashPassword;
 import fr.cyu.schoolmanagementsystem.service.*;
 import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.http.HttpSession;
@@ -265,6 +268,70 @@ public class TeacherWebController {
             return "redirect:/teachers/"+id+"/courses/"+courseId;
         }
     }
+
+    @GetMapping("/{id}/profile")
+    public String showTeacherProfile(@PathVariable("id") UUID teacherId, Model model, RedirectAttributes redirectAttributes) {
+        Optional<TeacherDTO> teacherDTO = teacherService.getTeacherById(teacherId);
+
+        if (teacherDTO.isPresent()) {
+            model.addAttribute("teacher", teacherDTO.get());
+            return "teachers/profile";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Étudiant introuvable.");
+            return "redirect:/teachers?flashMessage=notFound";
+        }
+    }
+    @PostMapping("/{id}/profile")
+    public String updateTeacherProfile(@PathVariable("id") UUID teacherId,
+                                       @RequestParam(value = "email", required = false) String email,
+                                       @RequestParam(value = "password", required = false) String password,
+                                       RedirectAttributes redirectAttributes) {
+        Optional<TeacherDTO> teacherDTO = teacherService.getTeacherById(teacherId);
+        if (teacherDTO.isPresent()) {
+
+            TeacherDTO teacher = teacherDTO.get();
+
+            // Si l'email est fourni et qu'il a changé, vérifier s'il existe déjà dans la base de données
+            if (email != null && !teacher.getEmail().equals(email) && teacherService.getTeacherByEmail(email).isPresent()) {
+                redirectAttributes.addFlashAttribute("flashMessage", "UsedEmail");
+                return "redirect:/teachers/" + teacherId + "/profile";
+            }
+
+            // Mettre à jour l'email si un nouveau email est fourni
+            if (email != null && !teacher.getEmail().equals(email)) {
+                teacher.setEmail(email);
+            }
+
+            // Mettre à jour le mot de passe si un nouveau mot de passe est fourni
+            if (password != null && !password.isEmpty()) {
+                byte[] salt = HashPassword.generateSalt();
+                String hashedPassword = HashPassword.hashPassword(password, salt);
+                teacher.setPassword(hashedPassword);
+                teacher.setSalt(Base64.getEncoder().encodeToString(salt));
+            }
+
+            // Créer l'objet Teacher pour sauvegarder les modifications
+            Teacher rteacher = new Teacher();
+            rteacher.setId(teacherId);
+            rteacher.setEmail(teacher.getEmail());
+            rteacher.setPassword(teacher.getPassword());
+            rteacher.setDepartment(teacher.getDepartment());
+            rteacher.setSalt(teacher.getSalt());
+            rteacher.setFirstname(teacher.getFirstname());
+            rteacher.setLastname(teacher.getLastname());
+            rteacher.setVerified(teacher.isVerified());
+
+            // Sauvegarder les modifications
+            teacherService.updateTeacher(rteacher);
+
+            redirectAttributes.addFlashAttribute("flashMessage", "TeacherUpdated");
+            return "redirect:/teachers/" + teacherId + "/profile";
+        } else {
+            redirectAttributes.addFlashAttribute("flashMessage", "TeacherNotFound");
+            return "redirect:/teachers/" + teacherId + "/profile";
+        }
+    }
+
 
     @DeleteMapping("/{id}/courses/{courseId}/assignment/{assignmentId}")
     public String deleteAssignment(@PathVariable UUID id,

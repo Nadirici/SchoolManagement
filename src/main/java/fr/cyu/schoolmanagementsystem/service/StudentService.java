@@ -2,11 +2,13 @@ package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
-import fr.cyu.schoolmanagementsystem.repository.StudentRepository;
+import fr.cyu.schoolmanagementsystem.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +21,17 @@ public class StudentService {
 
     private final ModelMapper mapper;
 
+    private final GradeRepository gradeRepository;
+    private final EnrollmentRepository enrollmentRepository;
+    private final RequestRepository requestRepository;
+
     @Autowired
-    public StudentService(StudentRepository studentRepository, ModelMapper mapper) {
+    public StudentService(StudentRepository studentRepository, ModelMapper mapper, GradeRepository gradeRepository, EnrollmentRepository enrollmentRepository, RequestRepository requestRepository) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
+        this.gradeRepository = gradeRepository;
+        this.enrollmentRepository = enrollmentRepository;
+        this.requestRepository = requestRepository;
     }
 
     public List<StudentDTO> getAllStudents() {
@@ -42,10 +51,28 @@ public class StudentService {
         return student.getId();
     }
 
+    @Transactional
     public void deleteStudent(UUID id) {
-        if (studentRepository.findById(id).isEmpty()) {
+        // Vérifier si l'étudiant existe
+        if (!studentRepository.existsById(id)) {
             throw new RuntimeException("Student with this id does not exist.");
         }
+
+        // Supprimer toutes les demandes associées à cet étudiant
+        requestRepository.deleteByStudentId(id);
+
+        // Récupérer toutes les inscriptions de l'étudiant
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(id);
+
+        // Supprimer toutes les notes associées aux inscriptions de cet étudiant
+        for (Enrollment enrollment : enrollments) {
+            gradeRepository.deleteByEnrollmentId(enrollment.getId());
+        }
+
+        // Supprimer les inscriptions
+        enrollmentRepository.deleteByStudentId(id);
+
+        // Supprimer l'étudiant
         studentRepository.deleteById(id);
     }
 

@@ -31,7 +31,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste de course de ${student.firstname}</title>
+    <title>Liste de cours de ${teacher.firstname}</title>
     <link rel="stylesheet" href="/css/style.css">
      <!-- Lien vers votre fichier CSS -->
 </head>
@@ -43,7 +43,7 @@
 
 
     <div class="overviewStudent">
-    <h2>Liste de cours de  ${student.firstname}</h2>
+    <h2>Liste de cours de  ${teacher.firstname}</h2>
         <div class="stats">
         <table border="1">
         <thead>

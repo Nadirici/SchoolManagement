@@ -3,7 +3,7 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Prenom</th>
+        <th>Prénom</th>
         <th>Nom</th>
         <th>Note</th>
     </tr>

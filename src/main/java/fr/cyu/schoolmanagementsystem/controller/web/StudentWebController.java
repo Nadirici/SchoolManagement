@@ -231,7 +231,8 @@ public class StudentWebController {
 
             // Si l'email est fourni et qu'il a changé, vérifier s'il existe déjà dans la base de données
             if (email != null && !student.getEmail().equals(email) && studentService.getStudentByEmail(email).isPresent()) {
-                return "redirect:/students/" + studentId + "/profile?flashMessage=UsedEmail";
+                redirectAttributes.addFlashAttribute("flashMessage", "UsedEmail");
+                return "redirect:/students/" + studentId + "/profile";
             }
 
             // Mettre à jour l'email si un nouveau email est fourni
@@ -260,11 +261,13 @@ public class StudentWebController {
 
             // Sauvegarder les modifications
             studentService.updateStudent(student1);
+            redirectAttributes.addFlashAttribute("flashMessage", "TeacherUpdated");
+            return "redirect:/students/" + studentId + "/profile";
 
-            return "redirect:/students/" + studentId + "/profile?flashMessage=StudentUpdated";
+
         } else {
             redirectAttributes.addFlashAttribute("error", "Étudiant introuvable.");
-            return "redirect:/students";
+            return "redirect:/students/" + studentId + "/profile";
         }
     }
 

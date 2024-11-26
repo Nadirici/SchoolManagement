@@ -7,7 +7,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Information sur l'étudiant</title>
+    <title>Information sur l'enseignant</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
      <!-- Lien vers votre fichier CSS -->
 </head>
@@ -15,13 +15,13 @@
 <div class="container">
 <%@include file="../../headers/admin_header.jsp" %>
 <div class="main-content">
-<h1>Informations sur ${student.firstname} ${student.lastname}</h1>
+<h1>Information sur ${teacher.firstname} ${teacher.lastname}</h1>
 
 
     <div class="overviewStudent">
 
 
-<h2>informations sur l'élève</h2>
+<h2>informations sur l'enseignant</h2>
     <div class="stats">
 
 <table>
@@ -31,16 +31,16 @@
        <th>Prénom:</th>
          <th>Nom:</th>
          <th>Email:</th>
-          <th>Date de naissance</th>
+          <th>Département</th>
 
     </tr>
     </thead>
     <tbody>
-     <td>${student.id}</td>
-      <td>${student.firstname}</td>
-      <td>${student.lastname}</td>
-     <td>${student.email}</td>
-      <td>${student.dateOfBirth}</td>
+     <td>${teacher.id}</td>
+      <td>${teacher.firstname}</td>
+      <td>${teacher.lastname}</td>
+     <td>${teacher.email}</td>
+      <td>${teacher.department}</td>
       </tbody>
 </table>
 </div>
