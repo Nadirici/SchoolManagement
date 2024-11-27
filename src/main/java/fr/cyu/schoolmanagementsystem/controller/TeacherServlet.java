@@ -57,7 +57,9 @@ public class TeacherServlet extends HttpServlet {
                 } else {
                     String[] pathParts = pathInfo.split("/");
 
-                    if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
+                    if (pathParts.length == 2 && pathInfo.equals("/courses")) {
+                        viewCourseList(request, response, teacher.getId());
+                    }else if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
                         String courseId = pathParts[2];
                         viewCourseDetails(request, response, courseId);
 
@@ -75,6 +77,16 @@ public class TeacherServlet extends HttpServlet {
         }
 
 
+    }
+
+    private void viewCourseList(HttpServletRequest request, HttpServletResponse response, UUID teacherId) throws ServletException, IOException {
+        try {
+            Teacher teacher = teacherService.getById(teacherId);
+            request.setAttribute("teacher", teacher);
+            request.getRequestDispatcher("/WEB-INF/views/teachers/courses.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching enrollments");
+        }
     }
 
     private void viewDashboard(HttpServletRequest request, HttpServletResponse response, UUID teacherId) throws ServletException, IOException {

@@ -20,7 +20,6 @@
         <ul>
             <li><a href="${pageContext.request.contextPath}/teachers" >Overview</a></li>
             <li><a href="${pageContext.request.contextPath}/teachers/courses" class="active">Courses</a></li>
-            <li><a href="${pageContext.request.contextPath}/teachers/assignments">Assignments</a></li>
             <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
         </ul>
     </div>
@@ -28,8 +27,8 @@
     <div class="main-content">
         <header class="header">
             <div class="header-left">
-                <h1>👋 Hi ${teacher.firstname},</h1>
-                <h2>Welcome to <span>Courses Dashboard!</span></h2>
+                <h1>👋 Bonjour ${teacher.firstname},</h1>
+                <h2>Bienvenue sur votre <span>Tableau de bord Enseignant</span></h2>
             </div>
             <div class="header-right">
                 <div class="user-profile">
