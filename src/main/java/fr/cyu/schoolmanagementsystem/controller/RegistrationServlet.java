@@ -91,7 +91,7 @@ public class RegistrationServlet extends HttpServlet {
                 AdminDAO adminDAO = new AdminDAO(Admin.class);
                 Optional<Admin> admin = adminDAO.findByEmail("schoolmanagementjee@gmail.com");
                 Gmailer gmailer = new Gmailer();
-                String link = "http://localhost:8080/SchoolManagement"; // Assurez-vous d'utiliser le bon protocole et lien
+                String link = "http://localhost:8080/SchoolManagement_war_exploded/login"; // Assurez-vous d'utiliser le bon protocole et lien
                 gmailer.sendMail(
                         "Nouvelle demande d'inscription d'un étudiant",
                         "Bonjour,<br><br>" +
@@ -148,7 +148,7 @@ public class RegistrationServlet extends HttpServlet {
                 AdminDAO adminDAO = new AdminDAO(Admin.class);
                 Optional<Admin> admin = adminDAO.findByEmail("schoolmanagementjee@gmail.com");
                 Gmailer gmailer = new Gmailer();
-                String link = "http://localhost:8080/SchoolManagement"; // Assurez-vous d'utiliser le bon protocole et lien
+                String link = "http://localhost:8080/SchoolManagement_war_exploded/login"; // Assurez-vous d'utiliser le bon protocole et lien
                 gmailer.sendMail(
                         "Nouvelle demande d'inscription d'un professeur",
                         "Bonjour,<br><br>" +

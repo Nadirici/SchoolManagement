@@ -226,7 +226,7 @@ public class TeacherServlet extends HttpServlet {
                 Enrollment enrollment = grade.getEnrollment();
                 Student student = enrollment.getStudent();
 
-                String link = "http://localhost:8080/"; // Lien vers la plateforme
+                String link = "http://http://localhost:8080/SchoolManagement_war_exploded/login/"; // Lien vers la plateforme
                 String subject = "Nouvelle note ajoutée à votre compte";
                 String body = "Bonjour " + student.getFirstname() + " " + student.getLastname() + ",<br><br>" +
                         "Une nouvelle note a été ajoutée à votre compte sur la plateforme.<br><br>" +

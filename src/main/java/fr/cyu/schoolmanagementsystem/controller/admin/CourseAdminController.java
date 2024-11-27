@@ -192,7 +192,7 @@ public class CourseAdminController extends HttpServlet {
 
 
 
-            String link = "http://localhost:8080/";
+            String link = "http://localhost:8080/SchoolManagement_war_exploded/login";
             Gmailer gmailer = new Gmailer();
             gmailer.sendMail(
                     "Nouvelle affectation à un cours",
