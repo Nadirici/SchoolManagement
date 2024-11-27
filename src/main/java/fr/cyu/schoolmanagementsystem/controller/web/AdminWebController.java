@@ -102,7 +102,7 @@ public class AdminWebController {
             gmailer.sendMail(
                     "Nouvelle affectation à un cours",
                     "Bonjour " + teacher.getFirstname() + " " + teacher.getLastname() + ",<br><br>" +
-                            "Vous avez été affecté ç l'enseignement d'un nouveau cours.<br><br>" +
+                            "Vous avez été affecté à l'enseignement d'un nouveau cours.<br><br>" +
                             "Voici les détails :<br>" +
                             "- Cours : " + courseName + "<br>" +
                             "- Description : " + courseDescription + "<br><br>" +
