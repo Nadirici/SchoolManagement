@@ -1,24 +1,24 @@
 package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.dao.*;
-import fr.cyu.schoolmanagementsystem.entity.Admin;
 import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.Student;
+import fr.cyu.schoolmanagementsystem.service.stats.StudentStatsService;
+import fr.cyu.schoolmanagementsystem.util.CompositeStats;
 import jakarta.persistence.EntityNotFoundException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StudentService extends GenericServiceImpl<Student> {
 
     private final EnrollmentService enrollmentService;
+    private StudentStatsService studentStatsService;
 
     public StudentService(StudentDAO studentDAO) {
         super(studentDAO);
         enrollmentService = new EnrollmentService(new EnrollmentDAO(Enrollment.class));
+        studentStatsService = new StudentStatsService();
     }
 
     @Override
@@ -62,5 +62,20 @@ public class StudentService extends GenericServiceImpl<Student> {
         } catch(EntityNotFoundException e) {
             throw new EntityNotFoundException("No student with this id exists");
         }
+    }
+
+    public List<Student> getAllStudentsWithGlobalAverageGreaterThanTen() {
+        return getAllVerified().stream()
+                .filter(student -> studentStatsService.getStatsForStudent(student.getId()).getAverage() >= 10)
+                .collect(Collectors.toList());
+    }
+
+    public double getPercentageOfStudentsWithGlobalAverageGreaterThanTen() {
+        List<Student> allStudents = getAllVerified();
+        long countAboveTen = allStudents.stream()
+                .filter(student -> studentStatsService.getStatsForStudent(student.getId()).getAverage() >= 10)
+                .count();
+
+        return allStudents.isEmpty() ? 0.0 : (countAboveTen * 100.0) / allStudents.size();
     }
 }
