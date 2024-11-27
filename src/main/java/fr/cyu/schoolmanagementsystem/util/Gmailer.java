@@ -80,7 +80,7 @@ public class Gmailer {
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(SENDER));
         email.addRecipient(javax.mail.Message.RecipientType.TO,
-                new InternetAddress(receiver)); // a remplacer par le vrai email
+                new InternetAddress(receiver));
         email.setSubject(subject);
         email.setText(message);
 
