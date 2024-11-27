@@ -189,6 +189,10 @@ body {
     padding-bottom: 5px;
 }
 
+.overviewStudent h3 {
+    margin-bottom: 15px;
+}
+
 /* Conteneur pour les cartes de statistiques */
 .stats {
     display: flex;
@@ -233,7 +237,7 @@ body {
 .overviewStudent table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-bottom: 15px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile */
@@ -307,4 +311,159 @@ body {
     font-weight: bold;
     color: var(--primary-color);
     margin: 0;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #1a252f;
+    border-color: #1a252f;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    background-color: #192a33;
+    border-color: #192a33;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+    background-color: #d6d6d6; /* Couleur pour état désactivé (gris) */
+    border-color: #d6d6d6;
+    color: #9a9a9a;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Style général pour les labels */
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: block; /* Empêche les labels de se superposer avec les champs */
+    transition: color 0.3s ease;
+}
+
+/* Style général pour les champs de saisie (input) */
+input, select, textarea {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px; /* Espacement sous chaque champ */
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color); /* Bordure colorée au focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Ombre douce au focus */
+    outline: none; /* Retirer la bordure par défaut */
+}
+
+/* Style pour les champs de saisie désactivés */
+input:disabled, select:disabled, textarea:disabled {
+    background-color: #f5f5f5; /* Couleur de fond gris clair */
+    border-color: #ddd;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Style pour les champs de saisie avec erreur */
+input.error, select.error, textarea.error {
+    border-color: #e74c3c; /* Bordure rouge pour erreur */
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+}
+
+/* Style pour les champs de saisie valides */
+input.valid, select.valid, textarea.valid {
+    border-color: #2ecc71; /* Bordure verte pour succès */
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+}
+
+/* Style spécifique pour les éléments select */
+select {
+    -webkit-appearance: none; /* Supprime le style par défaut du select */
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"%3E%3Cpath fill="none" stroke="%23333" stroke-width="1" d="M1 1l4 4 4-4"%3E%3C/path%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+/* Style spécifique pour les éléments textarea */
+textarea {
+    resize: vertical; /* Permet de redimensionner verticalement seulement */
+    min-height: 120px; /* Hauteur minimale pour textarea */
+    font-family: "Noto Sans", Arial, sans-serif;
+}
+
+/* Ajout d'un espacement sous le formulaire */
+form {
+    max-width: 600px;
+    padding: 20px 0;
+}
+
+form.form-button {
+    padding: 0;
+}
+
+/* Container to hold all the forms */
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Create 3 equal columns */
+    gap: 20px; /* Space between the columns */
+    margin-bottom: 30px;
+}
+
+/* Style for each form column */
+.form-column {
+    padding: 20px 0;
+}
+
+/* Make the grid responsive on smaller screens */
+@media (max-width: 768px) {
+    .form-container {
+        grid-template-columns: 1fr; /* Stacks the forms in one column */
+    }
+}
+
+/* Style for <p> tags inside course details */
+p {
+    font-size: 1.1rem;  /* Légèrement plus grand pour améliorer la lisibilité */
+    line-height: 1.6;   /* Espacement entre les lignes */
+    margin-bottom: 10px; /* Un peu d'espace sous chaque paragraphe */
+    color: #333;        /* Couleur du texte (gris foncé) */
+}
+
+p strong {
+    font-weight: bold;  /* Mettre en gras les textes avec la balise <strong> */
+}
+
+p a {
+    color: var(--primary-color);      /* Couleur bleue pour les liens */
+    text-decoration: none; /* Enlever le soulignement */
+}
+
+p a:hover {
+    text-decoration: underline; /* Ajouter un soulignement lors du survol du lien */
 }

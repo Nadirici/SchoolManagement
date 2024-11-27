@@ -47,52 +47,7 @@
       <div>
         <h2>${course.name}</h2>
         <p><strong>Description:</strong> ${course.description}</p>
-        <p><strong>Teacher:</strong><a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
-
-        <h3>Edit Course</h3>
-        <form method="post" action="${pageContext.request.contextPath}/admin/courses">
-          <input type="hidden" name="_method" value="PUT" />
-          <input type="hidden" name="id" value="${course.id}"/>
-          <label for="name">Course Name:</label>
-          <input type="text" id="name" name="name" value="${course.name}" required/><br/>
-
-          <label for="courseDescription">Description:</label>
-          <textarea id="courseDescription" name="description" required>${course.description}</textarea><br/>
-
-          <label for="teacherId">Teacher:</label>
-          <select id="teacherId" name="teacherId" required>
-            <option value="">Select a teacher</option>
-            <c:forEach var="teacher" items="${availableTeachers}">
-              <option value="${teacher.id}"
-                      <c:if test="${teacher.id == course.teacher.id}">selected</c:if>>
-                  ${teacher.firstname} ${teacher.lastname}
-              </option>
-            </c:forEach>
-          </select><br/>
-
-          <button type="submit">Save Changes</button>
-        </form>
-
-        <h3>Add New Assignment</h3>
-        <form method="post" action="${pageContext.request.contextPath}/admin/assignments">
-          <input type="hidden" name="_method" value="POST">
-          <!-- Champ caché pour lier l'Assignment au cours actuel -->
-          <input type="hidden" name="courseId" value="${course.id}"/>
-
-          <!-- Titre de l'Assignment -->
-          <label for="title">Assignment Title:</label>
-          <input type="text" id="title" name="title" placeholder="Enter assignment title" required/><br/>
-
-          <!-- Description de l'Assignment -->
-          <label for="assignmentDescription">Description:</label>
-          <textarea id="assignmentDescription" name="description" placeholder="Enter assignment description" required></textarea><br/>
-
-          <label for="coefficient">Coefficient:</label>
-          <input type="number" id="coefficient" name="coefficient" placeholder="Enter coefficient" step="0.5" required/><br/>
-
-          <button type="submit">Add Assignment</button>
-        </form>
-
+        <p><strong>Teacher:</strong> <a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
 
         <h3>Assignments:</h3>
         <table border="1">
@@ -211,8 +166,7 @@
                 </c:choose>
               </td>
               <td>
-                <a href="${pageContext.request.contextPath}/admin/enrollments/${enrollment.key.id}">View Enrollment</a><br/>
-                <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
+                <form class="form-button" method="post" action="${pageContext.request.contextPath}/admin/enrollments">
                   <input type="hidden" name="_method" value="DELETE"/>
                   <input type="hidden" name="id" value="${enrollment.key.id}"/>
                   <button type="submit">Remove</button>
@@ -222,28 +176,76 @@
           </c:forEach>
           </tbody>
         </table>
+      </div>
+      <div class="form-container">
+        <div class="form-column">
+          <h3>Edit Course</h3>
+          <form method="post" action="${pageContext.request.contextPath}/admin/courses">
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="hidden" name="id" value="${course.id}"/>
+            <label for="name">Course Name:</label>
+            <input type="text" id="name" name="name" value="${course.name}" required/><br/>
 
-        <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
-          <input type="hidden" name="_method" value="POST">
-          <input type="hidden" name="courseId" value="${course.id}"/>
-          <label for="studentId">Add Student:</label>
-          <select id="studentId" name="studentId" required>
-            <option value="">Select a student</option>
-            <c:forEach var="student" items="${availableStudents}">
-              <option value="${student.id}">${student.firstname} ${student.lastname}</option>
-            </c:forEach>
-          </select>
-          <button type="submit">Add</button>
-        </form>
+            <label for="courseDescription">Description:</label>
+            <textarea id="courseDescription" name="description" required>${course.description}</textarea><br/>
 
-        <!-- Formulaire de suppression -->
-        <h2>Delete Course</h2>
-        <form method="post" action="${pageContext.request.contextPath}/admin/courses">
-          <input type="hidden" name="_method" value="DELETE" />
-          <input type="hidden" name="id" value="${course.id}" />
-          <button type="submit">Delete Course</button>
-        </form>
+            <label for="teacherId">Teacher:</label>
+            <select id="teacherId" name="teacherId" required>
+              <option value="">Select a teacher</option>
+              <c:forEach var="teacher" items="${availableTeachers}">
+                <option value="${teacher.id}"
+                        <c:if test="${teacher.id == course.teacher.id}">selected</c:if>>
+                    ${teacher.firstname} ${teacher.lastname}
+                </option>
+              </c:forEach>
+            </select><br/>
 
+            <button type="submit">Save Changes</button>
+          </form>
+        </div>
+        <div class="form-column">
+          <h3>Add New Assignment</h3>
+          <form method="post" action="${pageContext.request.contextPath}/admin/assignments">
+            <input type="hidden" name="_method" value="POST">
+            <!-- Champ caché pour lier l'Assignment au cours actuel -->
+            <input type="hidden" name="courseId" value="${course.id}"/>
+
+            <!-- Titre de l'Assignment -->
+            <label for="title">Assignment Title:</label>
+            <input type="text" id="title" name="title" placeholder="Enter assignment title" required/><br/>
+
+            <!-- Description de l'Assignment -->
+            <label for="assignmentDescription">Description:</label>
+            <textarea id="assignmentDescription" name="description" placeholder="Enter assignment description" required></textarea><br/>
+
+            <label for="coefficient">Coefficient:</label>
+            <input type="number" id="coefficient" name="coefficient" placeholder="Enter coefficient" step="0.5" required/><br/>
+
+            <button type="submit">Add Assignment</button>
+          </form>
+        </div>
+        <div class="form-column">
+          <h3>Enroll a Student</h3>
+          <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
+            <input type="hidden" name="_method" value="POST">
+            <input type="hidden" name="courseId" value="${course.id}"/>
+            <select id="studentId" name="studentId" required>
+              <option value="">Select a student</option>
+              <c:forEach var="student" items="${availableStudents}">
+                <option value="${student.id}">${student.firstname} ${student.lastname}</option>
+              </c:forEach>
+            </select>
+            <button type="submit">Add</button>
+          </form>
+
+          <!-- Formulaire de suppression -->
+          <h3>Delete Course</h3>
+          <form method="post" action="${pageContext.request.contextPath}/admin/courses">
+            <input type="hidden" name="_method" value="DELETE" />
+            <input type="hidden" name="id" value="${course.id}" />
+            <button type="submit">Delete Course</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
