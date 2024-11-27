@@ -27,7 +27,7 @@
                     </td>
                 </c:when>
                 <c:otherwise>
-                    <td><a href="../${user.id}/courses/${course.id}" class="button">More</a></td>
+                    <td><a href="../${user.id}/courses/${course.id}" class="button">Voir plus</a></td>
                 </c:otherwise>
 
             </c:choose>

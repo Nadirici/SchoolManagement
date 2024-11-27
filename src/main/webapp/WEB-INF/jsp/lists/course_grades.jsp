@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Vos devoirs</title>
 </head>
 <body>
     <div>
@@ -20,7 +20,7 @@
         <table border="1">
             <thead>
             <tr>
-                <th>Prenom</th>
+                <th>Prénom</th>
                 <th>Nom</th>
                 <c:forEach var="assignment" items="${assignments}">
                     <th>${assignment.title}</th>

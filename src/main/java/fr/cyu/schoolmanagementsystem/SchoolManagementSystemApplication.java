@@ -16,6 +16,8 @@ public class SchoolManagementSystemApplication {
 
 
 
+        //TODO Lancer le serveur MySQL
+
 
         SpringApplication.run(SchoolManagementSystemApplication.class, args);
 

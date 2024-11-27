@@ -6,6 +6,7 @@ import fr.cyu.schoolmanagementsystem.model.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import fr.cyu.schoolmanagementsystem.service.*;
+import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.*;
 
 import java.util.stream.Collectors;
@@ -50,10 +54,10 @@ public class AdminWebController {
     public String showDashboard(@PathVariable("id") UUID id, Model model) {
         Admin admin = adminService.getAdmin(id);
         model.addAttribute("admin", admin);
-        return "admin/dashboard";
+        return "redirect:/admin/" + id + "/requests";
     }
 
-    @PostMapping("/{adminId}/courses/create")
+    @PostMapping("{adminId}/courses/create")
     public String createCourse(
             @PathVariable("adminId") String adminId,
             @RequestParam("department") String department,
@@ -92,12 +96,35 @@ public class AdminWebController {
             model.addAttribute("courseDescription", courseDescription);
             model.addAttribute("successMessage", "Course created successfully!");
 
+
+            String link = "http://localhost:8080/";
+            Gmailer gmailer = new Gmailer();
+            gmailer.sendMail(
+                    "Nouvelle affectation à un cours",
+                    "Bonjour " + teacher.getFirstname() + " " + teacher.getLastname() + ",<br><br>" +
+                            "Vous avez été affecté à l'enseignement d'un nouveau cours.<br><br>" +
+                            "Voici les détails :<br>" +
+                            "- Cours : " + courseName + "<br>" +
+                            "- Description : " + courseDescription + "<br><br>" +
+                            "Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :<br>" +
+                            "<a href='" + link + "'>Voir mes cours</a><br><br>" +
+                            "Cordialement,<br>" +
+                            "L'équipe de gestion du système.",
+                    teacherEmail
+            );
+
             // Redirection vers la page des cours de l'administrateur avec un message flash
             return "redirect:/admin/" + adminId + "/courses?flashMessage=courseCreated";
         } catch (RuntimeException e) {
             // Gestion des erreurs si l'ajout du cours échoue
             model.addAttribute("errorMessage", e.getMessage());
             return "/admin/"+adminId+"/courses";  // Retourner à la page de création en cas d'erreur
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -225,10 +252,22 @@ public class AdminWebController {
 
 
     @GetMapping("/{id}/students")
-    public String getAllStudents(Model model) {
+    public String getAllStudents(Model model, @PathVariable String id) {
         List<StudentDTO> students = studentService.getAllStudents();
+        Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+        model.addAttribute("admin", admin);
         model.addAttribute("students", students);
-        return "admin/students/list"; // JSP page name: students/list.jsp
+
+        return "admin/students/list";
+    }
+
+    @GetMapping("/{id}/teachers")
+    public String getAllTeachers(Model model, @PathVariable String id) {
+        List<TeacherDTO> teachers = teacherService.getAllTeachers();
+        Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+        model.addAttribute("admin", admin);
+        model.addAttribute("teachers", teachers);
+        return "admin/teachers/list"; // JSP page name: students/list.jsp
     }
 
     @GetMapping("/{adminId}/students/{studentId}")
@@ -236,7 +275,10 @@ public class AdminWebController {
         Optional<StudentDTO> student = studentService.getStudentById(studentId);
 
         if (student.isPresent()) {
+            Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+            model.addAttribute("admin", admin);
             model.addAttribute("student", student.get());
+            System.out.println("je suis la ");
             return "admin/students/view"; // JSP page name: students/view.jsp
         } else {
             redirectAttributes.addFlashAttribute("error", "Student not found");
@@ -244,18 +286,56 @@ public class AdminWebController {
         }
     }
 
-    @GetMapping("/students/{id}/courses")
-    public String showCoursesForStudent(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/{adminId}/teachers/{teacherId}")
+    public String getTeacherById(@PathVariable("adminId") UUID adminId, @PathVariable("teacherId") UUID teacherId, Model model, RedirectAttributes redirectAttributes) {
+        Optional<TeacherDTO> teacherDTO = teacherService.getTeacherById(teacherId);
+
+        if (teacherDTO.isPresent()){
+            Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+            model.addAttribute("admin", admin);
+            model.addAttribute("teacher", teacherDTO.get());
+            System.out.println("je suis la ");
+            return "admin/teachers/view"; // JSP page name: students/view.jsp
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Student not found");
+            return "redirect:/admin/students"; // Redirect to the list page if student not found
+        }
+    }
+
+
+
+    @GetMapping("{adminId}/students/{id}/courses")
+    public String showCoursesForStudent(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes, @PathVariable String adminId) {
         List<CourseDTO> courses = enrollmentService.getCoursesForStudent(id);
         Optional<StudentDTO> student = studentService.getStudentById(id);
         if (courses != null && student.isPresent()) {
             model.addAttribute("courses", courses);
             model.addAttribute("student", student.get());
+            Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+            model.addAttribute("admin", admin);
             return "admin/students/courses"; // JSP page name: students/courses.jsp
         } else {
             redirectAttributes.addFlashAttribute("error", "Courses not found for student");
             return "redirect:/admin";
         }
+    }
+    @GetMapping("{adminId}/teachers/{id}/courses")
+    public String showCoursesForTeacher(@PathVariable String adminId, @PathVariable String id,Model model, RedirectAttributes redirectAttributes){
+        List<CourseDTO> courses = courseService.getCoursesByTeacherId(UUID.fromString(id));
+        Optional<TeacherDTO> teacherDTO = teacherService.getTeacherById(UUID.fromString(id));
+        if (courses != null && teacherDTO.isPresent()) {
+            model.addAttribute("courses", courses);
+            model.addAttribute("teacher", teacherDTO.get());
+            Admin admin = adminService.getAdminByEmail("schoolmanagementjee@gmail.com");
+            model.addAttribute("admin", admin);
+            return "admin/teachers/courses"; // JSP page name: students/courses.jsp
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Courses not found for student");
+            return "redirect:/admin";
+        }
+
+
+
     }
 
     @GetMapping("/new")
@@ -278,15 +358,28 @@ public class AdminWebController {
         }
     }
 
-    @DeleteMapping("/students/{id}")
-    public String deleteStudentById(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes) {
+    @GetMapping("{adminId}/students/{id}/delete")
+    public String deleteStudentById(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @PathVariable String adminId) {
         try {
             studentService.deleteStudent(id);
-            redirectAttributes.addFlashAttribute("message", "Student deleted successfully");
-            return "redirect:/admin/students"; // Redirect to the list of students after deletion
+
+            return "redirect:/admin/"+adminId+"/students?flashMessage=StudentDeletedSuccessfully"; // Redirect to the list of students after deletion
         } catch (RuntimeException ex) {
-            redirectAttributes.addFlashAttribute("error", "Conflict: " + ex.getMessage());
-            return "redirect:/admin/students"; // Redirect back to the list with an error message
+
+            return "redirect:/admin/"+adminId+"/students?flashMessage=notDeleted"; // Redirect back to the list with an error message
+        }
+    }
+
+
+    @GetMapping("{adminId}/teachers/{id}/delete")
+    public String deleteTeacherById(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @PathVariable String adminId) {
+        try {
+            teacherService.deleteTeacherById(id);
+
+            return "redirect:/admin/"+adminId+"/teachers?flashMessage=StudentDeletedSuccessfully"; // Redirect to the list of students after deletion
+        } catch (RuntimeException ex) {
+
+            return "redirect:/admin/"+adminId+"/teachers?flashMessage=notDeleted"; // Redirect back to the list with an error message
         }
     }
 
@@ -300,7 +393,7 @@ public class AdminWebController {
             List<RegistrationRequest> pendingTeacherRequests = requestService.getPendingTeacherRequests();
             List<RegistrationRequest> pendingStudentRequests = requestService.getPendingStudentRequests();
 
-            model.addAttribute("adminId", admin.getId());
+            model.addAttribute("admin", admin);
             model.addAttribute("pendingTeacherRequests", pendingTeacherRequests);
             model.addAttribute("pendingStudentRequests", pendingStudentRequests);
             return "admin/requests"; // Chemin vers votre JSP
