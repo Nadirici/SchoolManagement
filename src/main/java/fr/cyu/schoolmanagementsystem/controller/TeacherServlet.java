@@ -7,6 +7,7 @@ import fr.cyu.schoolmanagementsystem.service.stats.AssignmentStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.CourseStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.EnrollmentStatsService;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;
+import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.*;
 
 @WebServlet(Routes.TEACHER + "/*")
@@ -207,10 +210,47 @@ public class TeacherServlet extends HttpServlet {
             }
         });
 
+
+
         gradesMap.forEach((gradeId, score) -> {
             Grade grade = gradeService.getById(gradeId);
-            grade.setScore(score);
-            gradeService.update(grade);
+
+            // Vérifiez si la note a changé
+            if (!grade.getScore().equals(score)) {
+                grade.setScore(score);
+                gradeService.update(grade);
+
+                // Préparez les informations pour l'email
+                Assignment assignment = grade.getAssignment();
+                Course course = assignment.getCourse();
+                Enrollment enrollment = grade.getEnrollment();
+                Student student = enrollment.getStudent();
+
+                String link = "http://localhost:8080/"; // Lien vers la plateforme
+                String subject = "Nouvelle note ajoutée à votre compte";
+                String body = "Bonjour " + student.getFirstname() + " " + student.getLastname() + ",<br><br>" +
+                        "Une nouvelle note a été ajoutée à votre compte sur la plateforme.<br><br>" +
+                        "Voici les détails :<br>" +
+                        "- Cours : " + course.getName() + "<br>" +
+                        "- Devoir : " + assignment.getTitle() + "<br>" +
+                        "- Note : " + score + "<br><br>" +
+                        "Pour consulter vos notes et plus de détails, connectez-vous à votre espace étudiant :<br>" +
+                        "<a href='" + link + "'>Voir mes notes</a><br><br>" +
+                        "Cordialement,<br>" +
+                        "L'équipe de gestion du système.";
+                try {
+                    Gmailer gmailer = new Gmailer();
+                     gmailer.sendMail(subject, body, student.getEmail());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (GeneralSecurityException e) {
+                    throw new RuntimeException(e);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+                // Envoyez l'email
+
+            }
         });
         response.sendRedirect(request.getContextPath() + "/teachers/courses/" + request.getParameter("courseId"));
     }

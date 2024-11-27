@@ -12,6 +12,7 @@ import fr.cyu.schoolmanagementsystem.service.stats.AssignmentStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.CourseStatsService;
 import fr.cyu.schoolmanagementsystem.service.stats.EnrollmentStatsService;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;
+import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +20,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -122,7 +125,13 @@ public class CourseAdminController extends HttpServlet {
         } else if ("DELETE".equalsIgnoreCase(method)) {
             deleteCourse(request, response);
         } else {
-            createCourse(request, response);
+            try {
+                createCourse(request, response);
+            } catch (GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
         }
         response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
     }
@@ -167,7 +176,7 @@ public class CourseAdminController extends HttpServlet {
         }
     }
 
-    private void createCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void createCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, GeneralSecurityException, MessagingException {
         String courseName = request.getParameter("name");
         String courseDescription = request.getParameter("description");
         String teacherId = request.getParameter("teacherId");
@@ -180,6 +189,25 @@ public class CourseAdminController extends HttpServlet {
             course.setTeacher(teacher);
 
             courseService.add(course);
+
+
+
+            String link = "http://localhost:8080/";
+            Gmailer gmailer = new Gmailer();
+            gmailer.sendMail(
+                    "Nouvelle affectation à un cours",
+                    "Bonjour " + teacher.getFirstname() + " " + teacher.getLastname() + ",<br><br>" +
+                            "Vous avez été affecté à l'enseignement d'un nouveau cours.<br><br>" +
+                            "Voici les détails :<br>" +
+                            "- Cours : " + courseName + "<br>" +
+                            "- Description : " + courseDescription + "<br><br>" +
+                            "Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :<br>" +
+                            "<a href='" + link + "'>Voir mes cours</a><br><br>" +
+                            "Cordialement,<br>" +
+                            "L'équipe de gestion du système.",
+                    teacher.getEmail()
+            );
+
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields for course creation");
         }
