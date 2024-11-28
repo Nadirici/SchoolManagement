@@ -42,7 +42,25 @@
         </header>
 
         <div class="overviewStudent">
+            <div class="kpi-cards">
+                <!-- Total Verified Students -->
+                <div class="kpi-card">
+                    <h3>Verified Students</h3>
+                    <p>${verifiedStudentsCounter}</p>
+                </div>
 
+                <!-- Total Verified Teachers -->
+                <div class="kpi-card">
+                    <h3>Verified Teachers</h3>
+                    <p>${verifiedTeachersCounter}</p>
+                </div>
+
+                <!-- Percentage of Students with Global Average >= 10 -->
+                <div class="kpi-card">
+                    <h3>Students ≥ 10 Avg</h3>
+                    <p><fmt:formatNumber value="${percentageStudentsGreaterThanTen}" type="number" maxFractionDigits="2" minFractionDigits="2"/>%</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

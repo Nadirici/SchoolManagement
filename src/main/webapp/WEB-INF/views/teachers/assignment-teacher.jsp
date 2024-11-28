@@ -19,8 +19,7 @@
     <h2>Assignments</h2>
     <ul>
       <li><a href="${pageContext.request.contextPath}/teachers" >Overview</a></li>
-      <li><a href="${pageContext.request.contextPath}/teachers/courses">Courses</a></li>
-      <li><a href="${pageContext.request.contextPath}/teachers/assignments" class="active">Assignments</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/courses" class="active">Courses</a></li>
       <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
     </ul>
   </div>
