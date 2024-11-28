@@ -141,9 +141,6 @@ public class StudentAdminController extends HttpServlet {
 
         Student student = new Student(firstname, lastname, dateOfBirth, email, hashedPassword, salt, true);
         UUID id = studentService.add(student);
-
-        RegistrationRequest registrationRequest = new RegistrationRequest(student);
-        requestService.add(registrationRequest);
     }
 
     private void handleUpdateStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {

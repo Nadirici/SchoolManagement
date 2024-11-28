@@ -116,9 +116,6 @@ public class TeacherAdminController extends HttpServlet {
 
         Teacher teacher = new Teacher(firstname, lastname, email, hashedPassword, department, salt, true);
         UUID id = teacherService.add(teacher);
-
-        RegistrationRequest registrationRequest = new RegistrationRequest(teacher);
-        requestService.add(registrationRequest);
     }
 
     private void handleUpdateTeacher(HttpServletRequest request, HttpServletResponse response) throws IOException {
