@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overview | Teacher Dashboard</title>
+    <title>Aperçu | Tableau de bord Enseignant</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
@@ -65,7 +65,7 @@
                                 <td>${course.name}</td>
                                 <td>${course.description}</td>
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/teachers/courses/${course.id}">View Details</a>
+                                    <a href="${pageContext.request.contextPath}/teachers/courses/${course.id}">Détails</a>
                                     <!-- Optionally add Edit or Delete actions -->
                                 </td>
                             </tr>
@@ -74,7 +74,7 @@
                     </table>
                 </c:if>
                 <c:if test="${empty teacher.courses}">
-                    <p>No courses assigned to this teacher.</p>
+                    <p>Aucun cours n'est assigné à cet enseignant.</p>
                 </c:if>
             </c:if>
         </div>
