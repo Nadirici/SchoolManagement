@@ -110,14 +110,15 @@ public class AssignmentAdminController extends HttpServlet {
 
         if ("DELETE".equalsIgnoreCase(method)) {
             deleteAssignment(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_ASSIGNMENTS);
         } else if ("PUT".equalsIgnoreCase(method)) {
             if ("saveGrades".equalsIgnoreCase(action)) {
                 saveGrades(request, response);
+                response.sendRedirect(request.getContextPath() + Routes.ADMIN_ASSIGNMENTS);
             }
         } else {
             createAssignment(request, response);
         }
-        response.sendRedirect(request.getContextPath() + Routes.ADMIN_ASSIGNMENTS);
     }
 
     private void deleteAssignment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -158,6 +159,7 @@ public class AssignmentAdminController extends HttpServlet {
                 gradeService.add(grade);
             }
 
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "/" + courseId);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields for assignment creation");
         }

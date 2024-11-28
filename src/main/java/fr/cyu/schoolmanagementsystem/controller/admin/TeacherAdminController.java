@@ -97,10 +97,11 @@ public class TeacherAdminController extends HttpServlet {
             handleUpdateTeacher(request, response);
         } else if ("DELETE".equalsIgnoreCase(method)) {
             handleDeleteTeacher(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_TEACHERS);
         } else {
             handleAddTeacher(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_TEACHERS);
         }
-        response.sendRedirect(request.getContextPath() + Routes.ADMIN_TEACHERS);
     }
 
     private void handleAddTeacher(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -115,9 +116,6 @@ public class TeacherAdminController extends HttpServlet {
 
         Teacher teacher = new Teacher(firstname, lastname, email, hashedPassword, department, salt, true);
         UUID id = teacherService.add(teacher);
-
-        RegistrationRequest registrationRequest = new RegistrationRequest(teacher);
-        requestService.add(registrationRequest);
     }
 
     private void handleUpdateTeacher(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -130,6 +128,7 @@ public class TeacherAdminController extends HttpServlet {
             teacherToUpdate.setDepartment(request.getParameter("department"));
 
             teacherService.update(teacherToUpdate);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_TEACHERS + "/" + teacherToUpdate.getId());
         } catch (EntityNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Teacher not found");
         }

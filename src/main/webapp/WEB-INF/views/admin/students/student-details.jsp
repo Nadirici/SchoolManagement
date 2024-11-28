@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Details | Admin Dashboard</title>
+  <title>${student.firstname} ${student.lastname} | Tableau de bord Admin</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
@@ -15,13 +15,13 @@
       <div class="dashboard-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M304 240l0-223.4c0-9 7-16.6 16-16.6C443.7 0 544 100.3 544 224c0 9-7.6 16-16.6 16L304 240zM32 272C32 150.7 122.1 50.3 239 34.3c9.2-1.3 17 6.1 17 15.4L256 288 412.5 444.5c6.7 6.7 6.2 17.7-1.5 23.1C371.8 495.6 323.8 512 272 512C139.5 512 32 404.6 32 272zm526.4 16c9.3 0 16.6 7.8 15.4 17c-7.7 55.9-34.6 105.6-73.9 142.3c-6 5.6-15.4 5.2-21.2-.7L320 288l238.4 0z"/></svg>
       </div>
-      <h3>Admin Dashboard</h3>
-      <h2>Students</h2>
+      <h3>Tableau de bord Admin</h3>
+      <h2>Étudiants</h2>
       <ul>
-        <li><a href="${pageContext.request.contextPath}/admin">Overview</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/students" class="active">Students</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/teachers">Teachers</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/courses" >Courses</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin">Aperçu</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/students" class="active">Étudiants</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/teachers">Enseignants</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/courses" >Cours</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/requests">Demandes d'inscription</a></li>
         <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
       </ul>
@@ -30,8 +30,8 @@
   <div class="main-content">
     <header class="header">
       <div class="header-left">
-        <h1>👋 Hi ${admin.firstname},</h1>
-        <h2>Welcome to <span>Students Dashboard!</span></h2>
+        <h1>👋 Bonjour ${admin.firstname},</h1>
+        <h2>Bienvenue sur votre <span>Tableau de bord Admin !</span></h2>
       </div>
       <div class="header-right">
         <div class="user-profile">
@@ -41,24 +41,24 @@
       </div>
     </header>
     <div class="overviewStudent">
-      <h1>Student Details</h1>
+      <h1>Détails de l'étudiant</h1>
 
       <!-- Vérifie si l'étudiant est présent -->
       <c:if test="${not empty student}">
-        <p><strong>ID:</strong> ${student.id}</p>
-        <p><strong>First Name:</strong> ${student.firstname}</p>
-        <p><strong>Last Name:</strong> ${student.lastname}</p>
-        <p><strong>Date of Birth:</strong> ${student.dateOfBirth}</p>
-        <p><strong>Email:</strong> ${student.email}</p>
+        <p><strong>ID :</strong> ${student.id}</p>
+        <p><strong>Prénom :</strong> ${student.firstname}</p>
+        <p><strong>Nom :</strong> ${student.lastname}</p>
+        <p><strong>Date de naissance :</strong> ${student.dateOfBirth}</p>
+        <p><strong>Email :</strong> ${student.email}</p>
 
-        <h3>Enrollments:</h3>
+        <h3>Inscription à des cours :</h3>
         <table border="1">
           <thead>
           <tr>
-            <th>Course Name</th>
-            <th>Average Grade</th>
-            <th>Minimum Grade</th>
-            <th>Maximum Grade</th>
+            <th>Nom du cours</th>
+            <th>Note moyenne</th>
+            <th>Note minimum</th>
+            <th>Note maximum</th>
             <th>Actions</th>
           </tr>
           </thead>
@@ -103,14 +103,14 @@
               <!-- Actions -->
               <td>
                 <a href="${pageContext.request.contextPath}/admin/courses/${enrollment.key.course.id}">
-                  View Course
+                  Détails
                 </a>
               </td>
             </tr>
           </c:forEach>
           <!-- Ligne pour les statistiques globales -->
           <tr>
-            <td><strong>Overall Stats</strong></td>
+            <td><strong>Statistiques générales</strong></td>
             <td>
               <fmt:formatNumber value="${studentStats.average}" maxFractionDigits="2"/>
             </td>
@@ -126,55 +126,55 @@
         </table>
 
         <!-- Liste déroulante pour ajouter un nouveau cours -->
-        <h2>Enroll in a New Course</h2>
+        <h2>Inscrire à un nouveau cours</h2>
         <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
           <input type="hidden" name="_method" value="POST">
           <input type="hidden" name="studentId" value="${student.id}" />
 
-          <label for="courseId">Available Courses:</label>
+          <label for="courseId">Cours disponibles :</label>
           <select id="courseId" name="courseId" required>
-            <option value="" disabled selected>Select a course</option>
+            <option value="" disabled selected>Choisir un cours</option>
             <c:forEach var="course" items="${availableCourses}">
               <option value="${course.id}">${course.name} - ${course.description}</option>
             </c:forEach>
           </select>
 
-          <button type="submit">Enroll</button>
+          <button type="submit">Inscrire</button>
         </form>
 
         <!-- Formulaire de mise à jour des informations -->
-        <h2>Update Student</h2>
+        <h2>Modifié l'étudiant</h2>
         <form method="post" action="${pageContext.request.contextPath}/admin/students">
           <input type="hidden" name="_method" value="PUT" />
           <input type="hidden" name="id" value="${student.id}" />
 
-          <label for="firstname">First Name:</label>
+          <label for="firstname">Prénom :</label>
           <input type="text" id="firstname" name="firstname" value="${student.firstname}" required /><br />
 
-          <label for="lastname">Last Name:</label>
+          <label for="lastname">Nom :</label>
           <input type="text" id="lastname" name="lastname" value="${student.lastname}" required /><br />
 
-          <label for="dateOfBirth">Date of Birth:</label>
+          <label for="dateOfBirth">Date de naissance :</label>
           <input type="date" id="dateOfBirth" name="dateOfBirth" value="${student.dateOfBirth}" required /><br />
 
-          <label for="email">Email:</label>
+          <label for="email">Email :</label>
           <input type="email" id="email" name="email" value="${student.email}" required /><br />
 
-          <button type="submit">Update</button>
+          <button type="submit">Modifié</button>
         </form>
 
         <!-- Formulaire de suppression -->
-        <h2>Delete Student</h2>
+        <h2>Supprimer l'étudiant</h2>
         <form method="post" action="${pageContext.request.contextPath}/admin/students">
           <input type="hidden" name="_method" value="DELETE" />
           <input type="hidden" name="id" value="${student.id}" />
-          <button type="submit">Delete</button>
+          <button type="submit">Supprimer</button>
         </form>
       </c:if>
 
       <!-- Message si aucun étudiant n'est trouvé -->
       <c:if test="${empty student}">
-        <p>Student not found.</p>
+        <p>L'étudiant n'a pas été trouvé.</p>
       </c:if>
     </div>
   </div>

@@ -62,8 +62,9 @@ public class StudentServlet extends HttpServlet {
                 } else {
                     String[] pathParts = pathInfo.split("/");
 
-                    // Vérifie si l'URL correspond à /students/report/pdf
-                    if (pathParts.length == 3 && "report".equals(pathParts[1]) && "pdf".equals(pathParts[2])) {
+                    if (pathParts.length == 2 && pathInfo.equals("/courses")) {
+                        viewCourseList(request, response, student.getId());
+                    } else if (pathParts.length == 3 && "report".equals(pathParts[1]) && "pdf".equals(pathParts[2])) {
                         generatePdfReport(student.getId(), response);
                     }
                     // Vérifie si l'URL est du type /students
@@ -78,6 +79,22 @@ public class StudentServlet extends HttpServlet {
             } catch (Exception e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
             }
+        }
+    }
+
+    private void viewCourseList(HttpServletRequest request, HttpServletResponse response, UUID studentId) throws ServletException, IOException {
+        try {
+            Student student = studentService.getById(studentId);
+            List<Course> availableCourses = courseService.getAllNotEnroll(student.getId());
+            CompositeStats studentStats = studentStatsService.getStatsForStudent(student.getId());
+            Map<Enrollment, CompositeStats> enrollmentStats = enrollmentStatsService.getEnrollmentsAndStatsForStudent(student.getId());
+            request.setAttribute("student", student);
+            request.setAttribute("availableCourses", availableCourses);
+            request.setAttribute("studentStats", studentStats);
+            request.setAttribute("enrollmentStats", enrollmentStats);
+            request.getRequestDispatcher("/WEB-INF/views/students/courses.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching enrollments");
         }
     }
 
