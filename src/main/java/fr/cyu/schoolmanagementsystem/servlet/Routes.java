@@ -1,4 +1,4 @@
-package fr.cyu.schoolmanagementsystem.controller;
+package fr.cyu.schoolmanagementsystem.servlet;
 
 public class Routes {
 

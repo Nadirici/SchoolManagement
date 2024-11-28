@@ -1,4 +1,4 @@
-package fr.cyu.schoolmanagementsystem.controller;
+package fr.cyu.schoolmanagementsystem.servlet;
 
 import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
@@ -10,7 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

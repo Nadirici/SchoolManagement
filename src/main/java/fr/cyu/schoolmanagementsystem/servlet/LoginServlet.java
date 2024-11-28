@@ -1,4 +1,4 @@
-package fr.cyu.schoolmanagementsystem.controller;
+package fr.cyu.schoolmanagementsystem.servlet;
 
 import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.Optional;
 
 
 @WebServlet(value = "/login" ,name = "AuthJsp")

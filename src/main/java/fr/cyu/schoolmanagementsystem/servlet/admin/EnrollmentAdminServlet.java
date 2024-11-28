@@ -1,6 +1,6 @@
-package fr.cyu.schoolmanagementsystem.controller.admin;
+package fr.cyu.schoolmanagementsystem.servlet.admin;
 
-import fr.cyu.schoolmanagementsystem.controller.Routes;
+import fr.cyu.schoolmanagementsystem.servlet.Routes;
 import fr.cyu.schoolmanagementsystem.dao.AssignmentDAO;
 import fr.cyu.schoolmanagementsystem.dao.CourseDAO;
 import fr.cyu.schoolmanagementsystem.dao.EnrollmentDAO;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @WebServlet(Routes.ADMIN_ENROLLMENTS + "/*")
-public class EnrollmentAdminController extends HttpServlet {
+public class EnrollmentAdminServlet extends HttpServlet {
 
     private EnrollmentService enrollmentService;
     private EnrollmentStatsService enrollmentStatsService;

@@ -1,4 +1,4 @@
-package fr.cyu.schoolmanagementsystem.controller.admin;
+package fr.cyu.schoolmanagementsystem.servlet.admin;
 
 import fr.cyu.schoolmanagementsystem.dao.AdminDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;

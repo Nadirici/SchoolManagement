@@ -1,6 +1,6 @@
-package fr.cyu.schoolmanagementsystem.controller.admin;
+package fr.cyu.schoolmanagementsystem.servlet.admin;
 
-import fr.cyu.schoolmanagementsystem.controller.Routes;
+import fr.cyu.schoolmanagementsystem.servlet.Routes;
 import fr.cyu.schoolmanagementsystem.dao.RegistrationRequestDAO;
 import fr.cyu.schoolmanagementsystem.dao.TeacherDAO;
 import fr.cyu.schoolmanagementsystem.entity.Admin;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @WebServlet(Routes.ADMIN_TEACHERS + "/*")
-public class TeacherAdminController extends HttpServlet {
+public class TeacherAdminServlet extends HttpServlet {
 
     private TeacherService teacherService;
     private RequestService requestService;

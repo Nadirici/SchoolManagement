@@ -1,4 +1,4 @@
-package fr.cyu.schoolmanagementsystem.controller;
+package fr.cyu.schoolmanagementsystem.servlet;
 
 import fr.cyu.schoolmanagementsystem.dao.*;
 import fr.cyu.schoolmanagementsystem.entity.*;
