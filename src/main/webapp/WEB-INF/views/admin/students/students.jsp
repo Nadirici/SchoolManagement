@@ -45,28 +45,6 @@
 
             <h1>Student Management</h1>
 
-            <!-- Form to add a new student -->
-            <h2>Add a New Student</h2>
-            <form method="post" action="${pageContext.request.contextPath}/admin/students">
-                <label for="firstname">First Name:</label>
-                <input type="text" id="firstname" name="firstname" required /><br />
-
-                <label for="lastname">Last Name:</label>
-                <input type="text" id="lastname" name="lastname" required /><br />
-
-                <label for="dateOfBirth">Date of Birth:</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" required /><br />
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required /><br />
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required /><br />
-
-                <button type="submit">Add Student</button>
-            </form>
-
-
             <!-- List of students -->
             <h2>Current Students</h2>
             <c:if test="${not empty students}">
@@ -100,6 +78,27 @@
             <c:if test="${empty students}">
                 <p>No students found.</p>
             </c:if>
+
+            <!-- Form to add a new student -->
+            <h2>Add a New Student</h2>
+            <form method="post" action="${pageContext.request.contextPath}/admin/students">
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname" required /><br />
+
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" required /><br />
+
+                <label for="dateOfBirth">Date of Birth:</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" required /><br />
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required /><br />
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required /><br />
+
+                <button type="submit">Add Student</button>
+            </form>
         </div>
     </div>
 </div>

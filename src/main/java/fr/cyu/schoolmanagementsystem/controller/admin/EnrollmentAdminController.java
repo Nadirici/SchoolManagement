@@ -111,7 +111,10 @@ public class EnrollmentAdminController extends HttpServlet {
             if (idParam != null) {
                 UUID id = UUID.fromString(idParam);
                 try {
+                    Enrollment enrollment = enrollmentService.getById(id);
+                    Course course = courseService.getById(enrollment.getCourse().getId());
                     enrollmentService.delete(id);
+                    response.sendRedirect(request.getContextPath() + "/admin/courses/" + course.getId());
                 } catch (Exception e) {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Enrollment not found");
                 }
@@ -125,8 +128,7 @@ public class EnrollmentAdminController extends HttpServlet {
             newEnrollment.setCourse(courseService.getById(UUID.fromString(courseId)));
 
             enrollmentService.add(newEnrollment);
+            response.sendRedirect(request.getContextPath() + "/admin/courses/" + courseId);
         }
-        response.sendRedirect(request.getContextPath() + Routes.ADMIN_ENROLLMENTS);
     }
-
 }

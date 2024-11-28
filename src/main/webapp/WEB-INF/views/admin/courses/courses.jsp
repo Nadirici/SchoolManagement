@@ -44,27 +44,7 @@
     <div class="overviewStudent">
       <h1>Course List</h1>
 
-      <!-- Form to add a new course -->
-      <h2>Add a New Course</h2>
-      <form method="post" action="${pageContext.request.contextPath}/admin/courses">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required /><br />
-
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required /><br />
-
-        <label for="teacherId">Teacher:</label>
-        <select id="teacherId" name="teacherId" required>
-          <option value="">Select a teacher</option>
-          <c:forEach var="teacher" items="${availableTeachers}">
-            <option value="${teacher.id}">
-                ${teacher.firstname} ${teacher.lastname}
-            </option>
-          </c:forEach>
-        </select><br/>
-
-        <button type="submit">Add Course</button>
-      </form>
+      <h2>Current Courses</h2>
 
       <table border="1">
         <thead>
@@ -91,6 +71,28 @@
         </c:forEach>
         </tbody>
       </table>
+
+      <!-- Form to add a new course -->
+      <h2>Add a New Course</h2>
+      <form method="post" action="${pageContext.request.contextPath}/admin/courses">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required /><br />
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required /><br />
+
+        <label for="teacherId">Teacher:</label>
+        <select id="teacherId" name="teacherId" required>
+          <option value="">Select a teacher</option>
+          <c:forEach var="teacher" items="${availableTeachers}">
+            <option value="${teacher.id}">
+                ${teacher.firstname} ${teacher.lastname}
+            </option>
+          </c:forEach>
+        </select><br/>
+
+        <button type="submit">Add Course</button>
+      </form>
     </div>
   </div>
 </div>

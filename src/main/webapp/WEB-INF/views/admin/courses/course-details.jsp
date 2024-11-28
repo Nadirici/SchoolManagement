@@ -58,7 +58,7 @@
             <th>Average Grade</th>
             <th>Minimum Grade</th>
             <th>Maximum Grade</th>
-            <th>Actions</th>
+            <%--<th>Actions</th>--%>
           </tr>
           </thead>
           <tbody>
@@ -96,9 +96,9 @@
                   </c:otherwise>
                 </c:choose>
               </td>
-              <td>
+<%--              <td>
                 <a href="${pageContext.request.contextPath}/admin/assignments/${assignment.key.id}">View Details</a>
-              </td>
+              </td>--%>
             </tr>
           </c:forEach>
           <!-- Ligne pour les statistiques globales -->
@@ -114,7 +114,7 @@
             <td>
               <fmt:formatNumber value="${courseStats.max}" maxFractionDigits="2"/>
             </td>
-            <td></td>
+            <%--<td></td>--%>
           </tr>
           </tbody>
         </table>
@@ -203,7 +203,7 @@
             <button type="submit">Save Changes</button>
           </form>
         </div>
-        <div class="form-column">
+<%--        <div class="form-column">
           <h3>Add New Assignment</h3>
           <form method="post" action="${pageContext.request.contextPath}/admin/assignments">
             <input type="hidden" name="_method" value="POST">
@@ -223,7 +223,7 @@
 
             <button type="submit">Add Assignment</button>
           </form>
-        </div>
+        </div>--%>
         <div class="form-column">
           <h3>Enroll a Student</h3>
           <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
@@ -237,7 +237,8 @@
             </select>
             <button type="submit">Add</button>
           </form>
-
+        </div>
+        <div class="form-column">
           <!-- Formulaire de suppression -->
           <h3>Delete Course</h3>
           <form method="post" action="${pageContext.request.contextPath}/admin/courses">

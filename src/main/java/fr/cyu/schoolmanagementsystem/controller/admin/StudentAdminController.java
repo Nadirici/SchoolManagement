@@ -120,10 +120,11 @@ public class StudentAdminController extends HttpServlet {
             handleUpdateStudent(request, response);
         } else if ("DELETE".equalsIgnoreCase(method)) {
             handleDeleteStudent(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_STUDENTS);
         } else {
             handleAddStudent(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_STUDENTS);
         }
-        response.sendRedirect(request.getContextPath() + Routes.ADMIN_STUDENTS);
     }
 
     private void handleAddStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -155,6 +156,7 @@ public class StudentAdminController extends HttpServlet {
             studentToUpdate.setDateOfBirth(LocalDate.parse(request.getParameter("dateOfBirth")));
 
             studentService.update(studentToUpdate);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_STUDENTS + "/" + studentToUpdate.getId());
         } catch (EntityNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Student not found");
         }

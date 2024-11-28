@@ -121,10 +121,11 @@ public class CourseAdminController extends HttpServlet {
             updateCourse(request, response);
         } else if ("DELETE".equalsIgnoreCase(method)) {
             deleteCourse(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
         } else {
             createCourse(request, response);
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
         }
-        response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
     }
 
     private void updateCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -144,6 +145,7 @@ public class CourseAdminController extends HttpServlet {
                 course.setTeacher(teacherService.getById(UUID.fromString(teacherId)));
 
                 courseService.update(course);
+                response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "/" + course.getId());
 
             } catch (EntityNotFoundException e) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
