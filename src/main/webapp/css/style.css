@@ -467,3 +467,10 @@ p a {
 p a:hover {
     text-decoration: underline; /* Ajouter un soulignement lors du survol du lien */
 }
+
+#searchInput {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+    max-width: 300px;
+}

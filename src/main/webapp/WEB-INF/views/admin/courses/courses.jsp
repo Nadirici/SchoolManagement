@@ -42,11 +42,12 @@
     </header>
 
     <div class="overviewStudent">
-      <h1>Liste des cours</h1>
+      <h1>Gestion des cours</h1>
 
       <h2>Cours actuels</h2>
-
-      <table border="1">
+      <!-- Barre de recherche -->
+      <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
+      <table border="1" id="myTable">
         <thead>
         <tr>
           <th>ID</th>
@@ -96,5 +97,6 @@
     </div>
   </div>
 </div>
+<script src="${pageContext.request.contextPath}/js/search.js"></script>
 </body>
 </html>

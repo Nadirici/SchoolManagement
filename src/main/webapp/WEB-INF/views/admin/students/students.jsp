@@ -47,8 +47,10 @@
 
             <!-- List of students -->
             <h2>Liste des étudiants vérifiés</h2>
+            <!-- Barre de recherche -->
+            <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
             <c:if test="${not empty students}">
-                <table border="1">
+                <table border="1" id="myTable">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -102,5 +104,6 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/js/search.js"></script>
 </body>
 </html>
