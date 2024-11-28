@@ -45,7 +45,7 @@
                         <td><c:out value="${averageGrades[student.id]}" /></td>
                     </tr>
                 </c:forEach>
-                <a href="../${course.id}">Revenir au cours</a>
+                <a class="button" href="../${course.id}">Revenir au cours</a>
 
 
 

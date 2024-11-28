@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
     Optional<Teacher> findByEmail(String email);
     List<Teacher> findByDepartment(String department);
+    List<Teacher> findAllByIsVerified(Boolean bool);
+
 }

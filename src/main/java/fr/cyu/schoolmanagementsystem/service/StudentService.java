@@ -7,6 +7,7 @@ import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,11 @@ public class StudentService {
 
     public Optional<StudentDTO> getStudentById(UUID id) {
         return studentRepository.findById(id).map(this::mapToStudentDTO);
+    }
+
+    @Cacheable("verifiedStudentsCount")
+    public double getVerifiedStudentCount() {
+        return studentRepository.countByIsVerified(true);
     }
 
     public UUID addStudent(StudentDTO studentDTO) {

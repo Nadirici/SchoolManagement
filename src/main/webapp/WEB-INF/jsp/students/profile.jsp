@@ -12,7 +12,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau de bord</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -22,31 +22,28 @@
   <div class="main-content">
 
     <div class="overviewStudent">
-      <h1>Profil de l'étudiant</h1>
+        <c:if test="${not empty flashMessage}">
+            <div class="flash-message">
+                <c:choose>
+                    <c:when test="${flashMessage == 'UsedEmail'}">
+                        <p class="flash-error">Cet email est déjà utilisé. Veuillez en choisir un autre.</p>
+                    </c:when>
+                    <c:when test="${flashMessage == 'TeacherUpdated'}">
+                        <p class="flash-success">Votre profil a été mis à jour avec succès.</p>
+                    </c:when>
+                    <c:when test="${flashMessage == 'TeacherNotFound'}">
+                        <p class="flash-warning">Enseignant introuvable. Veuillez réessayer.</p>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="flash-success">Modification réalisée avec succès</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </c:if>
+        <h1>Profil de l'étudiant</h1>
 
-
-
-      <form action="${pageContext.request.contextPath}/students/${student.id}/profile" method="post">
-
-         <c:if test="${not empty flashMessage}">
-                    <div class="flash-message">
-                        <c:choose>
-                            <c:when test="${flashMessage == 'UsedEmail'}">
-                                <p class="error">Cet email est déjà utilisé. Veuillez en choisir un autre.</p>
-                            </c:when>
-                            <c:when test="${flashMessage == 'TeacherUpdated'}">
-                                <p class="success">Votre profil a été mis à jour avec succès.</p>
-                            </c:when>
-                            <c:when test="${flashMessage == 'TeacherNotFound'}">
-                                <p class="error">Enseignant introuvable. Veuillez réessayer.</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p class="info">Modification réalisée avec succès</p>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </c:if>
-
+        <div class="form-container">
+        <form action="${pageContext.request.contextPath}/students/${student.id}/profile" method="post">
 
         <label for="firstname">Prénom :</label>
         <input type="text" id="firstname" name="firstname" value="${student.firstname}" disabled/><br/>
@@ -60,9 +57,9 @@
         <label for="password">Mot de passe :</label>
         <input type="password" id="password" name="password" /><br/>
 
-        <input type="submit" value="Mettre à jour le profil"/>
+            <button class="float-right" type="submit" >Mettre à jour le profil</button>
       </form>
-
+        </div>
       </div>
       <%@ include file="../courses/course_details_table.jsp" %>
 

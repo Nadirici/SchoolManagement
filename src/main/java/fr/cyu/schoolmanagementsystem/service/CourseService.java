@@ -5,18 +5,19 @@ import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
+import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import fr.cyu.schoolmanagementsystem.repository.CourseRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -96,6 +97,21 @@ public class CourseService {
                 .map(course -> mapper.map(course, CourseDTO.class))
                 .toList();
     }
+
+
+    public List<CourseDTO> getCoursesInDepartment(String department){
+        Map<String, List<Teacher>> teachersByDepartment = Arrays.stream(Departement.values())
+                .collect(Collectors.toMap(Departement::getName, dept -> teacherService.getTeachersByDepartment(dept.getName())));
+        List<Teacher> teachersInDepartment = teachersByDepartment.get(department);
+        if (teachersInDepartment == null) {
+            return null;
+        }
+
+        return teachersInDepartment.stream()
+                .flatMap(teacher -> this.getCoursesByTeacherId(teacher.getId()).stream())
+                .toList();
+    }
+
 
     private CourseDTO mapsToCourseDTO(Course course) {
         return mapper.map(course, CourseDTO.class);

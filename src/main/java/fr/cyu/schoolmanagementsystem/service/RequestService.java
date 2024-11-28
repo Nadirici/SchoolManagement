@@ -5,6 +5,7 @@ import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,12 @@ public class RequestService {
     public void saveRequest(RegistrationRequest request) {
         requestRepository.save(request) ; // Enregistre la demande dans la base de données
     }
+
+    @Cacheable("pendingRequestsCount")
+    public double getTotalPendingRequests() {
+        return requestRepository.countByStatus(false);
+    }
+
 
     // Méthode pour approuver une demande
     @Transactional

@@ -24,6 +24,6 @@
 
     </tbody>
 </table>
-<div>
+<div class="button-container">
     <button type="submit">Enregistrer les Notes</button>
 </div>

@@ -8,6 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <html>
 <head>
@@ -38,10 +39,10 @@
                     <c:forEach var="assignment" items="${assignments}">
                         <td><c:out value="${assignmentsGrades[student.id][assignment.id]}" /></td>
                     </c:forEach>
-                        <td><c:out value="${averageGrades[student.id]}" /></td>
+                        <td><fmt:formatNumber value="${averageGrades[student.id]}"  type="number" maxFractionDigits="2" minFractionDigits="2"  /></td>
                     </tr>
                 </c:forEach>
-                <a href="../${course.id}">Revenir au cours</a>
+                <a class="button" href="../${course.id}">Revenir au cours</a>
 
 
 

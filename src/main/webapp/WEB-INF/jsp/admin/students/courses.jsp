@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +38,6 @@
 <div class="container">
 <%@include file="../../headers/admin_header.jsp" %>
 <div class="main-content">
-<h1>Demandes d'inscription en attente</h1>
 
 
     <div class="overviewStudent">

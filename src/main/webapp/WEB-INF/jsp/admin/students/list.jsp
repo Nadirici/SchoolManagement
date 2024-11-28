@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <title>List of Students</title>
+  <title>Liste d'étudiants</title>
   <%--<link rel="stylesheet" href="/css/style.css">--%>
 </head>
 <body>

@@ -13,10 +13,10 @@
     <h3>Tableau de bord de l'enseignant</h3>
     <h2>Vue d'ensemble</h2>
     <ul>
-        <li><a href="/teachers/${teacher.id}" class="active">Dashboard</a></li>
-        <li><a href="/teachers/${teacher.id}/courses">Mes cours</a></li>
+        <li><a href="/teachers/${teacher.id}" id="link-dashboard">Dashboard</a></li>
+        <li><a href="/teachers/${teacher.id}/courses" id="link-courses">Mes cours</a></li>
 
-        <li><a href="/teachers/${teacher.id}/profile">Profil</a></li>
+        <li><a href="/teachers/${teacher.id}/profile" id="link-profile">Profil</a></li>
         <li><a href="/logout">Se déconnecter</a></li>
     </ul>
 </div>
@@ -34,3 +34,19 @@
             </div>
         </div>
     </header></div>
+
+<script>
+    // JavaScript to set the active class based on the current URL
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentUrl = window.location.pathname;
+        const navLinks = document.querySelectorAll('.sidebar ul li a');
+
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentUrl) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    });
+</script>

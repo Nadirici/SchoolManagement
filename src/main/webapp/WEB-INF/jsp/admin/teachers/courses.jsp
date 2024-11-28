@@ -1,28 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Student Courses</title>
-
-</head>
-<body>
-<h1>Courses for ${student.firstname} ${student.lastname}</h1>
-
-<table border="1">
-    <thead>
-    <tr>
-
-    </tr>
-    </thead>
-
-</table>
-
-
-</body>
-</html>
-
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
