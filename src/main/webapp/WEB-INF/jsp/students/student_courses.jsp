@@ -49,7 +49,7 @@
           <td><%= course.getDescription() %></td>
           <td>
             <form action="/students/${student.id}/courses/<%= course.getId() %> /enroll" method="post">
-              <input type="submit" value="S'inscrire">
+              <input class="button" type="submit" value="S'inscrire">
             </form>
           </td>
         </tr>

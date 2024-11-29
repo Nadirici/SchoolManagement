@@ -14,10 +14,12 @@
   <h3>Tableau de bord de l'administrateur</h3>
   <h2>Vue d'ensemble</h2>
   <ul>
-    <li><a href="/admin/${admin.id}" class="active">Demandes d'inscription</a></li>
-    <li><a href="/admin/${admin.id}/students">Étudiants</a></li>
-    <li><a href="/admin/${admin.id}/teachers">Enseignants</a></li>
-    <li><a href="/admin/${admin.id}/courses" >Cours</a></li>
+    <li><a href="/admin/${admin.id}" id="link-dashboard">Dashboard</a></li>
+
+    <li><a href="/admin/${admin.id}/requests" id="link-requests">Demandes d'inscription</a></li>
+    <li><a href="/admin/${admin.id}/students" id="link-students">Étudiants</a></li>
+    <li><a href="/admin/${admin.id}/teachers" id="link-teachers">Enseignants</a></li>
+    <li><a href="/admin/${admin.id}/courses" id="link-courses">Cours</a></li>
 
 
     <li><a href="/logout">Se déconnecter</a></li>
@@ -38,3 +40,19 @@
       </div>
     </div>
   </header></div>
+
+<script>
+  // JavaScript to set the active class based on the current URL
+  document.addEventListener('DOMContentLoaded', function () {
+    const currentUrl = window.location.pathname;
+    const navLinks = document.querySelectorAll('.sidebar ul li a');
+
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentUrl) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  });
+</script>

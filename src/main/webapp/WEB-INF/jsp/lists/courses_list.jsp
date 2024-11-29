@@ -21,13 +21,16 @@
 
                 <c:when test="${userType == 'student'}">
                     <td>
+                        <div class="form-container">
+
                         <form action="/students/${student.id}/courses/${course.id}/enroll" method="post">
                             <input type="submit" value="Enroll">
                         </form>
+                        </div>
                     </td>
                 </c:when>
                 <c:otherwise>
-                    <td><a href="../${user.id}/courses/${course.id}" class="button">Voir plus</a></td>
+                    <td><a class="button" href="../${user.id}/courses/${course.id}" class="button">Voir plus</a></td>
                 </c:otherwise>
 
             </c:choose>

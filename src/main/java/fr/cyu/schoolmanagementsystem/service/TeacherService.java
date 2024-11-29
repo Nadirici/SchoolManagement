@@ -49,6 +49,11 @@ public class TeacherService {
         return teacherRepository.findByDepartment(department);
     }
 
+    public List<TeacherDTO> getAllVerifiedTeachers() {
+        return teacherRepository.findAllByIsVerified(true).stream().map(this::mapToTeacherDTO).toList();
+    }
+
+
 
     @Transactional
     public List<TeacherDTO> getAllTeachers() {

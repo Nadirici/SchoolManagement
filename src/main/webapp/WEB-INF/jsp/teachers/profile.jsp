@@ -16,30 +16,40 @@
 
     <%@include file="../headers/teacher_header.jsp"%>
     <div class="main-content">
+        <!-- Affichage des messages flash -->
+        <%
+            String flashMessage = (String) request.getAttribute("flashMessage");
+
+            // Vérifiez si le flashMessage est nul et, dans ce cas, récupérez le paramètre de l'URL
+            if (flashMessage == null) {
+                flashMessage = request.getParameter("flashMessage");
+            }
+
+
+            if (flashMessage != null) {
+                switch (flashMessage) {
+                    case "UsedMail":
+                        out.println("<div class='flash-message flash-error'>Cet email est déjà utilisé. Veuillez en choisir un autre.</div>");
+                        break;
+                    case "TeacherUpdated":
+                        out.println("<div class='flash-message flash-success'>Votre profil a été mis à jour avec succès.</div>");
+                        break;
+                    case "notValidMail":
+                        out.println("<div class='flash-message flash-error'>Le format de l'email n'est pas valide.</div>");
+                        break;
+
+                    default:
+                        out.println("<div class='flash-mesage flash-error'>Erreur inconnue.</div>");
+                }
+            }
+        %>
+
 
         <div class="overviewStudent">
             <h1>Profil de l'enseignant</h1>
-
+            <div class="form-container">
             <form action="${pageContext.request.contextPath}/teachers/${teacher.id}/profile" method="post">
 
-                <c:if test="${not empty flashMessage}">
-                    <div class="flash-message">
-                        <c:choose>
-                            <c:when test="${flashMessage == 'UsedEmail'}">
-                                <p class="error">Cet email est déjà utilisé. Veuillez en choisir un autre.</p>
-                            </c:when>
-                            <c:when test="${flashMessage == 'TeacherUpdated'}">
-                                <p class="success">Votre profil a été mis à jour avec succès.</p>
-                            </c:when>
-                            <c:when test="${flashMessage == 'TeacherNotFound'}">
-                                <p class="error">Enseignant introuvable. Veuillez réessayer.</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p class="info">Modification réalisée avec succès</p>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </c:if>
 
                 <label for="firstname">Prénom :</label>
                 <input type="text" id="firstname" name="firstname" value="${teacher.firstname}" disabled/><br/>
@@ -55,8 +65,8 @@
 
                 <input type="submit" value="Mettre à jour le profil"/>
             </form>
-
-            <a href="${pageContext.request.contextPath}/teachers/${teacher.id}">Retour à votre tableau de bord</a>
+            </div>
+            <br>
         </div>
 
         <%@ include file="../courses/course_details_table.jsp" %>

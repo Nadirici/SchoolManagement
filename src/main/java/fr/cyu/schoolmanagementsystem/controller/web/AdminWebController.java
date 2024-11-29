@@ -38,8 +38,9 @@ public class AdminWebController {
     private final CourseService courseService;
     private final  AssignmentService assignmentService;
     private final  GradeService gradeService;
+    private final CourseStatisticsService courseStatisticsService;
 
-    public AdminWebController(StudentService studentService,CourseService courseService, GradeService gradeService, AssignmentService assignmentService, TeacherService teacherService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
+    public AdminWebController(StudentService studentService,CourseService courseService, CourseStatisticsService courseStatisticsService, GradeService gradeService, AssignmentService assignmentService, TeacherService teacherService, EnrollmentService enrollmentService, RequestService requestService, AdminService adminService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
         this.requestService = requestService;
@@ -47,14 +48,76 @@ public class AdminWebController {
         this.teacherService = teacherService;
         this.courseService = courseService;
         this.assignmentService=assignmentService;
+        this.courseStatisticsService= courseStatisticsService;
         this.gradeService=gradeService;
     }
 
     @GetMapping("/{id}")
     public String showDashboard(@PathVariable("id") UUID id, Model model) {
         Admin admin = adminService.getAdmin(id);
+
+        double nbrVerifiedStudents= studentService.getVerifiedStudentCount();
+        double nbrRequestsPending= requestService.getTotalPendingRequests();
+        int nbrVerifiedTeachers= teacherService.getAllVerifiedTeachers().size();
+
+
+        // Use CourseStatisticsService to get precomputed statistics
+        List<CourseDTO> allCourses = courseService.getAllCourses();
+        Map<UUID, Double> courseAverageGrades = allCourses.stream()
+                .collect(Collectors.toMap(CourseDTO::getId, course -> courseStatisticsService.getCourseAverage(course.getId())));
+
+        //passing students by department
+        Map<Departement, Double> passingStudentsByDepartment = new HashMap<>();
+        Map<UUID, Double> passingStudentsByCourse = new HashMap<>();
+        Map<Departement, List<CourseDTO>> coursesByDepartment = new HashMap<>();
+        Set<UUID> totalPassingStudents = new HashSet<>();
+
+        for (Departement department : Departement.values()) {
+            List<CourseDTO> coursesInDepartment = courseService.getCoursesInDepartment(department.getName());
+            double totalStudentsInDepartment = 0;
+            double passingStudents = 0;
+
+            for (CourseDTO course : coursesInDepartment) {
+
+                List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByCourseId(course.getId());
+                if (enrollments.isEmpty()) {
+                    continue; // Ignore courses with no enrollments (no grades)
+                }
+
+                double passingStudentsInCourse = 0;
+                for (EnrollmentDTO enrollment : enrollments) {
+                    double averageGrade = gradeService.calculateAverageGradeForEnrollment(enrollment.getId());
+                    if (averageGrade >= 10.0) {
+                        totalPassingStudents.add(enrollment.getStudentId());
+                        passingStudentsInCourse++;
+                    }else {
+                        totalPassingStudents.remove(enrollment.getStudentId());
+                    }
+                }
+                passingStudents += passingStudentsInCourse;
+
+                totalStudentsInDepartment += enrollments.size();
+                double percentageCourse= enrollments.size() > 0 ? (passingStudentsInCourse / enrollments.size()) * 100 : 0;
+                passingStudentsByCourse.put(course.getId(), percentageCourse);
+
+            }
+
+            double percentageDepartment = totalStudentsInDepartment > 0 ? (passingStudents / totalStudentsInDepartment) * 100 : 0;
+
+            passingStudentsByDepartment.put(department, percentageDepartment);
+            coursesByDepartment.put(department, coursesInDepartment);
+
+        }
+        model.addAttribute("totalPassingStudents", nbrVerifiedStudents > 0 ? (totalPassingStudents.size()/nbrVerifiedStudents)*100 : 0);
         model.addAttribute("admin", admin);
-        return "redirect:/admin/" + id + "/requests";
+        model.addAttribute("coursesByDepartment", coursesByDepartment);
+        model.addAttribute("passingStudentsByDepartment", passingStudentsByDepartment);
+        model.addAttribute("passingStudentsByCourse", passingStudentsByCourse);
+        model.addAttribute("averageGradesByCourse", courseAverageGrades);
+        model.addAttribute("nbrRequestsPending", nbrRequestsPending);
+        model.addAttribute("nbrVerifiedStudents", nbrVerifiedStudents);
+        model.addAttribute("nbrVerifiedTeachers", nbrVerifiedTeachers);
+        return "admin/dashboard";
     }
 
     @PostMapping("{adminId}/courses/create")
@@ -71,14 +134,21 @@ public class AdminWebController {
 
         // Vérifier si l'enseignant est présent dans l'Optional
         Teacher teacher;
+
         if (optionalTeacher.isPresent()) {
             teacher = optionalTeacher.get();
         } else {
             System.out.println("Teacher not found!");
 
-            return "/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
+            return "redirect:/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
         }
 
+        if(courseService.getCoursesByTeacherId(UUID.fromString(String.valueOf(teacher.getId()))) != null){
+
+            //retourne à la vue avec un message si le cours existe
+            return "redirect:/admin/"+adminId+"/courses?flashMessage=existingCourse";
+
+        }
         // Créer un objet CourseDTO avec les informations du formulaire
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setName(courseName);

@@ -47,22 +47,5 @@
 
   </div>
 </div>
-
-
-
-
-
-
-<table border="1">
-  <thead>
-
-  </thead>
-  <tbody>
-
-  </tbody>
-</table>
-
-<a href="students/new">Add New Teacher</a>
-<p>* Student View | Temporaire, le temps que le formaulaire de connexion soit implémenter</p>
 </body>
 </html>

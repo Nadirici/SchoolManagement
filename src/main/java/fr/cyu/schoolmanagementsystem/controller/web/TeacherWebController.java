@@ -5,7 +5,9 @@ import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.model.passwordmanager.HashPassword;
 import fr.cyu.schoolmanagementsystem.service.*;
+
 import fr.cyu.schoolmanagementsystem.util.Gmailer;
+import fr.cyu.schoolmanagementsystem.util.InputValidator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -286,15 +288,24 @@ public class TeacherWebController {
                                        @RequestParam(value = "email", required = false) String email,
                                        @RequestParam(value = "password", required = false) String password,
                                        RedirectAttributes redirectAttributes) {
+
+        if(!InputValidator.isValidEmail(email)){
+            return "redirect:/teachers/" + teacherId + "/profile?flashMessage=notValidMail";
+        }
+
         Optional<TeacherDTO> teacherDTO = teacherService.getTeacherById(teacherId);
         if (teacherDTO.isPresent()) {
 
             TeacherDTO teacher = teacherDTO.get();
 
+            if(studentService.getStudentByEmail(email).isPresent()){
+                return "redirect:/teachers/" + teacherId + "/profile?flashMessage=UsedMail";
+            }
+
             // Si l'email est fourni et qu'il a changé, vérifier s'il existe déjà dans la base de données
-            if (email != null && !teacher.getEmail().equals(email) && teacherService.getTeacherByEmail(email).isPresent()) {
-                redirectAttributes.addFlashAttribute("flashMessage", "UsedEmail");
-                return "redirect:/teachers/" + teacherId + "/profile";
+            if (!teacher.getEmail().equals(email) && teacherService.getTeacherByEmail(email).isPresent() ) {
+
+                return "redirect:/teachers/" + teacherId + "/profile?flashMessage=UsedMail";
             }
 
             // Mettre à jour l'email si un nouveau email est fourni

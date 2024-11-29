@@ -1,27 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Student Courses</title>
-
-</head>
-<body>
-<h1>Courses for ${student.firstname} ${student.lastname}</h1>
-
-<table border="1">
-    <thead>
-    <tr>
-
-    </tr>
-    </thead>
-
-</table>
-
-
-</body>
-</html>
 
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -31,7 +7,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste de course de ${student.firstname}</title>
+    <title>Liste de cours de ${student.firstname}</title>
     <link rel="stylesheet" href="/css/style.css">
      <!-- Lien vers votre fichier CSS -->
 </head>
@@ -39,7 +15,6 @@
 <div class="container">
 <%@include file="../../headers/admin_header.jsp" %>
 <div class="main-content">
-<h1>Demandes d'inscription en attente</h1>
 
 
     <div class="overviewStudent">

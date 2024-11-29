@@ -33,11 +33,13 @@
             <c:when test="${assignment.id == null}">
             <h2>Ajouter Un Devoir</h2>
             <div class="stats">
+                <div class="form-container">
               <form action="../${courseId}/assignment" method="post">
             </c:when>
             <c:otherwise>
               <h2>Modifier Un Devoir</h2>
               <div class="stats">
+                  <div class="form-container">
               <form action="../assignment/${assignment.id}/edit" method="post">
             </c:otherwise>
           </c:choose>
@@ -55,6 +57,7 @@
                   <%@include file="../lists/grade_table.jsp" %>
                 </div>
             </form>
+          </div>
         </div>
     </div>
 </div>

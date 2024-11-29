@@ -23,4 +23,6 @@ public interface RequestRepository extends JpaRepository<RegistrationRequest, UU
     @Transactional
     void deleteByTeacherId(UUID teacherId);
 
+    double countByStatus(Boolean bool);
+
 }
