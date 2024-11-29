@@ -73,8 +73,17 @@
         </tbody>
       </table>
 
-      <!-- Form to add a new course -->
+
       <h2>Ajouter un nouveau cours</h2>
+
+      <!-- Affichage du message flash si disponible -->
+      <% String flashMessage = request.getParameter("flashMessage"); %>
+      <% if (flashMessage != null && flashMessage.equals("notAvailable")) { %>
+      <div class="flash-message">
+        <p>Le professeur n'est pas disponible pour ce cours.</p>
+      </div>
+      <% } %>
+
       <form method="post" action="${pageContext.request.contextPath}/admin/courses">
         <label for="name">Nom :</label>
         <input type="text" id="name" name="name" required /><br />
@@ -92,8 +101,25 @@
           </c:forEach>
         </select><br/>
 
+        <label for="dayOfWeek">Jour :</label>
+        <select id="dayOfWeek" name="dayOfWeek" required>
+          <option value="">Choisir un jour</option>
+          <option value="MONDAY">Lundi</option>
+          <option value="TUESDAY">Mardi</option>
+          <option value="WEDNESDAY">Mercredi</option>
+          <option value="THURSDAY">Jeudi</option>
+          <option value="FRIDAY">Vendredi</option>
+        </select><br/>
+
+        <label for="startTime">Heure de début :</label>
+        <input type="time" id="startTime" name="startTime" required /><br />
+
+        <label for="endTime">Heure de fin :</label>
+        <input type="time" id="endTime" name="endTime" required /><br />
+
         <button type="submit">Ajouter</button>
       </form>
+
     </div>
   </div>
 </div>

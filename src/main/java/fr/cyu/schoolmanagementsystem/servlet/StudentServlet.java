@@ -45,12 +45,12 @@ public class StudentServlet extends HttpServlet {
         assignmentService = new AssignmentService(new AssignmentDAO(Assignment.class));
         pdfService = new PdfService();
     }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        // Vérifier si l'étudiant est connecté
         Student student = checkStudentSession(request, response);
 
+        // Si l'étudiant n'est pas connecté, rediriger vers la page de connexion
         if (student == null) {
             response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
         } else {
@@ -58,29 +58,73 @@ public class StudentServlet extends HttpServlet {
 
             try {
                 if (pathInfo == null || pathInfo.equals("/")) {
+                    // Si l'URL est "/students", afficher le tableau de bord de l'étudiant
                     viewDashboard(request, response, student.getId());
                 } else {
+                    // Découper l'URL en parties
                     String[] pathParts = pathInfo.split("/");
 
-                    if (pathParts.length == 2 && pathInfo.equals("/courses")) {
+                    // Si l'URL est "/students/courses", afficher la liste des cours
+                    if (pathParts.length == 2 && "courses".equals(pathParts[1])) {
                         viewCourseList(request, response, student.getId());
-                    } else if (pathParts.length == 3 && "report".equals(pathParts[1]) && "pdf".equals(pathParts[2])) {
-                        generatePdfReport(student.getId(), response);
                     }
-                    // Vérifie si l'URL est du type /students
+                    // Si l'URL est "/students/courses/{courseId}", afficher les détails d'un cours spécifique
                     else if (pathParts.length == 3 && "courses".equals(pathParts[1])) {
                         UUID courseId = UUID.fromString(pathParts[2]);
                         viewCourseDetails(request, response, student.getId(), courseId);
-
-                    } else {
+                    }
+                    // Si l'URL est "/students/report/pdf", générer le rapport PDF
+                    else if (pathParts.length == 3 && "report".equals(pathParts[1]) && "pdf".equals(pathParts[2])) {
+                        generatePdfReport(student.getId(), response);
+                    }
+                    // Si l'URL est "/students/schedule", afficher l'emploi du temps
+                    else if (pathParts.length == 2 && "schedule".equals(pathParts[1])) {
+                        viewStudentSchedule(request, response, student.getId());
+                    }
+                    // Sinon, afficher le tableau de bord par défaut
+                    else {
                         viewDashboard(request, response, student.getId());
                     }
                 }
             } catch (Exception e) {
+                // En cas d'erreur, renvoyer une erreur 500
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
             }
         }
     }
+
+    private void viewStudentSchedule(HttpServletRequest request, HttpServletResponse response, UUID studentId) throws ServletException, IOException {
+        try {
+            Map<String, List<Course>> studentSchedule = getStudentSchedule(studentId);
+
+            // Créer la liste des heures de la journée (exemple de 8h à 18h)
+            List<String> hoursOfDay = Arrays.asList("08:30", "10:00","10:15", "11:45", "13:00", "14:30","14:45", "16:15", "16:30",  "18:00",  "18:15","19:30");
+            request.setAttribute("hoursOfDay", hoursOfDay);
+            request.setAttribute("studentSchedule", studentSchedule);
+            request.getRequestDispatcher("/WEB-INF/views/students/schedule.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching student schedule");
+        }
+    }
+
+    private Map<String, List<Course>> getStudentSchedule(UUID studentId) throws Exception {
+        // Récupérer les inscriptions de l'étudiant
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsForStudent(studentId);
+
+        // Organiser les cours par jour
+        Map<String, List<Course>> schedule = new TreeMap<>();
+
+        for (Enrollment enrollment : enrollments) {
+            Course course = enrollment.getCourse();
+            String dayOfWeek = course.getFrenchDayOfWeek(); // suppose que le cours a un champ "schedule" qui contient le jour
+
+            schedule.computeIfAbsent(dayOfWeek, k -> new ArrayList<>()).add(course);
+        }
+
+        return schedule;
+    }
+
+
 
     private void viewCourseList(HttpServletRequest request, HttpServletResponse response, UUID studentId) throws ServletException, IOException {
         try {
@@ -147,28 +191,43 @@ public class StudentServlet extends HttpServlet {
         }
     }
 
+
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String method = request.getParameter("_method");
         String action = request.getParameter("action");
 
         if ("PUT".equalsIgnoreCase(method)) {
-
+            // Code pour la méthode PUT si nécessaire
         } else if ("DELETE".equalsIgnoreCase(method)) {
+            // Code pour la méthode DELETE si nécessaire
         } else {
             if (Objects.equals(action, "enroll")) {
                 String studentId = request.getParameter("studentId");
                 String courseId = request.getParameter("courseId");
 
-                Enrollment newEnrollment = new Enrollment();
-                newEnrollment.setStudent(studentService.getById(UUID.fromString(studentId)));
-                newEnrollment.setCourse(courseService.getById(UUID.fromString(courseId)));
+                Student student = studentService.getById(UUID.fromString(studentId));
+                Course course = courseService.getById(UUID.fromString(courseId));
 
-                enrollmentService.add(newEnrollment);
-                response.sendRedirect(request.getContextPath() + "/students");
+                // Vérification si l'étudiant est disponible pour ce cours
+                if (studentService.isStudentAvailable(student, course)) {
+                    // L'étudiant est disponible, on procède à l'inscription
+                    Enrollment newEnrollment = new Enrollment();
+                    newEnrollment.setStudent(student);
+                    newEnrollment.setCourse(course);
+
+                    enrollmentService.add(newEnrollment);
+                    response.sendRedirect(request.getContextPath() + "/students");
+                } else {
+                    // L'étudiant n'est pas disponible, rediriger avec un message d'erreur
+                    request.getSession().setAttribute("flashMessage", "notAvailable");
+                    response.sendRedirect(request.getContextPath() + "/students");
+                }
             }
         }
     }
+
 
     public void generatePdfReport(UUID studentId, HttpServletResponse response) throws ServletException, IOException {
         try {

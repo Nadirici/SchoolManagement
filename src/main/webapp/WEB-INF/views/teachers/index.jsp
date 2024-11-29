@@ -56,6 +56,7 @@
                         <tr>
                             <th>Nom</th>
                             <th>Description</th>
+                            <th>Horaire</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -64,6 +65,8 @@
                             <tr>
                                 <td>${course.name}</td>
                                 <td>${course.description}</td>
+                                <td>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}
+                                </td>
                                 <td>
                                     <a href="${pageContext.request.contextPath}/teachers/courses/${course.id}">Détails</a>
                                     <!-- Optionally add Edit or Delete actions -->

@@ -69,7 +69,7 @@
                 <label></label>
             </div>
             <div class="infield">
-                <input type="text" placeholder="Pr�nom" id="firstname" name="firstname" required/>
+                <input type="text" placeholder="Prénom" id="firstname" name="firstname" required/>
                 <label></label>
             </div>
 

@@ -29,6 +29,9 @@ CREATE TABLE IF NOT EXISTS courses (
     description VARCHAR(255),
     name VARCHAR(255) NOT NULL,
     teacher_id BINARY(16),
+    `day_of_week` varchar(10) NOT NULL,
+    `start_time` time NOT NULL,
+    `end_time` time NOT NULL,
     FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE CASCADE
 );
 

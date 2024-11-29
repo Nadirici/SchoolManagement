@@ -21,6 +21,7 @@
       <li><a href="${pageContext.request.contextPath}/students" class="active">Aperçu</a></li>
       <li><a href="${pageContext.request.contextPath}/students/courses">Cours</a></li>
       <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
+      <li><a href="${pageContext.request.contextPath}/students/schedule">Emploi du temps </a> </li>
     </ul>
   </div>
 
@@ -53,6 +54,7 @@
           <thead>
           <tr>
             <th>Nom du cours</th>
+            <th>Jour et Horaire du cours</th>
             <th>Note moyenne</th>
             <th>Note minimum</th>
             <th>Note maximum</th>
@@ -64,6 +66,7 @@
             <tr>
               <!-- Affiche les détails du cours -->
               <td>${enrollment.key.course.name}</td>
+              <td>${enrollment.key.course.frenchDayOfWeek} de ${enrollment.key.course.startTime} à ${enrollment.key.course.endTime}</td>
 
               <!-- Affiche les statistiques -->
               <td>
@@ -124,6 +127,21 @@
 
         <!-- Liste déroulante pour ajouter un nouveau cours -->
         <h2>S'inscrire à un cours</h2>
+
+
+        <%
+          // Récupérer l'attribut flashMessage
+          String flashMessage = (String) session.getAttribute("flashMessage");
+
+          if (flashMessage != null && flashMessage.equals("notAvailable")) {
+        %>
+        <div class="flash-message flash-error">
+          Vous avez déjà un cours à l'horaire de ce cours.
+        </div>
+        <%
+          }
+        %>
+
         <form method="post" action="${pageContext.request.contextPath}/students">
           <input type="hidden" name="_method" value="POST">
           <input type="hidden" name="action" value="enroll" />
@@ -133,7 +151,9 @@
           <select id="courseId" name="courseId" required>
             <option value="" disabled selected>Choisir un cours</option>
             <c:forEach var="course" items="${availableCourses}">
-              <option value="${course.id}">${course.name} - ${course.description}</option>
+              <option value="${course.id}">
+                  ${course.name} - ${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}
+              </option>
             </c:forEach>
           </select>
 
