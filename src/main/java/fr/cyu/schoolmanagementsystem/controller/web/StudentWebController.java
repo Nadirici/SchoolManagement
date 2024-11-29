@@ -336,11 +336,21 @@ public class StudentWebController {
 
 
 
-
     @PostMapping("/{studentId}/courses/{courseId}/enroll")
     public String enrollStudentInCourse(@PathVariable("studentId") UUID studentId,
                                         @PathVariable("courseId") UUID courseId,
                                         RedirectAttributes redirectAttributes) {
+        // Récupérer l'étudiant et le cours à partir de la base de données
+        Optional<StudentDTO> student = studentService.getStudentById(studentId);
+        Optional<CourseDTO> course = courseService.getCourseById(courseId);
+
+        // Vérifier si l'étudiant est disponible pour ce cours
+        if (!isStudentAvailable(student.get(), course.get())) {
+            // Si l'étudiant n'est pas disponible, rediriger avec un message d'erreur
+            redirectAttributes.addFlashAttribute("errorMessage", "Vous êtes déjà inscrit à un autre cours aux mêmes heures.");
+            return "redirect:/students/" + studentId + "?flashMessage=enrollmentConflict";
+        }
+
         // Créer un DTO d'inscription avec les IDs
         EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
         enrollmentDTO.setStudentId(studentId);
@@ -358,6 +368,19 @@ public class StudentWebController {
             redirectAttributes.addFlashAttribute("errorMessage", "Inscription échouée. Le cours ou l'étudiant est introuvable.");
             return "redirect:/students/" + studentId + "/?flashMessage=enrollmentFailed";
         }
+    }
+
+    public boolean isStudentAvailable(StudentDTO student, CourseDTO course) {
+        // Parcourir tous les cours auxquels l'étudiant est déjà inscrit
+        return student.getEnrollments().stream()
+                .map(Enrollment::getCourse)
+                .noneMatch(enrolledCourse ->
+                        enrolledCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(enrolledCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(enrolledCourse.getStartTime()))
+                                )
+                );
     }
 
 

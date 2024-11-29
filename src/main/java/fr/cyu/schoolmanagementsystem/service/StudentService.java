@@ -44,18 +44,7 @@ public class StudentService {
         return studentRepository.findById(id).map(this::mapToStudentDTO);
     }
 
-    public boolean isStudentAvailable(Student student, Course course) {
-        // Parcourir tous les cours auxquels l'étudiant est déjà inscrit
-        return student.getEnrollments().stream()
-                .map(Enrollment::getCourse)
-                .noneMatch(enrolledCourse ->
-                        enrolledCourse.getDayOfWeek() == course.getDayOfWeek() &&
-                                (
-                                        (course.getStartTime().isBefore(enrolledCourse.getEndTime()) &&
-                                                course.getEndTime().isAfter(enrolledCourse.getStartTime()))
-                                )
-                );
-    }
+
 
 
     @Cacheable("verifiedStudentsCount")
