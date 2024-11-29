@@ -16,7 +16,7 @@
 <div class="container">
   <%@include file="../../headers/admin_header.jsp" %>
   <div class="main-content">
-      <h1>Create a New Course</h1>
+      <h1>Création d'un nouveau cours</h1>
         <div class="overviewStudent">
           <%
             String flashMessage = (String) request.getAttribute("flashMessage");
@@ -43,9 +43,9 @@
             <form action="/admin/${admin.id}/courses/create" method="POST">
               <!-- Département -->
               <div>
-                <label for="departmentSelect">Department:</label>
+                <label for="departmentSelect">Département:</label>
                 <select id="departmentSelect" name="department" onchange="loadTeachers(this.value)">
-                  <option value="">Selectionner le departement</option>
+                  <option value="">Selectionner le département</option>
                   <!-- Remplir les départements dynamiquement -->
                   <c:forEach var="department" items="${departments}">
                     <option value="${department}">${department}</option>
@@ -55,16 +55,16 @@
 
               <!-- Enseignant -->
               <div>
-                <label for="teacherSelect">Teacher:</label>
+                <label for="teacherSelect">Enseignant:</label>
                 <select id="teacherSelect" name="teacher">
-                  <option value="">Select a teacher</option>
+                  <option value="">Selectionner un enseignant</option>
                   <!-- Les enseignants seront ajoutés dynamiquement ici -->
                 </select>
               </div>
 
               <!-- Nom du cours -->
               <div>
-                <label for="courseName">Course Name:</label>
+                <label for="courseName">Nom du Cours </label>
                 <input type="text" id="courseName" name="courseName" required>
               </div>
 

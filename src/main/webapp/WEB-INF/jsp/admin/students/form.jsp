@@ -15,16 +15,16 @@
         <input type="hidden" name="_method" value="put" />
     </c:if>
 
-    <label for="firstname">First Name:</label>
+    <label for="firstname">Prénom</label>
     <input type="text" id="firstname" name="firstname" value="${student.firstname}" required><br>
 
-    <label for="lastname">Last Name:</label>
+    <label for="lastname">Nom</label>
     <input type="text" id="lastname" name="lastname" value="${student.lastname}" required><br>
 
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" value="${student.email}" required><br>
 
-    <label for="dateOfBirth">Date Of Birth:</label>
+    <label for="dateOfBirth">Date de naissance </label>
     <input type="date" id="dateOfBirth" name="dateOfBirth" value="${student.dateOfBirth}" required>
 
     <button type="submit">${student.id == null ? 'Add Student' : 'Update Student'}</button>
