@@ -143,12 +143,18 @@ public class AdminWebController {
             return "redirect:/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
         }
 
-        if(courseService.getCoursesByTeacherId(UUID.fromString(String.valueOf(teacher.getId()))) != null){
+        List<CourseDTO> courses  =courseService.getCoursesByTeacherId(teacher.getId());
 
-            //retourne à la vue avec un message si le cours existe
-            return "redirect:/admin/"+adminId+"/courses?flashMessage=existingCourse";
-
+        for (CourseDTO course : courses) {
+            if(course.getName().equals(courseName)) {
+                //retourne à la vue avec un message si le cours existe
+                return "redirect:/admin/"+adminId+"/courses?flashMessage=existingCourse";
+            }
         }
+
+
+
+
         // Créer un objet CourseDTO avec les informations du formulaire
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setName(courseName);
