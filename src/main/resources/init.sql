@@ -86,9 +86,9 @@ INSERT INTO students (id, email, firstname, lastname, date_of_birth, is_verified
     (UNHEX(REPLACE('c9f6e1a8-2d8b-4f3c-9e0d-5b9f3d8a0c7f', '-', '')), 'unis_verified@example.com', 'Charlie', 'Brown', '2002-05-15', 0, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
 
 INSERT INTO teachers (id, email, firstname, lastname, department, is_verified, password, salt) VALUES
-    (UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', '')), 'prof.jones@example.com', 'Emma', 'Jones', 'Mathematiques', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
-    (UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', '')), 'prof.brown@example.com', 'Liam', 'Brown', 'Physique', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
-    (UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')), 'prof.smith@example.com', 'Olivia', 'Smith', 'Chimie', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
+    (UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', '')), 'prof.jones@example.com', 'Emma', 'Jones', 'MATHEMATIQUES', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', '')), 'prof.brown@example.com', 'Liam', 'Brown', 'PHYSIQUE', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')), 'prof.smith@example.com', 'Olivia', 'Smith', 'CHIMIE', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
 
 INSERT INTO courses (id, name, description, teacher_id) VALUES
     (UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', '')), 'Mathematics', 'An introductory course to Mathematics', UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', ''))),
