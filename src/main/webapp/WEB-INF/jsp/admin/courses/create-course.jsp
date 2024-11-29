@@ -87,10 +87,7 @@
       </form>
     </div>
     <h2>Tous les Cours Disponibles</h2>
-    <div class="stats">
-
       <%@include file="../../lists/courses_list.jsp" %>
-    </div>
     </div>
   </div>
 </div>

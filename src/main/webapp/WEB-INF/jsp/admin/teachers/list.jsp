@@ -15,7 +15,9 @@
     <h1>Liste d'enseignants</h1>
 
     <div class="overviewStudent">
-      <table border="1">
+      <!-- Barre de recherche -->
+      <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
+      <table border="1" id="myTable">
       <thead>
         <tr>
           <th>ID</th>
@@ -47,5 +49,6 @@
 
   </div>
 </div>
+<script src="/js/search.js"></script>
 </body>
 </html>
