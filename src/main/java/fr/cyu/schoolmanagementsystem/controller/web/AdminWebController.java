@@ -2,6 +2,7 @@ package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.*;
 import fr.cyu.schoolmanagementsystem.model.entity.Admin;
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import fr.cyu.schoolmanagementsystem.model.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.*;
 
 import java.util.stream.Collectors;
@@ -120,90 +123,100 @@ public class AdminWebController {
         return "admin/dashboard";
     }
 
-    @PostMapping("{adminId}/courses/create")
+
+    @PostMapping("/{adminId}/courses/create")
     public String createCourse(
             @PathVariable("adminId") String adminId,
             @RequestParam("department") String department,
             @RequestParam("teacher") String teacherEmail,
             @RequestParam("courseName") String courseName,
             @RequestParam("courseDescription") String courseDescription,
-            Model model) {
+            @RequestParam("dayOfWeek") String dayOfWeek,
+            @RequestParam("startTime") String startTime,
+            @RequestParam("endTime") String endTime,
+            Model model) throws GeneralSecurityException, IOException, MessagingException {
 
         // Récupérer l'enseignant par son email
         Optional<Teacher> optionalTeacher = teacherService.getTeacherByEmail(teacherEmail);
 
-        // Vérifier si l'enseignant est présent dans l'Optional
-        Teacher teacher;
-
-        if (optionalTeacher.isPresent()) {
-            teacher = optionalTeacher.get();
-        } else {
-            System.out.println("Teacher not found!");
-
-            return "redirect:/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
+        // Vérifier si l'enseignant est trouvé
+        if (!optionalTeacher.isPresent()) {
+            model.addAttribute("flashMessage", "teacherNotFound");
+            return "redirect:/admin/" + adminId + "/courses";
         }
 
-        List<CourseDTO> courses  =courseService.getCoursesByTeacherId(teacher.getId());
 
-        for (CourseDTO course : courses) {
-            if(course.getName().equals(courseName)) {
-                //retourne à la vue avec un message si le cours existe
-                return "redirect:/admin/"+adminId+"/courses?flashMessage=existingCourse";
+        Teacher teacher = optionalTeacher.get();
+
+        // Vérification de la disponibilité du professeur
+        Course newCourse = new Course();
+        newCourse.setDayOfWeek(DayOfWeek.valueOf(dayOfWeek.toUpperCase()));
+        newCourse.setStartTime(LocalTime.parse(startTime));
+        newCourse.setEndTime(LocalTime.parse(endTime));
+
+        if (!teacherService.isAvailable(teacher, newCourse)) {
+
+            return "redirect:/admin/" + adminId + "/courses?flashMessage=teacherNotAvailable";
+        }
+
+// Vérifier si un cours avec le même nom est programmé à la même journée et aux mêmes horaires pour cet enseignant
+        List<CourseDTO> existingCourses = courseService.getCoursesByTeacherId(teacher.getId());
+        for (CourseDTO existingCourse : existingCourses) {
+            // Vérification du nom et du jour
+            if (existingCourse.getName().equals(courseName) && existingCourse.getDayOfWeek() == newCourse.getDayOfWeek() && existingCourse.getStartTime() == newCourse.getStartTime() && existingCourse.getEndTime() == newCourse.getEndTime()) {
+                // Vérification de chevauchement des horaires
+                boolean hasTimeConflict =
+                        existingCourse.getStartTime().isBefore(newCourse.getEndTime());
+
+                if (hasTimeConflict) {
+                    model.addAttribute("flashMessage", "duplicateCourseConflict");
+                    return "redirect:/admin/" + adminId + "/courses";
+                }
             }
         }
 
+        // Créer et ajouter le cours
+        CourseDTO course = new CourseDTO();
+        course.setName(courseName);
+        course.setDescription(courseDescription);
+        course.setTeacher(teacher);
+        course.setDayOfWeek(DayOfWeek.valueOf(dayOfWeek.toUpperCase()));
+        course.setStartTime(LocalTime.parse(startTime));
+        course.setEndTime(LocalTime.parse(endTime));
 
 
 
-        // Créer un objet CourseDTO avec les informations du formulaire
-        CourseDTO courseDTO = new CourseDTO();
-        courseDTO.setName(courseName);
-        courseDTO.setDescription(courseDescription);
-        courseDTO.setTeacher(teacher); // Mapper l'enseignant à un TeacherDTO
+        courseService.addCourse(course);
 
-        try {
-            // Utiliser CourseService pour ajouter le cours
-            UUID courseId = courseService.addCourse(courseDTO);  // Sauvegarder le cours dans la base de données
+// Notification par email
+        String link = "http://localhost:8080/";
+        Gmailer gmailer = new Gmailer();
+        gmailer.sendMail(
+                "Vous avez été affecté à l'enseignement d'un nouveau cours.",
+                "<html>" +
+                        "<body>" +
+                        "<h2>Vous avez été affecté à l'enseignement d'un nouveau cours.</h2>" +
+                        "<p>Voici les détails :</p>" +
+                        "<ul>" +
+                        "<li><strong>Cours :</strong> " + courseName + "</li>" +
+                        "<li><strong>Description :</strong> " + courseDescription + "</li>" +
+                        "<li><strong>Jour :</strong> " + dayOfWeek + "</li>" +
+                        "<li><strong>Heure :</strong> de " + startTime + " à " + endTime + "</li>" +
+                        "</ul>" +
+                        "<p>Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :</p>" +
+                        "<p><a href='" + link + "' style='color: #1a73e8; text-decoration: none;'>Voir mes cours</a></p>" +
+                        "<br>" +
+                        "<p>Cordialement,</p>" +
+                        "<p><strong>L'équipe de gestion du système</strong></p>" +
+                        "</body>" +
+                        "</html>",
+                teacher.getEmail()
+        );
 
-            // Ajouter les données au modèle
-            model.addAttribute("department", department);
-            model.addAttribute("teacher", teacher);
-            model.addAttribute("courseName", courseName);
-            model.addAttribute("courseDescription", courseDescription);
-            model.addAttribute("successMessage", "Course created successfully!");
 
-
-            String link = "http://localhost:8080/";
-            Gmailer gmailer = new Gmailer();
-            gmailer.sendMail(
-                    "Nouvelle affectation à un cours",
-                    "Bonjour " + teacher.getFirstname() + " " + teacher.getLastname() + ",<br><br>" +
-                            "Vous avez été affecté à l'enseignement d'un nouveau cours.<br><br>" +
-                            "Voici les détails :<br>" +
-                            "- Cours : " + courseName + "<br>" +
-                            "- Description : " + courseDescription + "<br><br>" +
-                            "Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :<br>" +
-                            "<a href='" + link + "'>Voir mes cours</a><br><br>" +
-                            "Cordialement,<br>" +
-                            "L'équipe de gestion du système.",
-                    teacherEmail
-            );
-
-            // Redirection vers la page des cours de l'administrateur avec un message flash
-            return "redirect:/admin/" + adminId + "/courses?flashMessage=courseCreated";
-        } catch (RuntimeException e) {
-            // Gestion des erreurs si l'ajout du cours échoue
-            model.addAttribute("errorMessage", e.getMessage());
-            return "/admin/"+adminId+"/courses";  // Retourner à la page de création en cas d'erreur
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        }
+        // Rediriger vers la liste des cours
+        return "redirect:/admin/" + adminId + "/courses";
     }
-
 
 
 
@@ -311,6 +324,10 @@ public class AdminWebController {
             model.addAttribute("isEnrolledStudent", isEnrolledStudent);
             model.addAttribute("course", course.get());
             model.addAttribute("admin", adminService.getAdmin(id));
+
+
+            List<Teacher> teachers =getTeachersByDepartment(id,course.get().getTeacher().getDepartment());
+            model.addAttribute("availableTeachers",teachers);
 
             System.out.println("Retour vers la vue du tableau de bord du cours.");
             return "admin/course_details";

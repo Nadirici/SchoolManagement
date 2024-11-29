@@ -15,7 +15,7 @@
     <ul>
         <li><a href="/students/${student.id}" id="link-dashboard">Dashboard</a></li>
         <li><a href="/students/${student.id}/enroll" id="link-enroll">S'inscrire au cours</a></li>
-
+        <li><a href="/students/${student.id}/schedule">Emploi du temps</a> </li>
         <li><a href="/students/${student.id}/profile" id="link-profile">Profile</a></li>
         <li><a href="/logout">Se déconnecter</a></li>
     </ul>

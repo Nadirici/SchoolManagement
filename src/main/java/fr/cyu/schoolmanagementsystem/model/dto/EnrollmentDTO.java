@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.model.dto;
 
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,7 @@ public class EnrollmentDTO {
 
     @NotNull
     private UUID courseId;
+
+    private Course course;
 
 }

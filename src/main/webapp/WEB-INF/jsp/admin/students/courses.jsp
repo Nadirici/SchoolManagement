@@ -25,6 +25,7 @@
             <tr>
                  <th>Id du cours</th>
                 <th>Nom du cours</th>
+                <th>Horaire</th>
                 <th>Description</th>
             </tr>
            </thead>
@@ -33,6 +34,7 @@
                 <tr>
                     <td>${course.id}</td>
                     <td>${course.name}</td>
+                    <td>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</td>
                     <td>${course.description}</td>
                 </tr>
             </c:forEach>

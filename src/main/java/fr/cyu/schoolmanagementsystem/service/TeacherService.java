@@ -55,6 +55,18 @@ public class TeacherService {
 
 
 
+    public boolean isAvailable(Teacher teacher, Course course) {
+        return teacher.getCourses().stream()
+                .noneMatch(existingCourse ->
+                        existingCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(existingCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(existingCourse.getStartTime()))
+                                )
+                );
+    }
+
+
     @Transactional
     public List<TeacherDTO> getAllTeachers() {
         return teacherRepository.findAll().stream().map(this::mapToTeacherDTO).toList();

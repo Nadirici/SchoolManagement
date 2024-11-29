@@ -32,6 +32,10 @@
           <h3>Enseignant :</h3>
           <p>${course.teacher.firstname} ${course.teacher.lastname}</p>
         </div>
+        <div class="stat-card">
+          <h3>Horaire:</h3>
+          <p>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</p>
+        </div>
       </div>
 
       <%@include file="../courses/course_details_table.jsp" %>

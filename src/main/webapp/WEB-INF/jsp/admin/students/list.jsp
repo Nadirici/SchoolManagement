@@ -21,8 +21,8 @@
       <thead>
         <tr>
         <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Prénom</th>
+        <th>Nom</th>
         <th>Email</th>
         <th>Actions</th>
     </tr>
@@ -35,11 +35,8 @@
             <td>${student.lastname}</td>
             <td>${student.email}</td>
             <td>
-                <a href="students/${student.id}">Admin View</a> |
-                <%-- Student View est temporaire le temps que
-                le formulaire de connexion soit implémenté --%>
-                <a href="/students/${student.id}">* Student View</a> |
-                <a href="students/${student.id}/courses">Courses</a> |
+                <a href="students/${student.id}">Information sur l'étudiant</a> |
+                <a href="students/${student.id}/courses">Ses Cours</a> |
                 <form action="students/${student.id}" method="post" style="display:inline;">
                     <input type="hidden" name="_method" value="delete"/>
                     <button type="submit">Delete</button>
@@ -50,8 +47,7 @@
     </tbody>
 </table>
 
-<a href="students/new">Add New Student</a>
-<p>* Student View | Temporaire, le temps que le formaulaire de connexion soit implémenter</p>
+
 <script src="/js/search.js"></script>
 </body>
 </html>

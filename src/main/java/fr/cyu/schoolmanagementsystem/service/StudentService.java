@@ -2,6 +2,7 @@ package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import fr.cyu.schoolmanagementsystem.model.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.repository.*;
@@ -42,6 +43,20 @@ public class StudentService {
     public Optional<StudentDTO> getStudentById(UUID id) {
         return studentRepository.findById(id).map(this::mapToStudentDTO);
     }
+
+    public boolean isStudentAvailable(Student student, Course course) {
+        // Parcourir tous les cours auxquels l'étudiant est déjà inscrit
+        return student.getEnrollments().stream()
+                .map(Enrollment::getCourse)
+                .noneMatch(enrolledCourse ->
+                        enrolledCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(enrolledCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(enrolledCourse.getStartTime()))
+                                )
+                );
+    }
+
 
     @Cacheable("verifiedStudentsCount")
     public double getVerifiedStudentCount() {
