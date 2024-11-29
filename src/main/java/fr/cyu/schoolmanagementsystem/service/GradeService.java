@@ -242,7 +242,6 @@ public class GradeService {
         return totalAverage / validEnrollmentsCount; // Moyenne des notes pour cet étudiant
     }
 
-
     public Optional<GradeDTO> getAllGradesByAssignmentIdAndEnrollmentId(UUID assignmentId, UUID enrollmentId) {
         return gradeRepository.findByAssignmentIdAndEnrollmentId(assignmentId, enrollmentId).map(this::mapToGradeDTO);
     }

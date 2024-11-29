@@ -5,6 +5,8 @@ import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.passwordmanager.HashPassword;
 import fr.cyu.schoolmanagementsystem.service.*;
+
+import fr.cyu.schoolmanagementsystem.util.InputValidator;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +31,18 @@ public class StudentWebController {
     private final GradeService gradeService;
     private final AssignmentService assignmentService;
     private final PdfService pdfService;
-
+    private final TeacherService teacherService;
 
 
     @Autowired
-    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService, PdfService pdfService) {
+    public StudentWebController(StudentService studentService, EnrollmentService enrollmentService, CourseService courseService, GradeService gradeService, AssignmentService assignmentService, PdfService pdfService, TeacherService teacherService) {
         this.studentService = studentService;
         this.enrollmentService = enrollmentService;
         this.courseService = courseService;
         this.gradeService = gradeService;
         this.assignmentService = assignmentService;
         this.pdfService = pdfService;
+        this.teacherService = teacherService;
     }
 
     @GetMapping("/{id}/report/pdf")
@@ -225,13 +228,22 @@ public class StudentWebController {
                                        @RequestParam(value = "email", required = false) String email,
                                        @RequestParam(value = "password", required = false) String password,
                                        RedirectAttributes redirectAttributes) {
+
+        if(!InputValidator.isValidEmail(email)){
+            return "redirect:/students/" + studentId + "/profile?flashMessage=notValidMail";
+        }
         Optional<StudentDTO> studentOpt = studentService.getStudentById(studentId);
         if (studentOpt.isPresent()) {
             StudentDTO student = studentOpt.get();
+            //vérifier qu'il n'est pas utilisé chez les teachers
 
-            // Si l'email est fourni et qu'il a changé, vérifier s'il existe déjà dans la base de données
-            if (email != null && !student.getEmail().equals(email) && studentService.getStudentByEmail(email).isPresent()) {
+            if(teacherService.getTeacherByEmail(email).isPresent()){
                 return "redirect:/students/" + studentId + "/profile?flashMessage=UsedEmail";
+            }
+            // Si l'email est fourni et qu'il a changé, vérifier s'il existe déjà dans la base de données
+            if (email != null && !student.getEmail().equals(email) && studentService.getStudentByEmail(email).isPresent() ) {
+
+                return "redirect:/students/" + studentId + "/profile?flashMessageUsedEmail";
             }
 
             // Mettre à jour l'email si un nouveau email est fourni
@@ -260,11 +272,13 @@ public class StudentWebController {
 
             // Sauvegarder les modifications
             studentService.updateStudent(student1);
+            redirectAttributes.addFlashAttribute("flashMessage", "TeacherUpdated");
+            return "redirect:/students/" + studentId + "/profile";
 
-            return "redirect:/students/" + studentId + "/profile?flashMessage=StudentUpdated";
+
         } else {
             redirectAttributes.addFlashAttribute("error", "Étudiant introuvable.");
-            return "redirect:/students";
+            return "redirect:/students/" + studentId + "/profile";
         }
     }
 

@@ -12,7 +12,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau de bord</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -22,12 +22,41 @@
   <div class="main-content">
 
     <div class="overviewStudent">
-      <h1>Profil de l'étudiant</h1>
+
+
+        <h1>Profil de l'étudiant</h1>
+
+        <%
+            String flashMessage = (String) request.getAttribute("flashMessage");
+
+            // Vérifiez si le flashMessage est nul et, dans ce cas, récupérez le paramètre de l'URL
+            if (flashMessage == null) {
+                flashMessage = request.getParameter("flashMessage");
+            }
+
+
+            if (flashMessage != null) {
+                switch (flashMessage) {
+                    case "UsedEmail":
+                        out.println("<div class='flash-message flash-error'>Cet email est déjà utilisé. Veuillez en choisir un autre.</div>");
+                        break;
+                    case "TeacherUpdated":
+                        out.println("<div class='flash-message flash-success'>Votre profil a été mis à jour avec succès.</div>");
+                        break;
+                    case "notValidMail":
+                        out.println("<div class='flash-message flash-error'>Le format de l'email n'est pas valide.</div>");
+                        break;
+
+                    default:
+                        out.println("<div class='flash-mesage flash-error'>Erreur inconnue.</div>");
+                }
+            }
+        %>
 
 
 
-      <form action="${pageContext.request.contextPath}/students/${student.id}/profile" method="post">
-
+        <div class="form-container">
+        <form action="${pageContext.request.contextPath}/students/${student.id}/profile" method="post">
 
         <label for="firstname">Prénom :</label>
         <input type="text" id="firstname" name="firstname" value="${student.firstname}" disabled/><br/>
@@ -41,17 +70,16 @@
         <label for="password">Mot de passe :</label>
         <input type="password" id="password" name="password" /><br/>
 
-        <input type="submit" value="Mettre à jour le profil"/>
+            <button class="float-right" type="submit" >Mettre à jour le profil</button>
       </form>
-
-      <a href="${pageContext.request.contextPath}/students/${student.id}">Retour à votre tableau de bord</a>
+        </div>
       </div>
       <%@ include file="../courses/course_details_table.jsp" %>
 
 
     </div>
   </div>
-</div>
+
 </body>
 </html>
 

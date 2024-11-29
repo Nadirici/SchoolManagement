@@ -1,4 +1,7 @@
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
     <div>
     <c:if test="${canViewDetails}">
@@ -37,7 +40,7 @@
                   <td>${assignment.coefficient}</td>
                   <td><c:out value="${minGrade[assignment.id]}" /></td>
                   <td><c:out value="${maxGrade[assignment.id]}" /></td>
-                  <td><c:out value="${averageGrades[assignment.id]}" /></td>
+                  <td><fmt:formatNumber value='${averageGrades[assignment.id]}' type='number' maxFractionDigits='2' minFractionDigits='2' /></td>
                   <c:choose>
                     <c:when test="${isEnrolledStudent}">
                       <!-- Afficher la note de l'étudiant ou un message si la note est absente -->
@@ -69,11 +72,13 @@
             </table>
           </c:otherwise>
         </c:choose>
+      <div class="button-container">
         <c:if test="${!isEnrolledStudent}">
-          <a href="../courses/${course.id}/grades">Voir les notes</a>
+          <button class="button" onclick="window.location.href='../courses/${course.id}/grades'">Voir les notes</button>
         </c:if>
         <c:if test="${isAssignedTeacher}">
           <button onclick="window.location.href='../courses/${course.id}/add-assignment'">+ Ajouter un devoir</button>
         </c:if>
+      </div>
       </c:if>
   </div>

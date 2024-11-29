@@ -1,8 +1,6 @@
 <%@ page import="java.util.UUID" %>
 
-<%@page language="java" contentType="text/html; ISO-8859-1"
-        pageEncoding="UTF-8" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -159,6 +157,18 @@
                             break;
                         case "teacherRequestSubmitted":
                             out.println("<div class='flash-message flash-success'>Demande d'inscription professeur soumise avec succès !</div>");
+                            break;
+                        case "invalidEmail":
+                            out.println("<div class='flash-message flash-error'>Format invalide de l'email.</div>");
+                            break;
+                        case"invalidFirstname":
+                            out.println("<div class='flash-message flash-error'>Format du prénom invalide.</div>");
+                            break;
+                        case "invalidLastname":
+                            out.println("<div class='flash-message flash-error'>Format du nom invalide.</div>");
+                            break;
+                        case"invalidBirthDate":
+                            out.println("<div class='flash-message flash-error'>Date de naissance invalide.</div>");
                             break;
                         default:
                             out.println("<div class='flash-mesage flash-error'>Erreur inconnue.</div>");

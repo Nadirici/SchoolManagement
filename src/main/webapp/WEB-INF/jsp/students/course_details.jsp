@@ -19,7 +19,7 @@
 
 
 
-  <%@ include file="../headers/teacher_header.jsp" %>
+  <%@ include file="../headers/student_header.jsp" %>
   <div class="main-content">
     <div class="overviewStudent">
       <h2>${course.name}</h2>

@@ -52,6 +52,7 @@ public class CourseStatisticsService {
         return courseAverageGrades.getOrDefault(courseId, 0.0);
     }
 
+
     public double getCourseMin(UUID courseId) {
         return courseMinGrades.getOrDefault(courseId, 0.0);
     }

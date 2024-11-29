@@ -1,5 +1,4 @@
 
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
@@ -7,7 +6,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste de cours de ${student.firstname}</title>
+    <title>Liste de cours de ${teacher.firstname}</title>
     <link rel="stylesheet" href="/css/style.css">
      <!-- Lien vers votre fichier CSS -->
 </head>
@@ -15,10 +14,11 @@
 <div class="container">
 <%@include file="../../headers/admin_header.jsp" %>
 <div class="main-content">
+<h1>Demandes d'inscription en attente</h1>
 
 
     <div class="overviewStudent">
-    <h2>Liste de cours de  ${student.firstname}</h2>
+    <h2>Liste de cours de  ${teacher.firstname}</h2>
         <div class="stats">
         <table border="1">
         <thead>

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <html>
 <head>
     <title>Tableau de bord</title>
@@ -31,9 +32,11 @@
                         <li>Email : ${teacher.email}</li>
                     </ul>
                  </div>
-            <div>
+            </div>
 
                 <h2>Mes cours enseignés</h2>
+                <div class="stats">
+
                 <table border="1">
                     <thead>
                     <tr>
@@ -41,15 +44,16 @@
                         <th>Moyenne de la classe</th>
                         <th>Moyenne minimale</th>
                         <th>Moyenne maximale</th>
+                        <th>Plus d'info</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="course" items="${courses}">
                         <tr>
                             <td><a href="${teacher.id}/courses/${course.id}">${course.name}</a></td>
-                            <td><c:out value="${courseAverages[course.id]}" /></td>
-                            <td><c:out value="${minAverages[course.id]}" /></td>
-                            <td><c:out value="${maxAverages[course.id]}" /></td>
+                            <td><fmt:formatNumber value="${courseAverages[course.id]}" type="number" maxFractionDigits='2' minFractionDigits='2'/></td>
+                            <td><fmt:formatNumber value="${minAverages[course.id]}" type="number" maxFractionDigits='2' minFractionDigits='2'/></td>
+                            <td><fmt:formatNumber value="${maxAverages[course.id]}" type="number" maxFractionDigits='2' minFractionDigits='2' /></td>
                             <td><a href="${teacher.id}/courses/${course.id}" class="button">Voir plus</a></td>
                         </tr>
                     </c:forEach>
