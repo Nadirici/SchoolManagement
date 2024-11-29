@@ -56,6 +56,11 @@ public class TeacherService {
 
 
     public boolean isAvailable(Teacher teacher, Course course) {
+        if (teacher.getCourses() == null) {
+            // Si l'enseignant n'a pas encore de cours, il est disponible
+            return true;
+        }
+
         return teacher.getCourses().stream()
                 .noneMatch(existingCourse ->
                         existingCourse.getDayOfWeek() == course.getDayOfWeek() &&

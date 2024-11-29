@@ -53,6 +53,51 @@ public class CourseService {
         return courseRepository.findById(id).map(this::mapsToCourseDTO);
     }
 
+    @Transactional
+    public Optional<Course> getCoursebById(UUID id) {
+        return courseRepository.findById(id);
+    }
+
+    @Transactional
+    public UUID update(CourseDTO courseDTO) {
+        // Récupérer le cours existant à partir de l'ID
+        Optional<Course> existingCourse = courseRepository.findById(courseDTO.getId());
+
+        if (existingCourse.isEmpty()) {
+            throw new RuntimeException("Course with this id does not exist.");
+        }
+
+        // Mapper le cours existant et les nouvelles données
+        Course course = existingCourse.get();
+
+        // Mettre à jour le nom et la description du cours
+        course.setName(courseDTO.getName());
+        course.setDescription(courseDTO.getDescription());
+
+        // Récupérer l'enseignant à partir de l'ID dans le DTO
+        Optional<TeacherDTO> teacherDTO = teacherService.getTeacherById(courseDTO.getTeacher().getId());
+
+        if (teacherDTO.isEmpty()) {
+            throw new RuntimeException("Teacher with this id does not exist.");
+        }
+
+        // Mapper l'enseignant
+        Teacher teacher = mapper.map(teacherDTO.get(), Teacher.class);
+        course.setTeacher(teacher);
+
+        // Mettre à jour les autres propriétés du cours si nécessaire
+        course.setDayOfWeek(courseDTO.getDayOfWeek());
+        course.setStartTime(courseDTO.getStartTime());
+        course.setEndTime(courseDTO.getEndTime());
+
+        // Sauvegarder les modifications
+        courseRepository.save(course);
+
+        // Retourner l'ID du cours mis à jour
+        return course.getId();
+    }
+
+
     public UUID addCourse(CourseDTO courseDTO) {
         if (courseRepository.findByName(courseDTO.getName()).isPresent()) {
             throw new RuntimeException("A course with this name already exists.");

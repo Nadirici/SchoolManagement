@@ -1,5 +1,6 @@
 package fr.cyu.schoolmanagementsystem.model.entity;
 
+import fr.cyu.schoolmanagementsystem.model.dto.TeacherDTO;
 import fr.cyu.schoolmanagementsystem.model.entity.base.BasePersonEntity;
 import fr.cyu.schoolmanagementsystem.model.entity.enumeration.Departement;
 import jakarta.persistence.*;
@@ -29,6 +30,19 @@ public class Teacher extends BasePersonEntity {
     public Teacher(String firstname, String lastname, String email, String password, Departement departement, String salt) {
         super(firstname, lastname, email, password, salt);
         this.department = departement.toString();
+    }
+
+    public Teacher(TeacherDTO teacherDTO) {
+        super(teacherDTO.getFirstname(),teacherDTO.getLastname(),teacherDTO.getEmail(),teacherDTO.getPassword(),teacherDTO.getSalt());
+        this.department = teacherDTO.getDepartment();
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     public void addCourse(Course course) {
