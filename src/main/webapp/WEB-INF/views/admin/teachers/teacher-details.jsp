@@ -94,7 +94,19 @@
                     <input type="text" id="lastname" name="lastname" value="${teacher.lastname}" required /><br />
 
                     <label for="department">Département :</label>
-                    <input type="text" id="department" name="department" value="${teacher.department}" required /><br />
+                    <select id="department" name="department">
+                        <option value="" disabled selected>-- Choisissez votre departement --</option>
+                        <option value="SCIENCES" ${teacher.department == 'SCIENCES' ? 'selected' : ''}>SCIENCES</option>
+                        <option value="LITTERATURE" ${teacher.department == 'LITTERATURE' ? 'selected' : ''}>LITTERATURE</option>
+                        <option value="MATHEMATIQUES" ${teacher.department == 'MATHEMATIQUES' ? 'selected' : ''}>MATHEMATIQUES</option>
+                        <option value="HISTOIRE" ${teacher.department == 'HISTOIRE' ? 'selected' : ''}>HISTOIRE</option>
+                        <option value="PHYSIQUE" ${teacher.department == 'PHYSIQUE' ? 'selected' : ''}>PHYSIQUE</option>
+                        <option value="INFORMATIQUE" ${teacher.department == 'INFORMATIQUE' ? 'selected' : ''}>INFORMATIQUE</option>
+                        <option value="LANGUES" ${teacher.department == 'LANGUES' ? 'selected' : ''}>LANGUES</option>
+                        <option value="CHIMIE" ${teacher.department == 'CHIMIE' ? 'selected' : ''}>CHIMIE</option>
+                        <option value="ARTS" ${teacher.department == 'ARTS' ? 'selected' : ''}>ARTS</option>
+                        <option value="GEOGRAPHIE" ${teacher.department == 'GEOGRAPHIE' ? 'selected' : ''}>GEOGRAPHIE</option>
+                    </select><br />
 
                     <label for="email">Email :</label>
                     <input type="email" id="email" name="email" value="${teacher.email}" required /><br />

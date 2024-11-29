@@ -8,6 +8,7 @@ import fr.cyu.schoolmanagementsystem.entity.RegistrationRequest;
 import fr.cyu.schoolmanagementsystem.entity.Student;
 import fr.cyu.schoolmanagementsystem.entity.Teacher;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -74,5 +75,9 @@ public class RequestService extends GenericServiceImpl<RegistrationRequest> {
         } catch (Exception e) {
             throw new RuntimeException("Demande non trouve avec id: " + requestId, e);
         }
+    }
+
+    public List<RegistrationRequest> getAllPending() {
+        return ((RegistrationRequestDAO) dao).findByStatusFalse();
     }
 }

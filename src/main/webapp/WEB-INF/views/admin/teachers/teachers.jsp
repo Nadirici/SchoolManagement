@@ -92,10 +92,16 @@
                 <label for="department">Département :</label>
                 <select id="department" name="department">
                     <option value="" disabled selected>-- Choisissez votre departement --</option>
-                    <option value="INFORMATIQUE">Informatique</option>
-                    <option value="MATHEMATIQUES">Mathematiques</option>
-                    <option value="PHYSIQUE">Physique</option>
-                    <option value="CHIMIE">Chimie</option>
+                    <option value="SCIENCES">SCIENCES</option>
+                    <option value="LITTERATURE">LITTERATURE</option>
+                    <option value="MATHEMATIQUES">MATHEMATIQUES</option>
+                    <option value="HISTOIRE">HISTOIRE</option>
+                    <option value="PHYSIQUE">PHYSIQUE</option>
+                    <option value="INFORMATIQUE">INFORMATIQUE</option>
+                    <option value="LANGUES">LANGUES</option>
+                    <option value="CHIMIE">CHIMIE</option>
+                    <option value="ARTS">ARTS</option>
+                    <option value="GEOGRAPHIE">GEOGRAPHIE</option>
                 </select><br />
 
                 <label for="email">Email :</label>
