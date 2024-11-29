@@ -89,14 +89,14 @@ INSERT INTO students (id, email, firstname, lastname, date_of_birth, is_verified
     (UNHEX(REPLACE('c9f6e1a8-2d8b-4f3c-9e0d-5b9f3d8a0c7f', '-', '')), 'unis_verified@example.com', 'Charlie', 'Brown', '2002-05-15', 0, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
 
 INSERT INTO teachers (id, email, firstname, lastname, department, is_verified, password, salt) VALUES
-    (UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', '')), 'prof.jones@example.com', 'Emma', 'Jones', 'Mathematiques', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
-    (UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', '')), 'prof.brown@example.com', 'Liam', 'Brown', 'Physique', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
-    (UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')), 'prof.smith@example.com', 'Olivia', 'Smith', 'Chimie', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
+    (UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', '')), 'prof.jones@example.com', 'Emma', 'Jones', 'MATHEMATIQUES', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', '')), 'prof.brown@example.com', 'Liam', 'Brown', 'PHYSIQUE', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg=='),
+    (UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')), 'prof.smith@example.com', 'Olivia', 'Smith', 'CHIMIE', 1, 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
 
-INSERT INTO courses (id, name, description, teacher_id) VALUES
-    (UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', '')), 'Mathematics', 'An introductory course to Mathematics', UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', ''))),
-    (UNHEX(REPLACE('cc5e0d3a-1cb3-4e1f-bc02-b5b646f6be68', '-', '')), 'Physics', 'Fundamentals of Physics', UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', ''))),
-    (UNHEX(REPLACE('e6cfd17c-3071-4a8d-87ec-5b5c314f44f8', '-', '')), 'Chemistry', 'Introduction to Chemistry concepts', UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')));
+INSERT INTO courses (id, name, description, day_of_week, start_time, end_time, teacher_id) VALUES
+    (UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', '')), 'Mathematics', 'An introductory course to Mathematics', 'MONDAY', '10:15', '11:45', UNHEX(REPLACE('4a1c1185-3f8f-4e0d-a6f3-3c24155a7a7f', '-', ''))),
+    (UNHEX(REPLACE('cc5e0d3a-1cb3-4e1f-bc02-b5b646f6be68', '-', '')), 'Physics', 'Fundamentals of Physics', 'TUESDAY', '08:30', '10:00', UNHEX(REPLACE('5bce19f6-9078-4e34-8d5b-b2e6537b2330', '-', ''))),
+    (UNHEX(REPLACE('e6cfd17c-3071-4a8d-87ec-5b5c314f44f8', '-', '')), 'Chemistry', 'Introduction to Chemistry concepts', 'FRIDAY', '08:30', '10:00', UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', '')));
 
 INSERT INTO enrollments (id, course_id, student_id) VALUES
     (UNHEX(REPLACE('a5b8f80b-0c8e-4c84-bb43-3e5b7b07f1c7', '-', '')), UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', '')), UNHEX(REPLACE('82107de4-968c-46de-84ea-c75a443d42ba', '-', ''))), -- John enroll to Mathematics
@@ -110,7 +110,7 @@ INSERT INTO enrollments (id, course_id, student_id) VALUES
 INSERT INTO assignments (id, coefficient, description, title, course_id) VALUES
     (UNHEX(REPLACE('3a62f67d-1a2e-4af1-bcf4-7f9f4b5366e4', '-', '')), 1, 'Basic algebra problems covering addition and multiplication', 'Algebra Basics', UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', ''))),
     (UNHEX(REPLACE('442ddaf5-3845-4ee6-b48e-071e0a9c2d9f', '-', '')), 1, 'Advanced problem set on linear equations and inequalities', 'Linear Equations', UNHEX(REPLACE('1e9b7b9b-3c76-4f2e-b8b0-8b47b8a5e7a8', '-', ''))),
-    (UNHEX(REPLACE('543f03b8-2df0-4404-9840-80ce3eed9d31', '-', '')), 1, 'Introduction to Newton\'s laws of motion', 'Newton\'s Laws', UNHEX(REPLACE('cc5e0d3a-1cb3-4e1f-bc02-b5b646f6be68', '-', ''))),
+    (UNHEX(REPLACE('543f03b8-2df0-4404-9840-80ce3eed9d31', '-', '')), 1, 'Introduction to Newton laws of motion', 'Lorem Ipsum', UNHEX(REPLACE('cc5e0d3a-1cb3-4e1f-bc02-b5b646f6be68', '-', ''))),
     (UNHEX(REPLACE('acb113f2-8b36-4b89-8391-8e9a78707744', '-', '')), 1, 'Problem set on kinetic and potential energy concepts', 'Energy Concepts', UNHEX(REPLACE('cc5e0d3a-1cb3-4e1f-bc02-b5b646f6be68', '-', ''))),
     (UNHEX(REPLACE('96a786c7-3696-4938-a147-969e86df4efc', '-', '')), 1, 'Fundamental chemical reactions and balancing equations', 'Chemical Reactions', UNHEX(REPLACE('e6cfd17c-3071-4a8d-87ec-5b5c314f44f8', '-', ''))),
     (UNHEX(REPLACE('db8deae5-ea2d-4f6e-bb65-83b856ca90c1', '-', '')), 1, 'Study on atomic structure and periodic table elements', 'Atomic Structure', UNHEX(REPLACE('e6cfd17c-3071-4a8d-87ec-5b5c314f44f8', '-', '')));
