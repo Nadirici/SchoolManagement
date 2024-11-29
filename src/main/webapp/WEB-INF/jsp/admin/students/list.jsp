@@ -7,7 +7,6 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <title>Liste d'étudiants</title>
-  <%--<link rel="stylesheet" href="/css/style.css">--%>
 </head>
 <body>
 <div class="container">
@@ -16,7 +15,9 @@
     <h1>Liste d'étudiants</h1>
 
     <div class="overviewStudent">
-      <table border="1">
+        <!-- Barre de recherche -->
+        <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
+      <table border="1" id="myTable">
       <thead>
         <tr>
         <th>ID</th>
@@ -51,5 +52,6 @@
 
 <a href="students/new">Add New Student</a>
 <p>* Student View | Temporaire, le temps que le formaulaire de connexion soit implémenter</p>
+<script src="/js/search.js"></script>
 </body>
 </html>

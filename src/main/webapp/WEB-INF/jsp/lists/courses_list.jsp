@@ -1,4 +1,6 @@
-<table border="1">
+<!-- Barre de recherche -->
+<input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
+<table border="1" id="myTable">
     <thead>
     <tr>
         <th>#</th> <!-- Indice -->
@@ -38,3 +40,4 @@
         </tr></c:forEach>
     </tbody>
 </table>
+<script src="/js/search.js"></script>
