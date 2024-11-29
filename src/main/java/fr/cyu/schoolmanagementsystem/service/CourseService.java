@@ -40,6 +40,9 @@ public class CourseService {
         return courseRepository.findAll().stream().map(this::mapsToCourseDTO).toList();
     }
 
+    public Optional<Course> getCourseByName(String name) {
+        return courseRepository.findByName(name);
+    }
 
 
 

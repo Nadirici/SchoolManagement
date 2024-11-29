@@ -11,6 +11,7 @@ import fr.cyu.schoolmanagementsystem.service.AdminService;
 import fr.cyu.schoolmanagementsystem.service.RequestService;
 import fr.cyu.schoolmanagementsystem.service.StudentService;
 import fr.cyu.schoolmanagementsystem.service.TeacherService;
+import fr.cyu.schoolmanagementsystem.util.InputValidator;
 import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.lang.NonNull;
@@ -64,6 +65,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegistrationDTO userDto, RedirectAttributes redirectAttributes) {
+        if (!InputValidator.isValidEmail(userDto.getEmail())) {
+            return "redirect:/auth?flashMessage=invalidEmail";
+        } else if (!InputValidator.isValidName(userDto.getFirstname())) {
+            return "redirect:/auth?flashMessage=invalidFirstname";
+        } else if (!InputValidator.isValidName(userDto.getLastname())) {
+            return "redirect:/auth?flashMessage=invalidLastname";
+        } else if (userDto.getDateOfBirth() != null && !InputValidator.isValidBirthDate(String.valueOf(userDto.getDateOfBirth()))) {
+            return "redirect:/auth?flashMessage=invalidBirthDate";
+        }
+
+
         if (studentService.getStudentByEmail(userDto.getEmail()).isPresent() || teacherService.getTeacherByEmail(userDto.getEmail()).isPresent()) {
 
             return "redirect:/auth?flashMessage=emailAlreadyExists";

@@ -14,6 +14,8 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
     Optional<Course> findByName(String name);
     List<Course> findByTeacherId(UUID teacherId);
 
+
+
     @Transactional
     void deleteByTeacherId(UUID teacherId);
 }

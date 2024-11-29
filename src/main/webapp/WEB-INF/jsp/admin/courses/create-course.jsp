@@ -32,6 +32,10 @@
                   break;
                 case "teacherNotfound":
                   out.println("<div class='flash-message flash-error'>Professeur introuvable</div>");
+                  break;
+                case "existingCourse":
+                  out.println("<div class='flash-message flash-error'>Le cours existe déjà</div>");
+                  break;
                 default:
                   out.println("<div class='flash-mesage flash-warning'>Erreur inconnue.</div>");
               }

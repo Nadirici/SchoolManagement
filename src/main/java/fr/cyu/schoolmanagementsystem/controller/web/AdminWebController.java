@@ -134,14 +134,21 @@ public class AdminWebController {
 
         // Vérifier si l'enseignant est présent dans l'Optional
         Teacher teacher;
+
         if (optionalTeacher.isPresent()) {
             teacher = optionalTeacher.get();
         } else {
             System.out.println("Teacher not found!");
 
-            return "/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
+            return "redirect:/admin/"+adminId+"/courses?flashMessage=teacherNotfound"; // Retourner à la page de création si l'enseignant n'est pas trouvé
         }
 
+        if(courseService.getCoursesByTeacherId(UUID.fromString(String.valueOf(teacher.getId()))) != null){
+
+            //retourne à la vue avec un message si le cours existe
+            return "redirect:/admin/"+adminId+"/courses?flashMessage=existingCourse";
+
+        }
         // Créer un objet CourseDTO avec les informations du formulaire
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setName(courseName);
