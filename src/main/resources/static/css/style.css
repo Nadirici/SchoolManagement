@@ -490,3 +490,10 @@ textarea {
     background: #FFF;
     opacity: 50%;
 }
+
+#searchInput {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+    max-width: 300px;
+}
