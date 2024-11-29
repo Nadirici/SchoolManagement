@@ -75,6 +75,22 @@
 
       <!-- Form to add a new course -->
       <h2>Ajouter un nouveau cours</h2>
+
+      <%
+        // Récupérer le message flash depuis la session
+        String flashMessage = (String) request.getSession().getAttribute("flashMessage");
+
+        // Si le message flash existe, l'afficher
+        if (flashMessage != null) {
+
+          // Affichage du message flash
+          out.println("<div class='flash-message flash-error'>" + flashMessage + "</div>");
+
+          // Supprimer le message flash après l'affichage pour éviter les redondances
+          session.removeAttribute("flashMessage");
+        }
+      %>
+
       <form method="post" action="${pageContext.request.contextPath}/admin/courses">
         <label for="name">Nom :</label>
         <input type="text" id="name" name="name" required /><br />
@@ -90,8 +106,22 @@
                 ${teacher.firstname} ${teacher.lastname}
             </option>
           </c:forEach>
+
+
         </select><br/>
 
+        <label for="dayOfWeek">Jour :</label>
+        <select id="dayOfWeek" name="dayOfWeek" required>
+          <option value="MONDAY">Lundi</option>
+          <option value="TUESDAY">Mardi</option>
+          <option value="WEDNESDAY">Mercredi</option>
+          <option value="THURSDAY">Jeudi</option>
+          <option value="FRIDAY">Vendredi</option>
+        </select><br />
+
+        <input type="time" id="startTime" name="startTime" required>
+        <label for="endTime">End Time:</label>
+        <input type="time" id="endTime" name="endTime" required>
         <button type="submit">Ajouter</button>
       </form>
     </div>

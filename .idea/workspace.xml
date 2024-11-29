@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SchoolManagementSystem:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0f19c241-acdf-4439-b95e-612527771786" name="Changes" comment="ajout vérification type de mail, prénom, nom, date de naissance">
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/entity/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/entity/Course.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/entity/Enrollment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/entity/Enrollment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/service/TeacherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/service/TeacherService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/servlet/admin/CourseAdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/schoolmanagementsystem/servlet/admin/CourseAdminServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/courses/courses.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/courses/courses.jsp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="without-spring-version" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6DXv5F&quot;,
+        &quot;number&quot;: 28
+      },
+      &quot;lastSeen&quot;: 1732749324218
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6Dg3DF&quot;,
+        &quot;number&quot;: 30
+      },
+      &quot;lastSeen&quot;: 1732873850730
+    }
+  ]
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nadirici/SchoolManagement.git&quot;,
+    &quot;accountId&quot;: &quot;8b0b3724-2235-49b3-9e57-dbf8847ff682&quot;
+  }
+}</component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2p4JT07vTFu2TVHfe8VB6XV1S7u" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.SchoolManagementSystemApplication.executor": "Run",
+    "Tomcat Server.Unnamed.executor": "Run",
+    "git-widget-placeholder": "FT-Horaire-Nadir",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "H:/Desktop/SchoolManagement/src/main/webapp/WEB-INF/jsp/teachers",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\Desktop\SchoolManagement\src\main\webapp\WEB-INF\jsp\teachers" />
+      <recent name="H:\Desktop\SchoolManagement" />
+      <recent name="H:\Desktop\SchoolManagement\src\main" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Unnamed">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SchoolManagement" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SchoolManagement" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SchoolManagementSystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="SchoolManagementSystem" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="fr.cyu.schoolmanagementsystem.SchoolManagementSystemApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.0-M22" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="SchoolManagementSystem:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/SchoolManagementSystem_war_exploded" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="766c78fc-36d8-4785-b60a-4cb3bd68f54a" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="62478" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="SchoolManagementSystem:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.SchoolManagementSystemApplication" />
+      <item itemvalue="Tomcat Server.Unnamed" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0f19c241-acdf-4439-b95e-612527771786" name="Changes" comment="" />
+      <created>1732019417972</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732019417972</updated>
+      <workItem from="1732019420824" duration="1330000" />
+      <workItem from="1732026643308" duration="1134000" />
+      <workItem from="1732520376491" duration="31000" />
+      <workItem from="1732525431011" duration="3450000" />
+      <workItem from="1732569243700" duration="847000" />
+      <workItem from="1732627826902" duration="715000" />
+      <workItem from="1732628671653" duration="1325000" />
+      <workItem from="1732749144560" duration="112000" />
+      <workItem from="1732749295603" duration="984000" />
+      <workItem from="1732786837754" duration="58000" />
+      <workItem from="1732865893198" duration="13248000" />
+      <workItem from="1732882649761" duration="6926000" />
+    </task>
+    <task id="LOCAL-00001" summary="Ajout lien cliquable pour l'envoie du mail à l'admin">
+      <option name="closed" value="true" />
+      <created>1732526800729</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732526800729</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Ajout lien cliquable pour l'envoie du mail à l'admin">
+      <option name="closed" value="true" />
+      <created>1732570006991</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732570006991</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Le prof recoit un mail lorsqu'il est affecté à un cours, l'admin recoit un mail quand il recoit des demandes d'inscription et l'étudiant reçoit un mail quand il a une nouvelle notes.">
+      <option name="closed" value="true" />
+      <created>1732628298848</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1732628298848</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Mise en français de quelques jsp.">
+      <option name="closed" value="true" />
+      <created>1732868847911</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732868847912</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Ajout de vérification de type, email au bon format, nom et prénom au bon format ainsi que la date de naissance. Ajout également de vérification lors de la création d'un cours, vérification que le cours n'existe déjà pas pour le professeur">
+      <option name="closed" value="true" />
+      <created>1732873732922</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732873732922</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Petit bug dans l'ajout de cours réglé">
+      <option name="closed" value="true" />
+      <created>1732874797105</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732874797105</updated>
+    </task>
+    <task id="LOCAL-00007" summary="ajout vérification type de mail, prénom, nom, date de naissance">
+      <option name="closed" value="true" />
+      <created>1732882303259</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732882303259</updated>
+    </task>
+    <task id="LOCAL-00008" summary="ajout vérification type de mail, prénom, nom, date de naissance">
+      <option name="closed" value="true" />
+      <created>1732882728064</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732882728064</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Ajout lien cliquable pour l'envoie du mail à l'admin" />
+    <MESSAGE value="Le prof recoit un mail lorsqu'il est affecté à un cours, l'admin recoit un mail quand il recoit des demandes d'inscription et l'étudiant reçoit un mail quand il a une nouvelle notes." />
+    <MESSAGE value="Mise en français de quelques jsp." />
+    <MESSAGE value="Ajout de vérification de type, email au bon format, nom et prénom au bon format ainsi que la date de naissance. Ajout également de vérification lors de la création d'un cours, vérification que le cours n'existe déjà pas pour le professeur" />
+    <MESSAGE value="Petit bug dans l'ajout de cours réglé" />
+    <MESSAGE value="ajout vérification type de mail, prénom, nom, date de naissance" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajout vérification type de mail, prénom, nom, date de naissance" />
+  </component>
+</project>

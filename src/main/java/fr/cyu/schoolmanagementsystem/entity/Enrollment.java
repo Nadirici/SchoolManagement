@@ -15,7 +15,7 @@ public class Enrollment extends BaseEntity {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "course_id",  nullable = false, referencedColumnName = "id")
     private Course course;
 
     @OneToMany(mappedBy = "enrollment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

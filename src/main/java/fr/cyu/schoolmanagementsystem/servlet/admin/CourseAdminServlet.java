@@ -23,6 +23,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -53,7 +58,6 @@ public class CourseAdminServlet extends HttpServlet {
         Admin admin = AdminServlet.checkAdminSession(request, response);
 
         if (admin != null) {
-            // Ajouter l'admin en tant qu'attribut de la requête
             request.setAttribute("admin", admin);
         } else {
             response.sendRedirect(request.getContextPath() + "/login?flashMessage=notAuthorized");
@@ -122,17 +126,19 @@ public class CourseAdminServlet extends HttpServlet {
 
         if ("PUT".equalsIgnoreCase(method)) {
             updateCourse(request, response);
+
         } else if ("DELETE".equalsIgnoreCase(method)) {
             deleteCourse(request, response);
             response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
+            return;
         } else {
             try {
                 createCourse(request, response);
-                response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
-            } catch (GeneralSecurityException e) {
-                throw new RuntimeException(e);
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
+
+
+            } catch (GeneralSecurityException | MessagingException e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error creating course");
             }
         }
     }
@@ -150,7 +156,6 @@ public class CourseAdminServlet extends HttpServlet {
                 Course course = courseService.getById(id);
                 course.setName(courseName);
                 course.setDescription(courseDescription);
-                System.out.println(teacherId);
                 course.setTeacher(teacherService.getById(UUID.fromString(teacherId)));
 
                 courseService.update(course);
@@ -177,41 +182,65 @@ public class CourseAdminServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Course ID is required for deletion");
         }
     }
-
     private void createCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, GeneralSecurityException, MessagingException {
-        String courseName = request.getParameter("name");
-        String courseDescription = request.getParameter("description");
-        String teacherId = request.getParameter("teacherId");
+        try {
+            String courseName = request.getParameter("name");
+            String courseDescription = request.getParameter("description");
+            String teacherId = request.getParameter("teacherId");
+            String startTimeParam = request.getParameter("startTime");
+            String endTimeParam = request.getParameter("endTime");
+            String dayOfWeekParam = request.getParameter("dayOfWeek"); // Récupérer le jour
 
-        if (courseName != null && !courseName.isEmpty() && courseDescription != null && !courseDescription.isEmpty() && teacherId != null) {
-            Course course = new Course();
-            course.setName(courseName);
-            course.setDescription(courseDescription);
-            Teacher teacher = teacherService.getById(UUID.fromString(teacherId));
-            course.setTeacher(teacher);
+            if (courseName != null && !courseName.isEmpty() && courseDescription != null && !courseDescription.isEmpty()
+                    && teacherId != null && startTimeParam != null && endTimeParam != null && dayOfWeekParam != null) {
 
-            courseService.add(course);
+                // Convertir les heures de début et de fin en objets LocalTime
+                LocalTime startTime = LocalTime.parse(startTimeParam);
+                LocalTime endTime = LocalTime.parse(endTimeParam);
 
+                // Convertir le jour en DayOfWeek
+                DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayOfWeekParam.toUpperCase());
 
+                // Créer des objets LocalDateTime pour représenter les horaires du jour sélectionné
+                LocalDate nextValidDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(dayOfWeek));
+                LocalDateTime startDateTime = LocalDateTime.of(nextValidDate, startTime);
+                LocalDateTime endDateTime = LocalDateTime.of(nextValidDate, endTime);
 
-            String link = "http://localhost:8080/SchoolManagement_war_exploded/login";
-            Gmailer gmailer = new Gmailer();
-            gmailer.sendMail(
-                    "Nouvelle affectation à un cours",
-                    "Bonjour " + teacher.getFirstname() + " " + teacher.getLastname() + ",<br><br>" +
-                            "Vous avez été affecté à l'enseignement d'un nouveau cours.<br><br>" +
-                            "Voici les détails :<br>" +
-                            "- Cours : " + courseName + "<br>" +
-                            "- Description : " + courseDescription + "<br><br>" +
-                            "Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :<br>" +
-                            "<a href='" + link + "'>Voir mes cours</a><br><br>" +
-                            "Cordialement,<br>" +
-                            "L'équipe de gestion du système.",
-                    teacher.getEmail()
-            );
+                // Récupérer le professeur
+                Teacher teacher = teacherService.getById(UUID.fromString(teacherId));
 
-        } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields for course creation");
+                // Vérifier la disponibilité du professeur pour le jour et l'horaire
+                boolean isAvailable = teacherService.isTeacherAvailableForDay(teacher, dayOfWeek, startTime, endTime);
+
+                if (!isAvailable) {
+                    // Placer le message dans la session
+                    request.getSession().setAttribute("flashMessage", "Le professeur n'est pas disponible ce jour-là pendant ces horaires.");
+                    response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
+                    return;
+                }
+
+                // Créer le cours
+                Course course = new Course();
+                course.setName(courseName);
+                course.setDescription(courseDescription);
+                course.setStartTime(startDateTime);
+                course.setEndTime(endDateTime);
+                course.setTeacher(teacher);
+                course.setDayOfWeek(dayOfWeek); // Ajouter le jour
+
+                courseService.add(course);
+
+                // Redirection
+                response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
+
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Les informations sont incomplètes.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur lors de la création du cours.");
         }
     }
+
+
 }
