@@ -21,4 +21,10 @@ public class CourseService extends GenericServiceImpl<Course> {
     public List<Course> getAllNotEnroll(UUID studentId) {
         return ((CourseDAO) dao).findAllNotEnrollByStudentId(studentId);
     }
+
+    public List<Course> getByDepartment(String name) {
+        List<Course> tmp = ((CourseDAO) dao).findAllByDepartment(name);
+        tmp.forEach(System.out::println);
+        return tmp;
+    }
 }

@@ -51,4 +51,21 @@ public class CourseDAO extends GenericDAO<Course> {
             return Collections.emptyList();
         }
     }
+
+    public List<Course> findAllByDepartment(String department) {
+        try (Session session = getSession()) {
+            String hql = """
+                SELECT c
+                FROM Course c
+                JOIN c.teacher t
+                WHERE t.department = :department
+                """;
+            return session.createQuery(hql, Course.class)
+                    .setParameter("department", department)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
 }
