@@ -5,6 +5,7 @@ import fr.cyu.schoolmanagementsystem.entity.*;
 import fr.cyu.schoolmanagementsystem.service.*;
 import fr.cyu.schoolmanagementsystem.util.Gmailer;
 import fr.cyu.schoolmanagementsystem.util.HashPassword;
+import fr.cyu.schoolmanagementsystem.util.InputValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -43,6 +44,39 @@ public class RegistrationServlet extends HttpServlet {
         String lastname = request.getParameter("lastname");
         String dateOfBirthStr = request.getParameter("dateOfBirth"); // Format: YYYY-MM-DD
         String department = request.getParameter("department");
+
+
+        // Vérification de l'email
+
+        if (email == null || !InputValidator.isValidEmail(email)) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=invalidEmail");
+            return;
+        }
+
+        // Vérification du mot de passe
+        if (password == null || password.trim().isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=emptyPassword");
+            return;
+        }
+
+        // Vérification du prénom
+        if (firstname == null || !InputValidator.isValidName(firstname)) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=invalidFirstname");
+            return;
+        }
+
+        // Vérification du nom
+        if (lastname == null || !InputValidator.isValidName(lastname)) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=invalidLastname");
+            return;
+        }
+
+        // Vérification de la date de naissance
+        if (dateOfBirthStr == null || !InputValidator.isValidBirthDate(dateOfBirthStr)) {
+            response.sendRedirect(request.getContextPath() + "/login?flashMessage=invalidBirthDate");
+            return;
+        }
+
 
         Student studentOptional = null;
         Teacher teacherOptional = null;
