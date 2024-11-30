@@ -3,9 +3,10 @@
 <table border="1" id="myTable">
     <thead>
     <tr>
-        <th>#</th> <!-- Indice -->
+
         <th>Cours</th>
         <th>Description du cours</th>
+        <th>Horaire</th>
         <th>Enseignant</th>
         <th>Action</th>
     </tr>
@@ -13,11 +14,10 @@
     <tbody>
     <c:forEach var="course" items="${courses}" varStatus="status">
         <tr>
-            <!-- Affichage de l'indice -->
-            <td>${status.index + 1}</td> <!-- L'indice commence à 0, donc on ajoute 1 -->
 
             <td>${course.name}</td>
             <td>${course.description}</td>
+            <td>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</td>
             <td>${course.teacher.firstname} ${course.teacher.lastname}</td>
             <c:choose>
 

@@ -71,7 +71,7 @@ public class AuthController {
             return "redirect:/auth?flashMessage=invalidFirstname";
         } else if (!InputValidator.isValidName(userDto.getLastname())) {
             return "redirect:/auth?flashMessage=invalidLastname";
-        } else if (userDto.getDateOfBirth() != null && !InputValidator.isValidBirthDate(String.valueOf(userDto.getDateOfBirth()))) {
+        } else if ( userDto.getDateOfBirth() != null  &&  !InputValidator.isValidBirthDate(String.valueOf(userDto.getDateOfBirth())) && userDto.getUserType().equals("student")) {
             return "redirect:/auth?flashMessage=invalidBirthDate";
         }
 
@@ -159,6 +159,8 @@ public class AuthController {
         }
 
     }
+
+
 
     @GetMapping("/login")
     public String showLoginForm() {

@@ -55,6 +55,23 @@ public class TeacherService {
 
 
 
+    public boolean isAvailable(Teacher teacher, Course course) {
+        if (teacher.getCourses() == null) {
+            // Si l'enseignant n'a pas encore de cours, il est disponible
+            return true;
+        }
+
+        return teacher.getCourses().stream()
+                .noneMatch(existingCourse ->
+                        existingCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(existingCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(existingCourse.getStartTime()))
+                                )
+                );
+    }
+
+
     @Transactional
     public List<TeacherDTO> getAllTeachers() {
         return teacherRepository.findAll().stream().map(this::mapToTeacherDTO).toList();

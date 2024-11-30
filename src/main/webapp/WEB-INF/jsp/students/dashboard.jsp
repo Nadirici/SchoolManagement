@@ -54,6 +54,9 @@
                         case "enrollmentFailed":
                             out.println("<div class='flash-message flash-error'>Votre compte étudiant n'est pas encore vérifié.</div>");
                             break;
+                        case"enrollmentConflict":
+                            out.println("<div class='flash-message flash-error'>Vous n'êtes pas disponible sur ce créneau.</div>");
+                            break;
                         default:
                             out.println("<div class='flash-message flash-error'>Erreur inconnue.</div>");
                     }

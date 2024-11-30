@@ -1,12 +1,17 @@
 package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.*;
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
+import fr.cyu.schoolmanagementsystem.model.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.model.entity.Grade;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.passwordmanager.HashPassword;
 import fr.cyu.schoolmanagementsystem.service.*;
 
 import fr.cyu.schoolmanagementsystem.util.InputValidator;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
         import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -283,6 +289,50 @@ public class StudentWebController {
     }
 
 
+    @GetMapping("/{studentId}/schedule")
+    public String viewStudentSchedule(@PathVariable("studentId") UUID studentId, Model model) {
+        try {
+            // Récupérer l'emploi du temps de l'étudiant
+            Map<String, List<Course>> studentSchedule = getStudentSchedule(studentId);
+
+            // Créer la liste des heures de la journée (exemple de 8h à 18h)
+            List<String> hoursOfDay = Arrays.asList("08:30", "10:00", "10:15", "11:45", "13:00", "14:30", "14:45", "16:15", "16:30", "18:00", "18:15", "19:30");
+
+            // Ajouter les attributs au modèle
+            model.addAttribute("hoursOfDay", hoursOfDay);
+            model.addAttribute("studentSchedule", studentSchedule);
+
+            // Retourner la vue correspondante (le fichier JSP ou Thymeleaf)
+            return "students/schedule"; // `schedule.jsp` si vous utilisez JSP, ou `schedule.html` pour Thymeleaf
+
+        } catch (Exception e) {
+            // Si une erreur se produit, rediriger avec un message d'erreur
+            model.addAttribute("flashMessage", "Error fetching student schedule");
+            return "redirect:/students/"+studentId+"/schedule?flashMessage=noSchedule"; // Une vue d'erreur générique
+        }
+    }
+
+    private Map<String, List<Course>> getStudentSchedule(UUID studentId) throws Exception {
+        // Récupérer les inscriptions de l'étudiant
+
+            // Récupérer les inscriptions de l'étudiant
+            List<EnrollmentDTO> enrollments = enrollmentService.getEnrollmentsByStudentId(studentId);
+
+            // Organiser les cours par jour
+            Map<String, List<Course>> schedule = new TreeMap<>();
+
+            for (EnrollmentDTO enrollment : enrollments) {
+                Course course = enrollment.getCourse();
+                String dayOfWeek = course.getFrenchDayOfWeek(); // suppose que le cours a un champ "schedule" qui contient le jour
+
+                // Organiser les cours par jour
+                schedule.computeIfAbsent(dayOfWeek, k -> new ArrayList<>()).add(course);
+            }
+
+            return schedule;
+        }
+
+
 
 
 
@@ -290,6 +340,17 @@ public class StudentWebController {
     public String enrollStudentInCourse(@PathVariable("studentId") UUID studentId,
                                         @PathVariable("courseId") UUID courseId,
                                         RedirectAttributes redirectAttributes) {
+        // Récupérer l'étudiant et le cours à partir de la base de données
+        Optional<StudentDTO> student = studentService.getStudentById(studentId);
+        Optional<CourseDTO> course = courseService.getCourseById(courseId);
+
+        // Vérifier si l'étudiant est disponible pour ce cours
+        if (!isStudentAvailable(student.get(), course.get())) {
+            // Si l'étudiant n'est pas disponible, rediriger avec un message d'erreur
+            redirectAttributes.addFlashAttribute("errorMessage", "Vous êtes déjà inscrit à un autre cours aux mêmes heures.");
+            return "redirect:/students/" + studentId + "?flashMessage=enrollmentConflict";
+        }
+
         // Créer un DTO d'inscription avec les IDs
         EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
         enrollmentDTO.setStudentId(studentId);
@@ -307,6 +368,19 @@ public class StudentWebController {
             redirectAttributes.addFlashAttribute("errorMessage", "Inscription échouée. Le cours ou l'étudiant est introuvable.");
             return "redirect:/students/" + studentId + "/?flashMessage=enrollmentFailed";
         }
+    }
+
+    public boolean isStudentAvailable(StudentDTO student, CourseDTO course) {
+        // Parcourir tous les cours auxquels l'étudiant est déjà inscrit
+        return student.getEnrollments().stream()
+                .map(Enrollment::getCourse)
+                .noneMatch(enrolledCourse ->
+                        enrolledCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(enrolledCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(enrolledCourse.getStartTime()))
+                                )
+                );
     }
 
 

@@ -2,6 +2,7 @@ package fr.cyu.schoolmanagementsystem.service;
 
 import fr.cyu.schoolmanagementsystem.model.dto.CourseDTO;
 import fr.cyu.schoolmanagementsystem.model.dto.StudentDTO;
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import fr.cyu.schoolmanagementsystem.model.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.repository.*;
@@ -42,6 +43,9 @@ public class StudentService {
     public Optional<StudentDTO> getStudentById(UUID id) {
         return studentRepository.findById(id).map(this::mapToStudentDTO);
     }
+
+
+
 
     @Cacheable("verifiedStudentsCount")
     public double getVerifiedStudentCount() {
