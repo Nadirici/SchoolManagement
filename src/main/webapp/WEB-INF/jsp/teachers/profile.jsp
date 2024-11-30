@@ -63,7 +63,7 @@
                 <label for="password">Mot de passe :</label>
                 <input type="password" id="password" name="password" /><br/>
 
-                <input type="submit" value="Mettre à jour le profil"/>
+                <button class="float-right" type="submit" >Mettre à jour le profil</button>
             </form>
             </div>
             <br>

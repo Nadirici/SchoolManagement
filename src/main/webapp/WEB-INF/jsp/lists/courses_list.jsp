@@ -1,4 +1,5 @@
-<!-- Barre de recherche -->
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
 <table border="1" id="myTable">
     <thead>

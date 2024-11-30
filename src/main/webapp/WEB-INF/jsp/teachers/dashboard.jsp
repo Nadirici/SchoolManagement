@@ -23,7 +23,7 @@
         <div class="overviewStudent">
             <h2>Bonjour ${teacher.lastname} ${teacher.firstname} !</h2>
             <div class="stats">
-                <div class="stat-card">
+                <div class="info-card">
                     <h2>Mes infos personnelles</h2>
                     <ul>
                         <li>Nom : ${teacher.lastname}</li>
