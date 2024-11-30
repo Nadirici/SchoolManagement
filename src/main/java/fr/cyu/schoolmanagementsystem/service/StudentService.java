@@ -5,6 +5,7 @@ import fr.cyu.schoolmanagementsystem.entity.Enrollment;
 import fr.cyu.schoolmanagementsystem.entity.Student;
 import fr.cyu.schoolmanagementsystem.service.stats.StudentStatsService;
 import fr.cyu.schoolmanagementsystem.util.CompositeStats;
+import fr.cyu.schoolmanagementsystem.entity.Course;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.*;
@@ -29,6 +30,23 @@ public class StudentService extends GenericServiceImpl<Student> {
         }
         return dao.save(student);
     }
+
+
+
+    public boolean isStudentAvailable(Student student, Course course) {
+        // Parcourir tous les cours auxquels l'étudiant est déjà inscrit
+        return student.getEnrollments().stream()
+                .map(Enrollment::getCourse)
+                .noneMatch(enrolledCourse ->
+                        enrolledCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(enrolledCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(enrolledCourse.getStartTime()))
+                                )
+                );
+    }
+
+
 
     public Student getByEmail(String email) {
         Optional<Student> studentOptional = ((StudentDAO) dao).findByEmail(email);

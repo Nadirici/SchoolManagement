@@ -45,6 +45,7 @@
                 <h2>${enrollment.course.name}</h2>
                 <p><strong>Description :</strong> ${enrollment.course.description}</p>
                 <p><strong>Enseignant :</strong> ${enrollment.course.teacher.firstname} ${enrollment.course.teacher.lastname}</p>
+                <p><strong> Horaire : </strong>${enrollment.course.frenchDayOfWeek} de ${enrollment.course.startTime} à ${enrollment.course.endTime} </p>
 
                 <h3>Statistiques générales :</h3>
                 <table border="1">

@@ -23,6 +23,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -128,7 +130,7 @@ public class CourseAdminServlet extends HttpServlet {
         } else {
             try {
                 createCourse(request, response);
-                response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
+
             } catch (GeneralSecurityException e) {
                 throw new RuntimeException(e);
             } catch (MessagingException e) {
@@ -142,27 +144,72 @@ public class CourseAdminServlet extends HttpServlet {
         String courseName = request.getParameter("name");
         String courseDescription = request.getParameter("description");
         String teacherId = request.getParameter("teacherId");
+        String newDay = request.getParameter("day");
+        String newStartTime = request.getParameter("startTime");
+        String newEndTime = request.getParameter("endTime");
 
         if (courseId != null && !courseId.isEmpty()) {
             UUID id = UUID.fromString(courseId);
 
             try {
                 Course course = courseService.getById(id);
+
+
+                // Mettre à jour le nom et la description immédiatement
                 course.setName(courseName);
                 course.setDescription(courseDescription);
-                System.out.println(teacherId);
-                course.setTeacher(teacherService.getById(UUID.fromString(teacherId)));
+                courseService.update(course); // Sauvegarder le nom et la description
+
+                // Convertir le jour (String) en DayOfWeek
+                DayOfWeek dayOfWeekEnum = DayOfWeek.valueOf(newDay.toUpperCase()); // Assure-toi que le jour est en majuscule
+
+                // Récupérer l'enseignant et vérifier sa disponibilité
+                Teacher teacher = teacherService.getById(UUID.fromString(teacherId));
+                Course tempCourse = new Course();
+                tempCourse.setId(id);
+                tempCourse.setDayOfWeek(dayOfWeekEnum);
+                tempCourse.setStartTime(LocalTime.parse(newStartTime));
+                tempCourse.setEndTime(LocalTime.parse(newEndTime));
+
+                // Vérifier la disponibilité de l'enseignant
+                if (!teacherService.isAvailable(teacher, tempCourse)) {
+
+                    response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "/"+tempCourse.getId()+ "?flashMessage=teacherNotAvailable");
+                    return;
+
+                }
+
+                for (Enrollment enrollment : course.getEnrollments()) {
+                    Student student = enrollment.getStudent(); // Récupère l'étudiant depuis l'inscription
+                    if (!studentService.isStudentAvailable(student, tempCourse)) {
+                        response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "/"+tempCourse.getId()+ "?flashMessage=studentNotAvailable");
+                        return;
+
+                    }
+                }
+
+                // Mettre à jour le cours si les vérifications sont passées
+                course.setName(courseName);
+                course.setDescription(courseDescription);
+                course.setTeacher(teacher);
+                course.setDayOfWeek(dayOfWeekEnum); // Mettre à jour le jour
+                course.setStartTime(LocalTime.parse(newStartTime)); // Mettre à jour l'heure de début
+                course.setEndTime(LocalTime.parse(newEndTime)); // Mettre à jour l'heure de fin
 
                 courseService.update(course);
                 response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "/" + course.getId());
 
             } catch (EntityNotFoundException e) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
+            } catch (IllegalArgumentException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Jour de la semaine invalide");
             }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Course ID is required for update");
         }
     }
+
+
 
     private void deleteCourse(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String courseId = request.getParameter("id");
@@ -178,22 +225,44 @@ public class CourseAdminServlet extends HttpServlet {
         }
     }
 
+
+
     private void createCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, GeneralSecurityException, MessagingException {
         String courseName = request.getParameter("name");
         String courseDescription = request.getParameter("description");
         String teacherId = request.getParameter("teacherId");
+        String dayOfWeek = request.getParameter("dayOfWeek");
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
 
-        if (courseName != null && !courseName.isEmpty() && courseDescription != null && !courseDescription.isEmpty() && teacherId != null) {
-            Course course = new Course();
-            course.setName(courseName);
-            course.setDescription(courseDescription);
+        if (courseName != null && !courseName.isEmpty() &&
+                courseDescription != null && !courseDescription.isEmpty() &&
+                teacherId != null && !teacherId.isEmpty() &&
+                dayOfWeek != null && !dayOfWeek.isEmpty() &&
+                startTime != null && !startTime.isEmpty() &&
+                endTime != null && !endTime.isEmpty()) {
+
             Teacher teacher = teacherService.getById(UUID.fromString(teacherId));
-            course.setTeacher(teacher);
 
-            courseService.add(course);
+            // Préparer le cours pour la vérification de disponibilité
+            Course newCourse = new Course();
+            newCourse.setDayOfWeek(DayOfWeek.valueOf(dayOfWeek.toUpperCase()));
+            newCourse.setStartTime(LocalTime.parse(startTime));
+            newCourse.setEndTime(LocalTime.parse(endTime));
 
+            // Vérification de disponibilité du professeur
+            if (!teacherService.isAvailable(teacher, newCourse)) {
+                response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "?flashMessage=notAvailable");
+                return;
+            }
 
+            // Création du cours
+            newCourse.setName(courseName);
+            newCourse.setDescription(courseDescription);
+            newCourse.setTeacher(teacher);
+            courseService.add(newCourse);
 
+            // Notification par email
             String link = "http://localhost:8080/SchoolManagement_war_exploded/login";
             Gmailer gmailer = new Gmailer();
             gmailer.sendMail(
@@ -202,7 +271,9 @@ public class CourseAdminServlet extends HttpServlet {
                             "Vous avez été affecté à l'enseignement d'un nouveau cours.<br><br>" +
                             "Voici les détails :<br>" +
                             "- Cours : " + courseName + "<br>" +
-                            "- Description : " + courseDescription + "<br><br>" +
+                            "- Description : " + courseDescription + "<br>" +
+                            "- Jour : " + dayOfWeek + "<br>" +
+                            "- Heure : de " + startTime + " à " + endTime + "<br><br>" +
                             "Pour consulter vos cours et plus de détails, connectez-vous à votre espace enseignant :<br>" +
                             "<a href='" + link + "'>Voir mes cours</a><br><br>" +
                             "Cordialement,<br>" +
@@ -210,8 +281,12 @@ public class CourseAdminServlet extends HttpServlet {
                     teacher.getEmail()
             );
 
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields for course creation");
         }
     }
+
+
+
 }

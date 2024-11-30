@@ -3,6 +3,7 @@ package fr.cyu.schoolmanagementsystem.service;
 import fr.cyu.schoolmanagementsystem.dao.GenericDAO;
 import fr.cyu.schoolmanagementsystem.dao.StudentDAO;
 import fr.cyu.schoolmanagementsystem.dao.TeacherDAO;
+import fr.cyu.schoolmanagementsystem.entity.Course;
 import fr.cyu.schoolmanagementsystem.entity.Student;
 import fr.cyu.schoolmanagementsystem.entity.Teacher;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,5 +42,16 @@ public class TeacherService extends GenericServiceImpl<Teacher> {
             throw new EntityNotFoundException("Entity of type " + getEntityTypeName() + " with email " + email + " does not exist.");
         }
         return teacherOptional.get();
+    }
+
+    public boolean isAvailable(Teacher teacher, Course course) {
+        return teacher.getCourses().stream()
+                .noneMatch(existingCourse ->
+                        existingCourse.getDayOfWeek() == course.getDayOfWeek() &&
+                                (
+                                        (course.getStartTime().isBefore(existingCourse.getEndTime()) &&
+                                                course.getEndTime().isAfter(existingCourse.getStartTime()))
+                                )
+                );
     }
 }

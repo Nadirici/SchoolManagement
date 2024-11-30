@@ -19,7 +19,7 @@
         <h2>Cours</h2>
         <ul>
             <li><a href="${pageContext.request.contextPath}/teachers" >Aperçu</a></li>
-            <li><a href="${pageContext.request.contextPath}/teachers/courses" class="active">Cours</a></li>
+            <li><a href="${pageContext.request.contextPath}/teachers/courses/${course.teacher.id}" class="active">Cours</a></li>
             <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
         </ul>
     </div>
@@ -44,7 +44,9 @@
             <div>
                 <h2>${course.name}</h2>
                 <p><strong>Description :</strong> ${course.description}</p>
+
                 <p><strong>Enseignant :</strong><a href="${pageContext.request.contextPath}/teachers">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
+                <p><strong>Horaire : </strong>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</p>
 
                 <h3>Ajouter un devoir</h3>
                 <form method="post" action="${pageContext.request.contextPath}/teachers">

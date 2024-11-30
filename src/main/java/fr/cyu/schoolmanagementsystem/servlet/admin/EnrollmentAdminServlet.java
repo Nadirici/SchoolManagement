@@ -123,12 +123,32 @@ public class EnrollmentAdminServlet extends HttpServlet {
             String studentId = request.getParameter("studentId");
             String courseId = request.getParameter("courseId");
 
-            Enrollment newEnrollment = new Enrollment();
-            newEnrollment.setStudent(studentService.getById(UUID.fromString(studentId)));
-            newEnrollment.setCourse(courseService.getById(UUID.fromString(courseId)));
+            addEnrollment(request,response);
 
-            enrollmentService.add(newEnrollment);
-            response.sendRedirect(request.getContextPath() + "/admin/courses/" + courseId);
         }
     }
+
+    public void addEnrollment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String studentId = request.getParameter("studentId");
+        String courseId = request.getParameter("courseId");
+
+        Student student = studentService.getById(UUID.fromString(studentId));
+        Course course = courseService.getById(UUID.fromString(courseId));
+
+        // Vérification de la disponibilité de l'étudiant
+        if (!studentService.isStudentAvailable(student, course)) {
+            response.sendRedirect(request.getContextPath() + Routes.ADMIN_COURSES + "/"+courseId+ "?flashMessage=singleNotAvailable");
+            return;
+        }
+
+        // Si l'étudiant est disponible, on ajoute l'inscription
+        Enrollment newEnrollment = new Enrollment();
+        newEnrollment.setStudent(student);
+        newEnrollment.setCourse(course);
+        enrollmentService.add(newEnrollment);
+
+        // Redirection vers la page du cours avec succès
+        response.sendRedirect(request.getContextPath() + "/admin/courses/" + courseId);
+    }
+
 }

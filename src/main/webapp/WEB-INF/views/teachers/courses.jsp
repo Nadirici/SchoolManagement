@@ -45,6 +45,7 @@
             <thead>
             <tr>
               <th>Nom</th>
+              <th>Horaire</th>
               <th>Description</th>
               <th>Actions</th>
             </tr>
@@ -53,6 +54,7 @@
             <c:forEach var="course" items="${teacher.courses}">
               <tr>
                 <td>${course.name}</td>
+                <td>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</td>
                 <td>${course.description}</td>
                 <td>
                   <a href="${pageContext.request.contextPath}/teachers/courses/${course.id}">Détails</a>

@@ -180,6 +180,26 @@
       <div class="form-container">
         <div class="form-column">
           <h3>Modifier le cours</h3>
+
+          <% String flashMessage = request.getParameter("flashMessage"); %>
+          <% if (flashMessage != null && flashMessage.equals("teacherNotAvailable")) { %>
+
+          <div class="flash-message flash-error">
+            <p>Le professeur n'est pas disponible pour ce cours, vous ne pouvez donc pas modifier le cours</p>
+          </div>
+
+          <% } else if (flashMessage != null && flashMessage.equals("studentNotAvailable")) { %>
+          <div class="flash-message flash-error">
+            <p>Des étudiants ne sont pas disponible, vous ne pouvez donc pas modifier le cours.</p>
+          </div>
+          <%
+          } else if (flashMessage != null && flashMessage.equals("singleNotAvailable")) { %>
+          <div class="flash-message flash-error">
+            <p>L'étudiant n'est pas disponible pour être ajouté à ce cours. </p>
+          </div>
+          <% } %>
+
+
           <form method="post" action="${pageContext.request.contextPath}/admin/courses">
             <input type="hidden" name="_method" value="PUT" />
             <input type="hidden" name="id" value="${course.id}"/>
@@ -189,41 +209,45 @@
             <label for="courseDescription">Description:</label>
             <textarea id="courseDescription" name="description" required>${course.description}</textarea><br/>
 
+
             <label for="teacherId">Enseignant :</label>
             <select id="teacherId" name="teacherId" required>
+
               <option value="">Choisir un enseignant</option>
               <c:forEach var="teacher" items="${availableTeachers}">
                 <option value="${teacher.id}"
                         <c:if test="${teacher.id == course.teacher.id}">selected</c:if>>
                     ${teacher.firstname} ${teacher.lastname}
                 </option>
+
               </c:forEach>
+
+            </select>
+            <br/>
+
+
+
+            <label for="day">Jour :</label>
+            <select id="day" name="day" required>
+              <option value="">Choisir un jour</option>
+              <option value="MONDAY" <c:if test="${course.dayOfWeek == 'MONDAY'}">selected</c:if>>Lundi</option>
+              <option value="TUESDAY" <c:if test="${course.dayOfWeek == 'TUESDAY'}">selected</c:if>>Mardi</option>
+              <option value="WEDNESDAY" <c:if test="${course.dayOfWeek == 'WEDNESDAY'}">selected</c:if>>Mercredi</option>
+              <option value="THURSDAY" <c:if test="${course.dayOfWeek == 'THURSDAY'}">selected</c:if>>Jeudi</option>
+              <option value="FRIDAY" <c:if test="${course.dayOfWeek == 'FRIDAY'}">selected</c:if>>Vendredi</option>
             </select><br/>
 
-            <button type="submit">Sauvegarder</button>
+            <label for="startTime">Heure de début :</label>
+            <input type="time" id="startTime" name="startTime" value="${course.startTime}" required/><br/>
+
+            <label for="endTime">Heure de fin :</label>
+            <input type="time" id="endTime" name="endTime" value="${course.endTime}" required/><br/>
+
+
+            <button type="submit">Modifier</button>
           </form>
         </div>
-<%--        <div class="form-column">
-          <h3>Add New Assignment</h3>
-          <form method="post" action="${pageContext.request.contextPath}/admin/assignments">
-            <input type="hidden" name="_method" value="POST">
-            <!-- Champ caché pour lier l'Assignment au cours actuel -->
-            <input type="hidden" name="courseId" value="${course.id}"/>
 
-            <!-- Titre de l'Assignment -->
-            <label for="title">Assignment Title:</label>
-            <input type="text" id="title" name="title" placeholder="Enter assignment title" required/><br/>
-
-            <!-- Description de l'Assignment -->
-            <label for="assignmentDescription">Description:</label>
-            <textarea id="assignmentDescription" name="description" placeholder="Enter assignment description" required></textarea><br/>
-
-            <label for="coefficient">Coefficient:</label>
-            <input type="number" id="coefficient" name="coefficient" placeholder="Enter coefficient" step="0.5" required/><br/>
-
-            <button type="submit">Add Assignment</button>
-          </form>
-        </div>--%>
         <div class="form-column">
           <h3>Inscrire un étudiant</h3>
           <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">

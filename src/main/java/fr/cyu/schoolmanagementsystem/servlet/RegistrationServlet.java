@@ -72,7 +72,7 @@ public class RegistrationServlet extends HttpServlet {
         }
 
         // Vérification de la date de naissance
-        if (dateOfBirthStr == null || !InputValidator.isValidBirthDate(dateOfBirthStr)) {
+        if (dateOfBirthStr != null & !InputValidator.isValidBirthDate(dateOfBirthStr) && userType.equals("student")) {
             response.sendRedirect(request.getContextPath() + "/login?flashMessage=invalidBirthDate");
             return;
         }
