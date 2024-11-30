@@ -151,4 +151,4 @@ INSERT INTO requests (id, status, student_id, teacher_id) VALUES
     (UNHEX(REPLACE('a5a42779-8394-43e5-b313-c2de24b4a8c2', '-', '')), 1, NULL, UNHEX(REPLACE('be3b84f3-1a9f-4c7e-9447-9ae484d8e0cc', '-', ''))); -- Olivia Smith
 
 INSERT INTO admins (id, email, firstname, is_verified, lastname, password, salt) VALUES
-    (UNHEX(REPLACE('e2437152-2648-41ac-bdd6-5f6f273839b0', '-', '')), 'admin@admin.com', 'admin', 1, 'admin', 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
+    (UNHEX(REPLACE('e2437152-2648-41ac-bdd6-5f6f273839b0', '-', '')), 'schoolmanagementjee@gmail.com', 'admin', 1, 'admin', 'FsG84D3siq+GzQxIaKcFtw==', 'skiSARuzQLlM1E3RBsk4dg==');
