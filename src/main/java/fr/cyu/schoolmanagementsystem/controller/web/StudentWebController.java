@@ -346,14 +346,8 @@ public class StudentWebController {
             for (EnrollmentDTO enrollment : enrollments) {
                 Course course = enrollment.getCourse();
                 String dayOfWeek = course.getFrenchDayOfWeek(); // suppose que le cours a un champ "schedule" qui contient le jour
-                Map<String, String> formattedCourse = new HashMap<>();
-                formattedCourse.put("id", course.getId().toString());
-                formattedCourse.put("title", course.getName() + " - " + course.getTeacher().getFirstname() + " "  + course.getTeacher().getLastname());
-                formattedCourse.put("dayOfWeek", dayOfWeek);
-                formattedCourse.put("startTime", course.getStartTime().toString());  // Format as HH:mm
-                formattedCourse.put("endTime", course.getEndTime().toString());      // Format as HH:mm
 
-
+                // Organiser les cours par jour
                 schedule.computeIfAbsent(dayOfWeek, k -> new ArrayList<>()).add(course);
             }
 
