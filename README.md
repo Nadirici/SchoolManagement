@@ -15,17 +15,17 @@ Les administrateurs disposent d'outils pour gérer l'ensemble de l'application :
 
 - **Statistiques globales** :
     - Vue d'ensemble du nombre total d'étudiants, d'enseignants, pourcentage d'étudiants au dessus 10 de moyenne...
-    - Diagrammes et graphiques sur les inscriptions, performances et activités des utilisateurs. (En cours de développement)
+    - Diagrammes et graphiques sur les inscriptions, performances et activités des utilisateurs.
 
 - **Gestion des étudiants** :
     - Opérations CRUD (Créer, Lire, Mettre à jour, Supprimer).
-    - Inscrire les étudiants à des cours directement via le tableau de bord.
+    - Inscrire les étudiants à des cours directement via le tableau de bord selon les disponibilités.
     - Barre de recherche
     - Performances d'un étudiant (notes + stats)
 
 - **Gestion des enseignants** :
     - Opérations CRUD (Créer, Lire, Mettre à jour, Supprimer).
-    - Attribution de cours aux enseignants.
+    - Attribution de cours aux enseignants en fonction des disponibilités.
     - Barre de recherche
     - Liste des cours enseignés
 
@@ -34,6 +34,7 @@ Les administrateurs disposent d'outils pour gérer l'ensemble de l'application :
     - Liaison automatique entre cours et enseignants/étudiants concernés.
     - Liste des devoirs associés à ce cours (stats)
     - Liste des étudiants inscrits (stats)
+    - Planification d'un cours en fonction des disponibilités de l'enseignant
 
 - **Gestion des demandes d'inscription** :
     - Consulter toutes les demandes d'inscription des étudiants ou enseignants.
