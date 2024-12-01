@@ -52,108 +52,108 @@
   ],
   &quot;lastFilter&quot;: {}
 }</component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6AlNak",
-        "number": 1
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6AlNak&quot;,
+        &quot;number&quot;: 1
       },
-      "lastSeen": 1730760430845
+      &quot;lastSeen&quot;: 1730760430845
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6AzrDq",
-        "number": 2
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6AzrDq&quot;,
+        &quot;number&quot;: 2
       },
-      "lastSeen": 1730760679138
+      &quot;lastSeen&quot;: 1730760679138
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6BqtM4",
-        "number": 10
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6BqtM4&quot;,
+        &quot;number&quot;: 10
       },
-      "lastSeen": 1732017255411
+      &quot;lastSeen&quot;: 1732017255411
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6Ca-zo",
-        "number": 12
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6Ca-zo&quot;,
+        &quot;number&quot;: 12
       },
-      "lastSeen": 1732222322451
+      &quot;lastSeen&quot;: 1732222322451
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6C3QRg",
-        "number": 21
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6C3QRg&quot;,
+        &quot;number&quot;: 21
       },
-      "lastSeen": 1732454431217
+      &quot;lastSeen&quot;: 1732454431217
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6C2wgJ",
-        "number": 20
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6C2wgJ&quot;,
+        &quot;number&quot;: 20
       },
-      "lastSeen": 1732455688613
+      &quot;lastSeen&quot;: 1732455688613
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6CuZSQ",
-        "number": 17
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6CuZSQ&quot;,
+        &quot;number&quot;: 17
       },
-      "lastSeen": 1732455698598
+      &quot;lastSeen&quot;: 1732455698598
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6C8ipb",
-        "number": 23
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6C8ipb&quot;,
+        &quot;number&quot;: 23
       },
-      "lastSeen": 1732474197342
+      &quot;lastSeen&quot;: 1732474197342
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6C82Za",
-        "number": 24
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6C82Za&quot;,
+        &quot;number&quot;: 24
       },
-      "lastSeen": 1732665100244
+      &quot;lastSeen&quot;: 1732665100244
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6DQTTC",
-        "number": 26
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6DQTTC&quot;,
+        &quot;number&quot;: 26
       },
-      "lastSeen": 1732729387757
+      &quot;lastSeen&quot;: 1732729387757
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6DXv5F",
-        "number": 28
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6DXv5F&quot;,
+        &quot;number&quot;: 28
       },
-      "lastSeen": 1732731232363
+      &quot;lastSeen&quot;: 1732731232363
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6DpH_S",
-        "number": 34
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6DpH_S&quot;,
+        &quot;number&quot;: 34
       },
-      "lastSeen": 1733065362688
+      &quot;lastSeen&quot;: 1733065362688
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6DqsXN",
-        "number": 35
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6DqsXN&quot;,
+        &quot;number&quot;: 35
       },
-      "lastSeen": 1733082439126
+      &quot;lastSeen&quot;: 1733082439126
     },
     {
-      "id": {
-        "id": "PR_kwDONHM8Tc6DrDKJ",
-        "number": 36
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDONHM8Tc6DrDKJ&quot;,
+        &quot;number&quot;: 36
       },
-      "lastSeen": 1733083375281
+      &quot;lastSeen&quot;: 1733083375281
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Nadirici/SchoolManagement&quot;,
@@ -197,39 +197,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.Gmailer.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "HTTP Request.All in generated-requests.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ShowUsagesActions.previewPropertyKey": "true",
-    "Spring Boot.SchoolManagementApplication.executor": "Run",
-    "Spring Boot.SchoolManagementSystemApplication.executor": "Run",
-    "Tomcat Server.Tomcat 10.1.29.executor": "Run",
-    "git-widget-placeholder": "without-spring-version",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Utilisateur/Downloads/td6",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "service.view.auto.scroll.to.source": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Gmailer.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;HTTP Request.All in generated-requests.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ShowUsagesActions.previewPropertyKey&quot;: &quot;true&quot;,
+    &quot;Spring Boot.SchoolManagementApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.SchoolManagementSystemApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.29.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;without-spring-version&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Utilisateur/Downloads/td6&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;service.view.auto.scroll.to.source&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\java\fr\cyu\schoolmanagementsystem\util" />
