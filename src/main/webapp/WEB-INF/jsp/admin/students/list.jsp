@@ -37,10 +37,7 @@
             <td>
                 <a href="students/${student.id}">Information sur l'étudiant</a> |
                 <a href="students/${student.id}/courses">Ses Cours</a> |
-                <form action="students/${student.id}" method="post" style="display:inline;">
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button type="submit">Delete</button>
-                </form>
+                <a href="students/${student.id}/delete">Supprimer</a>
             </td>
         </tr>
     </c:forEach>

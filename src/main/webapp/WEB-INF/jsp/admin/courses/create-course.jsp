@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create a New Course</title>
+  <title>Creation Nouveau cours</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/course-management.js"></script>
 
