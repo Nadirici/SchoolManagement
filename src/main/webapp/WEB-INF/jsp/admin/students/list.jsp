@@ -36,8 +36,8 @@
             <td>${student.email}</td>
             <td>
                 <a href="students/${student.id}">Information sur l'étudiant</a> |
-                <a href="students/${student.id}/courses">Ses Cours</a>
-
+                <a href="students/${student.id}/courses">Ses Cours</a> |
+                <a href="students/${student.id}/delete">Supprimer</a>
             </td>
         </tr>
     </c:forEach>
