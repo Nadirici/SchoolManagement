@@ -2,6 +2,7 @@
 
 :root {
     --primary-color: #2c3e50;
+    --secondary-color: #007BFF;
 }
 
 /* Reset and setup */
@@ -183,14 +184,20 @@ body {
 .overviewStudent h2 {
     font-size: 22px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     color: var(--primary-color); /* Couleur sombre pour le contraste */
-    border-bottom: 2px solid var(--primary-color); /* Ligne d'accentuation */
+    border-bottom: 2px solid var(--secondary-color); /* Ligne d'accentuation */
+    padding-bottom: 5px;
+}
+.overviewStudent h1 {
+    margin-bottom: 25px;
+    color: var(--primary-color); /* Couleur sombre pour le contraste */
+    border-bottom: 2px solid #007BFF; /* Ligne d'accentuation */
     padding-bottom: 5px;
 }
 
 .overviewStudent h3 {
-    margin-bottom: 15px;
+    color: #34495e;
 }
 
 /* Conteneur pour les cartes de statistiques */
@@ -224,7 +231,7 @@ body {
 .stat-card p {
     font-size: 20px;
     font-weight: bold;
-    color: var(--primary-color); /* Bleu principal */
+    color: var(--secondary-color); /* Bleu principal */
 }
 
 /* Effet au survol des cartes */
@@ -256,7 +263,12 @@ body {
     text-align: center;
     border: 1px solid #ddd; /* Bordures légères */
 }
-
+.action-container {
+    display: flex;
+    gap: 2px; /* Adjust the gap between "Détails" and "Supprimer" as needed */
+    justify-content: center;
+    align-items: center;
+}
 .overviewStudent table th {
     font-size: 14px;
     font-weight: bold;
@@ -301,7 +313,7 @@ body {
 
 .kpi-card h3 {
     margin-bottom: 10px;
-    color: #333;
+    color: #34495e;;
     font-size: 18px;
     font-weight: 600;
 }
@@ -311,6 +323,24 @@ body {
     font-weight: bold;
     color: var(--primary-color);
     margin: 0;
+}
+.table-button{
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    box-shadow: none;
+    padding: 0;
+
+}
+.table-button:hover{
+    text-decoration: underline;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
 }
 
 button {
@@ -359,18 +389,6 @@ label {
     transition: color 0.3s ease;
 }
 
-/* Style général pour les champs de saisie (input) */
-input, select, textarea {
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: 1px solid #ddd; /* Bordure légère */
-    border-radius: 5px;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 15px; /* Espacement sous chaque champ */
-}
 
 input:focus, select:focus, textarea:focus {
     border-color: var(--primary-color); /* Bordure colorée au focus */
@@ -460,7 +478,7 @@ p strong {
 }
 
 p a {
-    color: var(--primary-color);      /* Couleur bleue pour les liens */
+    color: var(--secondary-color);      /* Couleur bleue pour les liens */
     text-decoration: none; /* Enlever le soulignement */
 }
 
@@ -470,9 +488,9 @@ p a:hover {
 
 #searchInput {
     margin-bottom: 10px;
+    margin-top: 10px;
     padding: 5px;
     width: 100%;
-    max-width: 300px;
 }
 
 .float-right {
@@ -538,7 +556,7 @@ label {
 input, select, textarea {
     width: 100%;
     padding: 10px 15px;
-    font-size: 17px;
+    font-size: 16px;
     border: 1px solid #ddd; /* Bordure légère */
     border-radius: 5px;
     background-color: #fff;
@@ -617,7 +635,7 @@ textarea {
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #007bff; /* Blue background (example) */
+    background-color: var(--secondary-color); /* Blue background (example) */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -666,4 +684,72 @@ textarea {
 .department-button:hover{
     background: #FFF;
     opacity: 50%;
+}
+
+.calendar-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin: 20px auto;
+    overflow-x: auto;
+
+    padding: 15px;
+    background-color: #fff; /* Fond blanc pour cohérence */
+    border: 1px solid #bdc3c7; /* Bordure légère et neutre */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Ombre subtile */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.event-tooltip {
+    position: absolute;
+    background-color: rgba(23, 21, 21, 0.96);
+    border: 1px solid #ccc;
+    padding: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.9em;
+    pointer-events: none;
+    cursor: pointer;
+    opacity: 60%
+}
+
+.overviewS {
+    margin: 20px;
+    padding: 20px;
+    background-color: #ecf0f1; /* Couleur douce et cohérente avec le thème */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la profondeur */
+}
+.overviewS h1 {
+    margin-bottom: 15px;
+    color: #2c3e50; /* Couleur sombre pour le contraste */
+    border-bottom: 2px solid #007BFF; /* Ligne d'accentuation */
+    padding-bottom: 5px;
+}
+.flash-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: normal;
+    text-align: left;
+}
+.flash-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+}
+.flash-warning {
+    color: #ffb62e;
+    background-color: #f2e9de;
+    border: 1px solid #ebe1cc;
+}
+.flash-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
 }

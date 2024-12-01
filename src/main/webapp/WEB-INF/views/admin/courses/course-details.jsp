@@ -42,13 +42,24 @@
     </header>
 
     <div class="overviewStudent">
-      <h1>Détails du cours</h1>
+      <h1>${course.name}</h1>
 
-      <div>
-        <h2>${course.name}</h2>
-        <p><strong>Description :</strong> ${course.description}</p>
-        <p><strong>Enseignant :</strong> <a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
-
+      <div class="stats">
+        <div class="stat-card">
+          <h3><strong>Description :</strong> </h3>
+          <p>${course.description}</p>
+        </div>
+        <div class="stat-card">
+          <h3><strong>Enseignant :</strong></h3>
+          <p> <a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
+        </div>
+        <div class="stat-card">
+          <h3><strong>Horaire : </strong></h3>
+          <p>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</p>
+        </div>
+      </div>
+    </div>
+    <div class="overviewStudent">
         <h3>Devoirs :</h3>
         <table border="1">
           <thead>
@@ -118,7 +129,8 @@
           </tr>
           </tbody>
         </table>
-
+    </div>
+    <div class="overviewStudent">
         <!-- Tableau pour les étudiants inscrits -->
         <h3>Étudiants inscrit :</h3>
         <table border="1">
@@ -176,80 +188,20 @@
           </c:forEach>
           </tbody>
         </table>
-      </div>
       <div class="form-container">
         <div class="form-column">
-          <h3>Modifier le cours</h3>
+          <h3>Inscrire un étudiant</h3>
 
-          <% String flashMessage = request.getParameter("flashMessage"); %>
-          <% if (flashMessage != null && flashMessage.equals("teacherNotAvailable")) { %>
+          <% String flashMessageStudent = request.getParameter("flashMessage"); %>
+          <% if (flashMessageStudent != null && flashMessageStudent.equals("singleNotAvailable")) { %>
 
           <div class="flash-message flash-error">
-            <p>Le professeur n'est pas disponible pour ce cours, vous ne pouvez donc pas modifier le cours</p>
+            <p>L'étudiant n'est pas disponible sur cet horaire, il n'est donc pas possible de l'inscrire dans ce cours</p>
+          </div>
           </div>
 
-          <% } else if (flashMessage != null && flashMessage.equals("studentNotAvailable")) { %>
-          <div class="flash-message flash-error">
-            <p>Des étudiants ne sont pas disponible, vous ne pouvez donc pas modifier le cours.</p>
-          </div>
-          <%
-          } else if (flashMessage != null && flashMessage.equals("singleNotAvailable")) { %>
-          <div class="flash-message flash-error">
-            <p>L'étudiant n'est pas disponible pour être ajouté à ce cours. </p>
-          </div>
           <% } %>
 
-
-          <form method="post" action="${pageContext.request.contextPath}/admin/courses">
-            <input type="hidden" name="_method" value="PUT" />
-            <input type="hidden" name="id" value="${course.id}"/>
-            <label for="name">Nom :</label>
-            <input type="text" id="name" name="name" value="${course.name}" required/><br/>
-
-            <label for="courseDescription">Description:</label>
-            <textarea id="courseDescription" name="description" required>${course.description}</textarea><br/>
-
-
-            <label for="teacherId">Enseignant :</label>
-            <select id="teacherId" name="teacherId" required>
-
-              <option value="">Choisir un enseignant</option>
-              <c:forEach var="teacher" items="${availableTeachers}">
-                <option value="${teacher.id}"
-                        <c:if test="${teacher.id == course.teacher.id}">selected</c:if>>
-                    ${teacher.firstname} ${teacher.lastname}
-                </option>
-
-              </c:forEach>
-
-            </select>
-            <br/>
-
-
-
-            <label for="day">Jour :</label>
-            <select id="day" name="day" required>
-              <option value="">Choisir un jour</option>
-              <option value="MONDAY" <c:if test="${course.dayOfWeek == 'MONDAY'}">selected</c:if>>Lundi</option>
-              <option value="TUESDAY" <c:if test="${course.dayOfWeek == 'TUESDAY'}">selected</c:if>>Mardi</option>
-              <option value="WEDNESDAY" <c:if test="${course.dayOfWeek == 'WEDNESDAY'}">selected</c:if>>Mercredi</option>
-              <option value="THURSDAY" <c:if test="${course.dayOfWeek == 'THURSDAY'}">selected</c:if>>Jeudi</option>
-              <option value="FRIDAY" <c:if test="${course.dayOfWeek == 'FRIDAY'}">selected</c:if>>Vendredi</option>
-            </select><br/>
-
-            <label for="startTime">Heure de début :</label>
-            <input type="time" id="startTime" name="startTime" value="${course.startTime}" required/><br/>
-
-            <label for="endTime">Heure de fin :</label>
-            <input type="time" id="endTime" name="endTime" value="${course.endTime}" required/><br/>
-
-
-            <button type="submit">Modifier</button>
-          </form>
-        </div>
-
-        <div class="form-column">
-          <h3>Inscrire un étudiant</h3>
           <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
             <input type="hidden" name="_method" value="POST">
             <input type="hidden" name="courseId" value="${course.id}"/>
@@ -262,17 +214,80 @@
             <button type="submit">Inscrire</button>
           </form>
         </div>
-        <div class="form-column">
-          <!-- Formulaire de suppression -->
-          <h3>Supprimer le cours</h3>
-          <form method="post" action="${pageContext.request.contextPath}/admin/courses">
-            <input type="hidden" name="_method" value="DELETE" />
-            <input type="hidden" name="id" value="${course.id}" />
-            <button type="submit">Supprimer</button>
-          </form>
+
+      </div>
+      </div>
+      <div class="overviewStudent">
+        <div class="form-container">
+          <div class="form-column">
+            <h3>Modifier le cours</h3>
+
+            <% String flashMessage = request.getParameter("flashMessage"); %>
+            <% if (flashMessage != null && flashMessage.equals("teacherNotAvailable")) { %>
+
+            <div class="flash-message flash-error">
+              <label for="closeFlash" class="close-button">&times;</label>
+              <p>Le professeur n'est pas disponible pour ce cours, vous ne pouvez donc pas modifier le cours</p>
+            </div>
+
+            <% } else if (flashMessage != null && flashMessage.equals("studentNotAvailable")) { %>
+
+            <div class="flash-message flash-error">
+              <p>Des étudiants ne sont pas disponibles, vous ne pouvez donc pas modifier le cours.</p>
+            </div>
+
+            <% } %>
+
+
+            <form method="post" action="${pageContext.request.contextPath}/admin/courses">
+              <input type="hidden" name="_method" value="PUT" />
+              <input type="hidden" name="id" value="${course.id}"/>
+              <label for="name">Nom :</label>
+              <input type="text" id="name" name="name" value="${course.name}" required/><br/>
+
+              <label for="courseDescription">Description:</label>
+              <textarea id="courseDescription" name="description" required>${course.description}</textarea><br/>
+
+
+              <label for="teacherId">Enseignant :</label>
+              <select id="teacherId" name="teacherId" required>
+
+                <option value="">Choisir un enseignant</option>
+                <c:forEach var="teacher" items="${availableTeachers}">
+                  <option value="${teacher.id}"
+                          <c:if test="${teacher.id == course.teacher.id}">selected</c:if>>
+                      ${teacher.firstname} ${teacher.lastname}
+                  </option>
+
+                </c:forEach>
+
+              </select>
+              <br/>
+
+
+
+              <label for="day">Jour :</label>
+              <select id="day" name="day" required>
+                <option value="">Choisir un jour</option>
+                <option value="MONDAY" <c:if test="${course.dayOfWeek == 'MONDAY'}">selected</c:if>>Lundi</option>
+                <option value="TUESDAY" <c:if test="${course.dayOfWeek == 'TUESDAY'}">selected</c:if>>Mardi</option>
+                <option value="WEDNESDAY" <c:if test="${course.dayOfWeek == 'WEDNESDAY'}">selected</c:if>>Mercredi</option>
+                <option value="THURSDAY" <c:if test="${course.dayOfWeek == 'THURSDAY'}">selected</c:if>>Jeudi</option>
+                <option value="FRIDAY" <c:if test="${course.dayOfWeek == 'FRIDAY'}">selected</c:if>>Vendredi</option>
+              </select><br/>
+
+              <label for="startTime">Heure de début :</label>
+              <input type="time" id="startTime" name="startTime" value="${course.startTime}" required/><br/>
+
+              <label for="endTime">Heure de fin :</label>
+              <input type="time" id="endTime" name="endTime" value="${course.endTime}" required/><br/>
+
+
+              <button type="submit">Modifier</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 </div>
 </body>

@@ -19,7 +19,8 @@
         <h2>Cours</h2>
         <ul>
             <li><a href="${pageContext.request.contextPath}/teachers" >Aperçu</a></li>
-            <li><a href="${pageContext.request.contextPath}/teachers/courses/${course.teacher.id}" class="active">Cours</a></li>
+            <li><a href="${pageContext.request.contextPath}/teachers/courses" class="active">Cours</a></li>
+            <li><a href="${pageContext.request.contextPath}/teachers/schedule">Emploi du temps</a></li>
             <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
         </ul>
     </div>
@@ -39,16 +40,25 @@
         </header>
 
         <div class="overviewStudent">
-            <h1>Informations sur le cours</h1>
+            <h1>${course.name}</h1>
 
-            <div>
-                <h2>${course.name}</h2>
-                <p><strong>Description :</strong> ${course.description}</p>
-
-                <p><strong>Enseignant :</strong><a href="${pageContext.request.contextPath}/teachers">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
-                <p><strong>Horaire : </strong>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</p>
-
-                <h3>Ajouter un devoir</h3>
+            <div class="stats">
+                <div class="stat-card">
+                <h3><strong>Description :</strong> </h3>
+                    <p>${course.description}</p>
+                </div>
+                <div class="stat-card">
+                    <h3><strong>Enseignant :</strong></h3>
+                    <p> <a href="${pageContext.request.contextPath}/teachers">${course.teacher.firstname} ${course.teacher.lastname}</a></p>
+                </div>
+                <div class="stat-card">
+                    <h3><strong>Horaire : </strong></h3>
+                    <p>${course.frenchDayOfWeek} de ${course.startTime} à ${course.endTime}</p>
+                </div>
+            </div>
+        </div>
+        <div class="overviewStudent">
+                <h3>Ajouter un devoir :</h3>
                 <form method="post" action="${pageContext.request.contextPath}/teachers">
                     <input type="hidden" name="action" value="createAssignment">
                     <input type="hidden" name="_method" value="POST">
@@ -69,7 +79,8 @@
                     <button type="submit">Ajouter</button>
                 </form>
 
-
+        </div>
+        <div class="overviewStudent">
                 <h3>Devoirs :</h3>
                 <table border="1">
                     <thead>
@@ -118,7 +129,15 @@
                                 </c:choose>
                             </td>
                             <td>
+                                <div class="action-container">
                                 <a href="${pageContext.request.contextPath}/teachers/assignments/${assignment.key.id}">Détails</a>
+                                <form method="post" action="${pageContext.request.contextPath}/teachers">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <input type="hidden" name="action" value="deleteAssignment" />
+                                    <input type="hidden" name="id" value="${assignment.key.id}" />
+                                    <button type="submit" class="table-button">Supprimer</button>
+                                </form>
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>
@@ -139,7 +158,8 @@
                     </tr>
                     </tbody>
                 </table>
-
+        </div>
+        <div class="overviewStudent">
                 <!-- Tableau pour les étudiants inscrits -->
                 <h3>Étudiants inscrits :</h3>
                 <table border="1">
@@ -189,6 +209,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
+        </div>
             </div>
         </div>
     </div>

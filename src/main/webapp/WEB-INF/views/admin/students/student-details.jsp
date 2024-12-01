@@ -50,8 +50,9 @@
         <p><strong>Nom :</strong> ${student.lastname}</p>
         <p><strong>Date de naissance :</strong> ${student.dateOfBirth}</p>
         <p><strong>Email :</strong> ${student.email}</p>
-
-        <h3>Inscription à des cours :</h3>
+    </div>
+    <div class="overviewStudent">
+        <h2>Liste de ses cours :</h2>
         <table border="1">
           <thead>
           <tr>
@@ -126,7 +127,7 @@
         </table>
 
         <!-- Liste déroulante pour ajouter un nouveau cours -->
-        <h2>Inscrire à un nouveau cours</h2>
+        <h3>Inscrire à un nouveau cours</h3>
         <form method="post" action="${pageContext.request.contextPath}/admin/enrollments">
           <input type="hidden" name="_method" value="POST">
           <input type="hidden" name="studentId" value="${student.id}" />
@@ -141,9 +142,10 @@
 
           <button type="submit">Inscrire</button>
         </form>
+    </div>
+    <div class="overviewStudent">
 
-        <!-- Formulaire de mise à jour des informations -->
-        <h2>Modifié l'étudiant</h2>
+        <h2>Modifier l'étudiant</h2>
         <form method="post" action="${pageContext.request.contextPath}/admin/students">
           <input type="hidden" name="_method" value="PUT" />
           <input type="hidden" name="id" value="${student.id}" />
@@ -160,16 +162,9 @@
           <label for="email">Email :</label>
           <input type="email" id="email" name="email" value="${student.email}" required /><br />
 
-          <button type="submit">Modifié</button>
+          <button type="submit">Modifier</button>
         </form>
-
-        <!-- Formulaire de suppression -->
-        <h2>Supprimer l'étudiant</h2>
-        <form method="post" action="${pageContext.request.contextPath}/admin/students">
-          <input type="hidden" name="_method" value="DELETE" />
-          <input type="hidden" name="id" value="${student.id}" />
-          <button type="submit">Supprimer</button>
-        </form>
+    </div>
       </c:if>
 
       <!-- Message si aucun étudiant n'est trouvé -->

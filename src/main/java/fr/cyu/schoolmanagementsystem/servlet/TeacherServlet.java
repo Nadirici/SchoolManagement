@@ -70,7 +70,11 @@ public class TeacherServlet extends HttpServlet {
                         String assignmentId = pathParts[2];
                         viewAssignmentDetails(request, response, assignmentId);
 
-                    }  else {
+                    }
+                    else if (pathParts.length == 2 && "schedule".equals(pathParts[1])) {
+                        viewTeacherSchedule(request, response, teacher.getId());
+                    }
+                    else {
                         viewDashboard(request, response, teacher.getId());
                     }
                 }
@@ -138,6 +142,41 @@ public class TeacherServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request" + e);
         }
     }
+
+
+    private void viewTeacherSchedule(HttpServletRequest request, HttpServletResponse response, UUID teacherId) throws ServletException, IOException {
+        try {
+            List<Map<String, String>> formattedEvents = getFormattedTeacherSchedule(teacherId);
+            request.setAttribute("teacher", teacherService.getById(teacherId));
+            request.setAttribute("formattedEvents", formattedEvents);
+            request.getRequestDispatcher("/WEB-INF/views/teachers/schedule.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching teacher schedule");
+        }
+    }
+
+    private List<Map<String, String>> getFormattedTeacherSchedule(UUID teacherId) throws Exception {
+
+        Teacher teacher = teacherService.getById(teacherId);
+        Set<Course> courses = teacher.getCourses();
+
+        List<Map<String, String>> formattedEvents = new ArrayList<>();
+
+        for (Course course : courses) {
+            String dayOfWeek = course.getFrenchDayOfWeek();
+            Map<String, String> formattedCourse = new HashMap<>();
+            formattedCourse.put("id", course.getId().toString());
+            formattedCourse.put("title", course.getName() + " - " + course.getTeacher().getFirstname() + " " + course.getTeacher().getLastname());
+            formattedCourse.put("dayOfWeek", dayOfWeek);
+            formattedCourse.put("startTime", course.getStartTime().toString());  // Format as HH:mm
+            formattedCourse.put("endTime", course.getEndTime().toString());      // Format as HH:mm
+
+            formattedEvents.add(formattedCourse);
+        }
+
+        return formattedEvents;
+    }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

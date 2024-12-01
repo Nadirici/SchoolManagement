@@ -20,6 +20,7 @@
     <ul>
       <li><a href="${pageContext.request.contextPath}/teachers" >Aperçu</a></li>
       <li><a href="${pageContext.request.contextPath}/teachers/courses" class="active">Cours</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/schedule">Emploi du temps</a></li>
       <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
     </ul>
   </div>
@@ -43,21 +44,60 @@
 
       <!-- Vérifie si l'assignement est présent -->
       <c:if test="${not empty assignment}">
-        <p><strong>Titre :</strong> ${assignment.title}</p>
-        <p><strong>Description :</strong> ${assignment.description}</p>
-        <p><strong>Coefficient :</strong> ${assignment.coefficient}</p>
-        <p><strong>Cours associé :</strong><a href="${pageContext.request.contextPath}/teachers/courses/${assignment.course.id}">${assignment.course.name}</a></p>
+          <p><strong>Titre :</strong> ${assignment.title}</p>
+          <p><strong>Description :</strong> ${assignment.description}</p>
+          <p><strong>Coefficient :</strong> ${assignment.coefficient}</p>
+          <p><strong>Cours associé :</strong><a href="${pageContext.request.contextPath}/teachers/courses/${assignment.course.id}">${assignment.course.name}</a></p>
 
-        <!-- Formulaire de suppression -->
-        <h2>Supprimer le devoir</h2>
-        <form method="post" action="${pageContext.request.contextPath}/teachers">
-          <input type="hidden" name="_method" value="DELETE" />
-          <input type="hidden" name="action" value="deleteAssignment" />
-          <input type="hidden" name="id" value="${assignment.id}" />
-          <button type="submit">Supprimer</button>
-        </form>
 
-        <!-- Liste des étudiants inscrits à cet assignment avec leurs notes -->
+
+          <!-- Statistiques des notes des étudiants -->
+          <h3>Statistiques du devoir</h3>
+          <table border="1">
+            <thead>
+            <tr>
+              <th>Note moyenne</th>
+              <th>Note minimum</th>
+              <th>Note maximum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <c:choose>
+                  <c:when test="${not empty assignmentStats}">
+                    <fmt:formatNumber value="${assignmentStats.average}" maxFractionDigits="2"/>
+                  </c:when>
+                  <c:otherwise>
+                    N/A
+                  </c:otherwise>
+                </c:choose>
+              </td>
+              <td>
+                <c:choose>
+                  <c:when test="${not empty assignmentStats}">
+                    <fmt:formatNumber value="${assignmentStats.min}" maxFractionDigits="2"/>
+                  </c:when>
+                  <c:otherwise>
+                    N/A
+                  </c:otherwise>
+                </c:choose>
+              </td>
+              <td>
+                <c:choose>
+                  <c:when test="${not empty assignmentStats}">
+                    <fmt:formatNumber value="${assignmentStats.max}" maxFractionDigits="2"/>
+                  </c:when>
+                  <c:otherwise>
+                    N/A
+                  </c:otherwise>
+                </c:choose>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="overviewStudent">
         <h2>Liste des étudiants inscrits</h2>
         <c:if test="${not empty enrollmentGrade}">
           <form action="${pageContext.request.contextPath}/teachers" method="post">
@@ -92,60 +132,16 @@
             <button type="submit">Save</button>
           </form>
         </c:if>
+
         <c:if test="${empty enrollmentGrade}">
-          <p>Aucun étudiant est inscrit à ce devoir</p>
+          <p>Il n'y a pas encore de notes pour ce devoir</p>
         </c:if>
 
-        <!-- Statistiques des notes des étudiants -->
-        <h3>Statistiques du devoir</h3>
-        <table border="1">
-          <thead>
-          <tr>
-            <th>Note moyenne</th>
-            <th>Note minimum</th>
-            <th>Note maximum</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>
-              <c:choose>
-                <c:when test="${not empty assignmentStats}">
-                  <fmt:formatNumber value="${assignmentStats.average}" maxFractionDigits="2"/>
-                </c:when>
-                <c:otherwise>
-                  N/A
-                </c:otherwise>
-              </c:choose>
-            </td>
-            <td>
-              <c:choose>
-                <c:when test="${not empty assignmentStats}">
-                  <fmt:formatNumber value="${assignmentStats.min}" maxFractionDigits="2"/>
-                </c:when>
-                <c:otherwise>
-                  N/A
-                </c:otherwise>
-              </c:choose>
-            </td>
-            <td>
-              <c:choose>
-                <c:when test="${not empty assignmentStats}">
-                  <fmt:formatNumber value="${assignmentStats.max}" maxFractionDigits="2"/>
-                </c:when>
-                <c:otherwise>
-                  N/A
-                </c:otherwise>
-              </c:choose>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </c:if>
-
       <c:if test="${empty assignment}">
         <p>Ce devoir n'a pas été trouvé.</p>
       </c:if>
+    </div>
     </div>
   </div>
 </div>

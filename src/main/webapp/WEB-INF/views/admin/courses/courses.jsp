@@ -44,37 +44,8 @@
     <div class="overviewStudent">
       <h1>Gestion des cours</h1>
 
-      <h2>Cours actuels</h2>
-      <!-- Barre de recherche -->
-      <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
-      <table border="1" id="myTable">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom du cours</th>
-          <th>Description</th>
-          <th>Enseignant</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="course" items="${courses}">
-          <tr>
-            <td>${course.id}</td>
-            <td>${course.name}</td>
-            <td>${course.description}</td>
-            <td><a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></td>
-            <td>
-              <a href="${pageContext.request.contextPath}/admin/courses/${course.id}">Détails</a>
-              <!-- Optionally add Edit or Delete actions -->
-            </td>
-          </tr>
-        </c:forEach>
-        </tbody>
-      </table>
 
-
-      <h2>Ajouter un nouveau cours</h2>
+      <h3>Ajouter un nouveau cours</h3>
 
       <!-- Affichage du message flash si disponible -->
       <% String flashMessage = request.getParameter("flashMessage"); %>
@@ -119,6 +90,42 @@
 
         <button type="submit">Ajouter</button>
       </form>
+    </div>
+    <div class="overviewStudent">
+      <h2>Cours actuels</h2>
+      <!-- Barre de recherche -->
+      <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
+      <table border="1" id="myTable">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom du cours</th>
+          <th>Description</th>
+          <th>Enseignant</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="course" items="${courses}">
+          <tr>
+            <td>${course.id}</td>
+            <td>${course.name}</td>
+            <td>${course.description}</td>
+            <td><a href="${pageContext.request.contextPath}/admin/teachers/${course.teacher.id}">${course.teacher.firstname} ${course.teacher.lastname}</a></td>
+            <td>
+              <div class="action-container">
+              <a href="${pageContext.request.contextPath}/admin/courses/${course.id}">Détails</a>
+              <form method="post" action="${pageContext.request.contextPath}/admin/courses">
+                <input type="hidden" name="_method" value="DELETE" />
+                <input type="hidden" name="id" value="${course.id}" />
+                <button type="submit" class="table-button">| Supprimer</button>
+              </form>
+              </div>
+            </td>
+          </tr>
+        </c:forEach>
+        </tbody>
+      </table>
 
     </div>
   </div>

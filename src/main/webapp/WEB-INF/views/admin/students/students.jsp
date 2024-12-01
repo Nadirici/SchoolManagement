@@ -46,7 +46,7 @@
             <h1>Gestion des Étudiants</h1>
 
             <!-- List of students -->
-            <h2>Liste des étudiants vérifiés</h2>
+            <h3>Liste des étudiants vérifiés</h3>
             <!-- Barre de recherche -->
             <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
             <c:if test="${not empty students}">
@@ -70,7 +70,14 @@
                             <td>${student.dateOfBirth}</td>
                             <td>${student.email}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/students/${student.id}">View Details</a>
+                                <div class="action-container">
+                                <a href="${pageContext.request.contextPath}/admin/students/${student.id}">Détails</a>
+                                <form method="post" action="${pageContext.request.contextPath}/admin/students">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <input type="hidden" name="id" value="${student.id}" />
+                                    <button type="submit" class="table-button">| Supprimer</button>
+                                </form>
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>

@@ -95,33 +95,36 @@ public class StudentServlet extends HttpServlet {
 
     private void viewStudentSchedule(HttpServletRequest request, HttpServletResponse response, UUID studentId) throws ServletException, IOException {
         try {
-            Map<String, List<Course>> studentSchedule = getStudentSchedule(studentId);
-
-            // Créer la liste des heures de la journée (exemple de 8h à 18h)
-            List<String> hoursOfDay = Arrays.asList("08:30", "10:00","10:15", "11:45", "13:00", "14:30","14:45", "16:15", "16:30",  "18:00",  "18:15","19:30");
-            request.setAttribute("hoursOfDay", hoursOfDay);
-            request.setAttribute("studentSchedule", studentSchedule);
+            List<Map<String, String>> formattedEvents = getFormattedStudentSchedule(studentId);
+            request.setAttribute("student", studentService.getById(studentId));
+            request.setAttribute("formattedEvents", formattedEvents);
             request.getRequestDispatcher("/WEB-INF/views/students/schedule.jsp").forward(request, response);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching student schedule");
         }
     }
 
-    private Map<String, List<Course>> getStudentSchedule(UUID studentId) throws Exception {
+    private List<Map<String, String>> getFormattedStudentSchedule(UUID studentId) throws Exception {
         // Récupérer les inscriptions de l'étudiant
         List<Enrollment> enrollments = enrollmentService.getEnrollmentsForStudent(studentId);
 
         // Organiser les cours par jour
-        Map<String, List<Course>> schedule = new TreeMap<>();
+        List<Map<String, String>> formattedEvents = new ArrayList<>();
 
         for (Enrollment enrollment : enrollments) {
             Course course = enrollment.getCourse();
             String dayOfWeek = course.getFrenchDayOfWeek(); // suppose que le cours a un champ "schedule" qui contient le jour
+            Map<String, String> formattedCourse = new HashMap<>();
+            formattedCourse.put("id", course.getId().toString());
+            formattedCourse.put("title", course.getName() + " - " + course.getTeacher().getFirstname() + " " + course.getTeacher().getLastname());
+            formattedCourse.put("dayOfWeek", dayOfWeek);
+            formattedCourse.put("startTime", course.getStartTime().toString());  // Format as HH:mm
+            formattedCourse.put("endTime", course.getEndTime().toString());      // Format as HH:mm
 
-            schedule.computeIfAbsent(dayOfWeek, k -> new ArrayList<>()).add(course);
+            formattedEvents.add(formattedCourse);
         }
 
-        return schedule;
+        return formattedEvents;
     }
 
 
