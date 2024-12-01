@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emploi du Temps de l'Étudiant</title>
+  <title>Emploi du Temps de l'Enseignant</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel='stylesheet' />
@@ -18,12 +18,12 @@
     <div class="dashboard-icon">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M304 240l0-223.4c0-9 7-16.6 16-16.6C443.7 0 544 100.3 544 224c0 9-7.6 16-16.6 16L304 240zM32 272C32 150.7 122.1 50.3 239 34.3c9.2-1.3 17 6.1 17 15.4L256 288 412.5 444.5c6.7 6.7 6.2 17.7-1.5 23.1C371.8 495.6 323.8 512 272 512C139.5 512 32 404.6 32 272zm526.4 16c9.3 0 16.6 7.8 15.4 17c-7.7 55.9-34.6 105.6-73.9 142.3c-6 5.6-15.4 5.2-21.2-.7L320 288l238.4 0z"/></svg>
     </div>
-    <h3>Tableau de bord Étudiant</h3>
-    <h2>Cours</h2>
+    <h3>Tableau de bord Enseignant</h3>
+    <h2>Emploi du Temps</h2>
     <ul>
-      <li><a href="${pageContext.request.contextPath}/students" >Aperçu</a></li>
-      <li><a href="${pageContext.request.contextPath}/students/courses">Cours</a></li>
-      <li><a href="${pageContext.request.contextPath}/students/schedule" class="active">Emploi du temps</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers" >Aperçu</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/courses">Cours</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/schedule" class="active">Emploi du temps</a></li>
       <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
     </ul>
   </div>
@@ -31,13 +31,13 @@
   <div class="main-content">
     <header class="header">
       <div class="header-left">
-        <h1>👋 Bonjour ${student.firstname},</h1>
-        <h2>Bienvenue sur votre <span>Tableau de bord Étudiant</span></h2>
+        <h1>👋 Bonjour ${teacher.firstname},</h1>
+        <h2>Bienvenue sur votre <span>Tableau de bord Enseignant</span></h2>
       </div>
       <div class="header-right">
         <div class="user-profile">
-          <span class="username">${student.firstname} ${student.lastname}</span>
-          <span class="user-email">${student.email}</span>
+          <span class="username">${teacher.firstname} ${teacher.lastname}</span>
+          <span class="user-email">${teacher.email}</span>
         </div>
       </div>
     </header>
@@ -45,7 +45,7 @@
 
 
     <div class="overviewS">
-    <h1>Emploi du Temps de l'étudiant</h1>
+    <h1>Emploi du Temps de l'enseignant</h1>
     <div class="calendar-container">
       <div id="calendar">
       </div>

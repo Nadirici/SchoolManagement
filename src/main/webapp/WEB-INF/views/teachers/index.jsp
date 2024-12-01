@@ -20,6 +20,7 @@
         <ul>
             <li><a href="${pageContext.request.contextPath}/teachers" class="active">Aperçu</a></li>
             <li><a href="${pageContext.request.contextPath}/teachers/courses" >Cours</a></li>
+            <li><a href="${pageContext.request.contextPath}/teachers/schedule">Emploi du temps</a></li>
             <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
         </ul>
     </div>
@@ -47,9 +48,10 @@
                 <p><strong>Prénom :</strong> ${teacher.firstname}</p>
                 <p><strong>Département :</strong> ${teacher.department}</p>
                 <p><strong>Email :</strong> ${teacher.email}</p>
-
+        </div>
+        <div class="overviewStudent">
                 <!-- Liste des cours enseignés par ce professeur -->
-                <h2>Mes cours enseignés</h2>
+                <h1>Mes cours enseignés</h1>
                 <c:if test="${not empty teacher.courses}">
                     <table border="1">
                         <thead>

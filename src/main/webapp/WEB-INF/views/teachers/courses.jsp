@@ -20,6 +20,7 @@
     <ul>
       <li><a href="${pageContext.request.contextPath}/teachers">Aperçu</a></li>
       <li><a href="${pageContext.request.contextPath}/teachers/courses" class="active">Cours</a></li>
+      <li><a href="${pageContext.request.contextPath}/teachers/schedule">Emploi du temps</a></li>
       <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
     </ul>
   </div>
@@ -58,7 +59,7 @@
                 <td>${course.description}</td>
                 <td>
                   <a href="${pageContext.request.contextPath}/teachers/courses/${course.id}">Détails</a>
-                  <!-- Optionally add Edit or Delete actions -->
+
                 </td>
               </tr>
             </c:forEach>

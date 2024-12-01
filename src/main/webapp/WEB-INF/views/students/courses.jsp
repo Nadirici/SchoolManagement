@@ -20,6 +20,7 @@
         <ul>
             <li><a href="${pageContext.request.contextPath}/students" >Aperçu</a></li>
             <li><a href="${pageContext.request.contextPath}/students/courses" class="active">Cours</a></li>
+            <li><a href="${pageContext.request.contextPath}/students/schedule">Emploi du temps </a> </li>
             <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
         </ul>
     </div>
@@ -27,13 +28,13 @@
     <div class="main-content">
         <header class="header">
             <div class="header-left">
-                <h1>👋 Bonjour ${enrollment.student.firstname},</h1>
+                <h1>👋 Bonjour ${student.firstname},</h1>
                 <h2>Bienvenue sur votre <span>Tableau de bord Étudiant</span></h2>
             </div>
             <div class="header-right">
                 <div class="user-profile">
-                    <span class="username">${enrollment.student.firstname} ${enrollment.student.lastname}</span>
-                    <span class="user-email">${enrollment.student.email}</span>
+                    <span class="username">${student.firstname} ${student.lastname}</span>
+                    <span class="user-email">${student.email}</span>
                 </div>
             </div>
         </header>

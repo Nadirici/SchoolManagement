@@ -51,7 +51,9 @@
                 <p><strong>Nom :</strong> ${teacher.lastname}</p>
                 <p><strong>Départment :</strong> ${teacher.department}</p>
                 <p><strong>Email :</strong> ${teacher.email}</p>
+        </div>
 
+        <div class="overviewStudent">
                 <!-- Liste des cours enseignés par ce professeur -->
                 <h2>Cours enseignés</h2>
                 <c:if test="${not empty teacher.courses}">
@@ -80,7 +82,9 @@
                 <c:if test="${empty teacher.courses}">
                     <p>Aucun cours n'est affecté à cet enseignant</p>
                 </c:if>
+        </div>
 
+        <div class="overviewStudent">
                 <!-- Formulaire de mise à jour des informations -->
                 <h2>Modifier l'enseignant</h2>
                 <form method="post" action="${pageContext.request.contextPath}/admin/teachers">
@@ -113,14 +117,7 @@
 
                     <button type="submit">Modifier</button>
                 </form>
-
-                <!-- Formulaire de suppression -->
-                <h2>Supprimer l'enseignant</h2>
-                <form method="post" action="${pageContext.request.contextPath}/admin/teachers">
-                    <input type="hidden" name="_method" value="DELETE" />
-                    <input type="hidden" name="id" value="${teacher.id}" />
-                    <button type="submit">Supprimer</button>
-                </form>
+        </div>
             </c:if>
 
             <!-- Message si aucun étudiant n'est trouvé -->

@@ -45,7 +45,7 @@
             <h1>Gestion des Enseignants</h1>
 
             <!-- List of students -->
-            <h2>Liste des enseignants vérifiés</h2>
+            <h3>Liste des enseignants vérifiés</h3>
             <!-- Barre de recherche -->
             <input type="text" id="searchInput" placeholder="Rechercher..." onkeyup="filterTable()">
             <c:if test="${not empty teachers}">
@@ -69,7 +69,14 @@
                             <td>${teacher.department}</td>
                             <td>${teacher.email}</td>
                             <td>
+                                <div class="action-container">
                                 <a href="${pageContext.request.contextPath}/admin/teachers/${teacher.id}">Détails</a>
+                                <form method="post" action="${pageContext.request.contextPath}/admin/teachers">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <input type="hidden" name="id" value="${teacher.id}" />
+                                    <button type="submit" class="table-button">| Supprimer</button>
+                                </form>
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>
@@ -110,7 +117,7 @@
                 <label for="password">Mot de passe :</label>
                 <input type="password" id="password" name="password" required /><br />
 
-                <button type="submit">Ajouter Enseignant</button>
+                <button type="submit" >Ajouter Enseignant</button>
             </form>
         </div>
     </div>

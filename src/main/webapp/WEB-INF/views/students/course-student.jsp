@@ -20,6 +20,7 @@
         <ul>
             <li><a href="${pageContext.request.contextPath}/students" >Aperçu</a></li>
             <li><a href="${pageContext.request.contextPath}/students/courses" class="active">Cours</a></li>
+            <li><a href="${pageContext.request.contextPath}/students/schedule">Emploi du temps </a> </li>
             <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
         </ul>
     </div>
@@ -39,14 +40,24 @@
         </header>
 
         <div class="overviewStudent">
-            <h1>Informations sur le cours</h1>
+            <h1>${enrollment.course.name}</h1>
 
-            <div>
-                <h2>${enrollment.course.name}</h2>
-                <p><strong>Description :</strong> ${enrollment.course.description}</p>
-                <p><strong>Enseignant :</strong> ${enrollment.course.teacher.firstname} ${enrollment.course.teacher.lastname}</p>
-                <p><strong> Horaire : </strong>${enrollment.course.frenchDayOfWeek} de ${enrollment.course.startTime} à ${enrollment.course.endTime} </p>
-
+            <div class="stats">
+                <div class="stat-card">
+                    <h3><strong>Description :</strong> </h3>
+                    <p>${enrollment.course.description}</p>
+                </div>
+                <div class="stat-card">
+                    <h3><strong>Enseignant :</strong></h3>
+                    <p>${enrollment.course.teacher.firstname} ${enrollment.course.teacher.lastname}</p>
+                </div>
+                <div class="stat-card">
+                    <h3><strong>Horaire : </strong></h3>
+                    <p>${enrollment.course.frenchDayOfWeek} de ${enrollment.course.startTime} à ${enrollment.course.endTime}</p>
+                </div>
+            </div>
+        </div>
+            <div class="overviewStudent">
                 <h3>Statistiques générales :</h3>
                 <table border="1">
                     <thead>
@@ -91,7 +102,8 @@
                     </tr>
                     </tbody>
                 </table>
-
+            </div>
+            <div class="overviewStudent">
                 <h3>Devoirs :</h3>
                 <table border="1">
                     <thead>
@@ -153,7 +165,6 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 </div>

@@ -20,8 +20,8 @@
     <ul>
       <li><a href="${pageContext.request.contextPath}/students" class="active">Aperçu</a></li>
       <li><a href="${pageContext.request.contextPath}/students/courses">Cours</a></li>
+      <li><a href="${pageContext.request.contextPath}/students/schedule">Emploi du temps</a> </li>
       <li><a href="${pageContext.request.contextPath}/logout">Se déconnecter</a></li>
-      <li><a href="${pageContext.request.contextPath}/students/schedule">Emploi du temps </a> </li>
     </ul>
   </div>
 
