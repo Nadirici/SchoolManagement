@@ -1,0 +1,90 @@
+POST http://localhost:8081/api/soumettreInscription?userType=FNFjC1Bb&email=zFdwDPAS&lastname=EXTgS7wb&firstname=Edtg7w5Q&date_of_birth=KhwntRm0&password=tMnPNpEEContent-Type: application/x-www-form-urlencoded
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T014610-2.404.json
+
+###
+
+POST http://localhost:8081/soumettreInscription?userType=pP3RGbfL&email=6Cr8YTxW&lastname=NS0d7ca2&firstname=JG9PCwAx&date_of_birth=r06UvtAU&password=M7XrAcVvContent-Type: application/x-www-form-urlencoded
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T014610-1.404.json
+
+###
+
+GET http://localhost:8081/soumettreInscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T014610.404.json
+
+###
+
+POST http://localhost:8081/api/soumettreInscription?userType=m8xlsmyJ&email=dW3tUGcw&lastname=vm3r_rhg&firstname=Z33ihI8l&date_of_birth=MAwsPuSf&password=KqhpILJ6Content-Type: application/x-www-form-urlencoded
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T014525-2.404.json
+
+###
+
+POST http://localhost:8081/soumettreInscription?userType=d2b04ixz&email=oQsDLWtN&lastname=W6wAde9T&firstname=UKyqxMLB&date_of_birth=yw4PKM0j&password=1XFPF4tJContent-Type: application/x-www-form-urlencoded
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T014525-1.404.json
+
+###
+
+GET http://localhost:8081/soumettreInscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T014525.404.json
+
+###
+
+POST http://localhost:8081/soumettreInscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T013301.404.json
+
+###
+
+POST http://localhost:8081/soumettreInscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T013247.404.json
+
+###
+
+POST http://localhost:8081/soumettreInscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-10-29T013030.404.json
+
+###
+

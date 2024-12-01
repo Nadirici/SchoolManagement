@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SchoolManagement:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b4420541-72ac-481f-b7b3-1e7372570ca5" name="Changes" comment="Utiliser la JDK 23" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+        <option value="Class" />
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="FT-withoutspringboot-EDT-CSS-RIM" />
+      </map>
+    </option>
+    <option name="RECENT_COMMON_BRANCH" value="FT-StudentDashBoard-Nadir" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;author&quot;: &quot;melvinhqb&quot;
+    },
+    {
+      &quot;author&quot;: &quot;Nadirici&quot;
+    },
+    {
+      &quot;state&quot;: &quot;OPEN&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6AlNak",
+        "number": 1
+      },
+      "lastSeen": 1730760430845
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6AzrDq",
+        "number": 2
+      },
+      "lastSeen": 1730760679138
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6BqtM4",
+        "number": 10
+      },
+      "lastSeen": 1732017255411
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6Ca-zo",
+        "number": 12
+      },
+      "lastSeen": 1732222322451
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6C3QRg",
+        "number": 21
+      },
+      "lastSeen": 1732454431217
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6C2wgJ",
+        "number": 20
+      },
+      "lastSeen": 1732455688613
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6CuZSQ",
+        "number": 17
+      },
+      "lastSeen": 1732455698598
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6C8ipb",
+        "number": 23
+      },
+      "lastSeen": 1732474197342
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6C82Za",
+        "number": 24
+      },
+      "lastSeen": 1732665100244
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6DQTTC",
+        "number": 26
+      },
+      "lastSeen": 1732729387757
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6DXv5F",
+        "number": 28
+      },
+      "lastSeen": 1732731232363
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6DpH_S",
+        "number": 34
+      },
+      "lastSeen": 1733065362688
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6DqsXN",
+        "number": 35
+      },
+      "lastSeen": 1733082439126
+    },
+    {
+      "id": {
+        "id": "PR_kwDONHM8Tc6DrDKJ",
+        "number": 36
+      },
+      "lastSeen": 1733083310966
+    }
+  ]
+}]]></component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nadirici/SchoolManagement&quot;,
+    &quot;accountId&quot;: &quot;8eb5e8ea-33c5-4d41-b3fd-ae2097974bf7&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;Nadirici&quot;,
+    &quot;repository&quot;: &quot;SchoolManagement&quot;
+  }
+}</component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2o4uo3hBgwIOW3ptHYRQArBwENr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Gmailer.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;HTTP Request.All in generated-requests.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ShowUsagesActions.previewPropertyKey&quot;: &quot;true&quot;,
+    &quot;Spring Boot.SchoolManagementApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.SchoolManagementSystemApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.29.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;without-spring-version&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Utilisateur/Downloads/td6&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;service.view.auto.scroll.to.source&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\java\fr\cyu\schoolmanagementsystem\util" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\resources" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\webapp\WEB-INF\jsp\admin\teachers" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\webapp\WEB-INF\jsp\teachers" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\resources\Gmail" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\resources\Gmail" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\token" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\webapp\WEB-INF\jsp\students" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\webapp" />
+      <recent name="C:\Users\Utilisateur\Desktop\SchoolManagement\src\main\webapp\WEB-INF\views" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="servlets.schoolmanagement" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="servlets.schoolmanagement.models.passwordManager" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.29">
+    <configuration name="All in generated-requests" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http">
+      <method v="2" />
+    </configuration>
+    <configuration name="SchoolManagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="SchoolManagement" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="servlets.schoolmanagement.SchoolManagementApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SchoolManagementSystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="SchoolManagement" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="fr.cyu.schoolmanagementsystem.SchoolManagementSystemApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 10.1.29" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.29" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="SchoolManagement:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/SchoolManagement_war_exploded" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="c84e1e31-9475-4404-a0eb-62cb9623037d" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="55882" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="SchoolManagement:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="HTTP Request.All in generated-requests" />
+      <item itemvalue="Spring Boot.SchoolManagementApplication" />
+      <item itemvalue="Spring Boot.SchoolManagementSystemApplication" />
+      <item itemvalue="Tomcat Server.Tomcat 10.1.29" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.All in generated-requests" />
+        <item itemvalue="HTTP Request.All in generated-requests" />
+        <item itemvalue="HTTP Request.All in generated-requests" />
+        <item itemvalue="HTTP Request.All in generated-requests" />
+        <item itemvalue="HTTP Request.All in generated-requests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4420541-72ac-481f-b7b3-1e7372570ca5" name="Changes" comment="" />
+      <created>1730141341644</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730141341644</updated>
+      <workItem from="1730141342448" duration="2433000" />
+      <workItem from="1730143875817" duration="5705000" />
+      <workItem from="1730149594354" duration="7695000" />
+      <workItem from="1730213413304" duration="4945000" />
+      <workItem from="1730226478018" duration="5895000" />
+      <workItem from="1730236628859" duration="4629000" />
+      <workItem from="1730301679943" duration="16954000" />
+      <workItem from="1730394775299" duration="196000" />
+      <workItem from="1730419741408" duration="125000" />
+      <workItem from="1730423719542" duration="2269000" />
+      <workItem from="1730484923589" duration="1909000" />
+      <workItem from="1730738214027" duration="19568000" />
+      <workItem from="1730760380513" duration="2052000" />
+      <workItem from="1730762443114" duration="318000" />
+      <workItem from="1730832734963" duration="18000" />
+      <workItem from="1730845793671" duration="114000" />
+      <workItem from="1730922064620" duration="103000" />
+      <workItem from="1731055215055" duration="79000" />
+      <workItem from="1731168338098" duration="771000" />
+      <workItem from="1731182019898" duration="1769000" />
+      <workItem from="1731618643799" duration="702000" />
+      <workItem from="1731703701727" duration="13000" />
+      <workItem from="1731848256079" duration="31818000" />
+      <workItem from="1731953505451" duration="18994000" />
+      <workItem from="1732001664468" duration="16826000" />
+      <workItem from="1732018535232" duration="6000" />
+      <workItem from="1732020472596" duration="1624000" />
+      <workItem from="1732036781466" duration="700000" />
+      <workItem from="1732084919917" duration="2917000" />
+      <workItem from="1732217767378" duration="4243000" />
+      <workItem from="1732222050506" duration="521000" />
+      <workItem from="1732222617405" duration="5269000" />
+      <workItem from="1732270245698" duration="7282000" />
+      <workItem from="1732318320813" duration="6413000" />
+      <workItem from="1732354989816" duration="6509000" />
+      <workItem from="1732392923330" duration="15000" />
+      <workItem from="1732454384197" duration="1559000" />
+      <workItem from="1732462032864" duration="8000" />
+      <workItem from="1732470976675" duration="15674000" />
+      <workItem from="1732490579024" duration="653000" />
+      <workItem from="1732491605509" duration="531000" />
+      <workItem from="1732562282227" duration="4829000" />
+      <workItem from="1732647818461" duration="17327000" />
+      <workItem from="1732710144251" duration="141000" />
+      <workItem from="1732712217008" duration="1162000" />
+      <workItem from="1732720478704" duration="5047000" />
+      <workItem from="1732743537840" duration="52000" />
+      <workItem from="1732748752902" duration="694000" />
+      <workItem from="1732818391239" duration="17000" />
+      <workItem from="1732825450014" duration="1531000" />
+      <workItem from="1732892113916" duration="25049000" />
+      <workItem from="1732919334178" duration="630000" />
+      <workItem from="1733001043199" duration="167000" />
+      <workItem from="1733001972579" duration="2230000" />
+      <workItem from="1733008820441" duration="256000" />
+      <workItem from="1733045305737" duration="219000" />
+      <workItem from="1733064391799" duration="351000" />
+      <workItem from="1733065247843" duration="517000" />
+      <workItem from="1733066126389" duration="1833000" />
+      <workItem from="1733079370635" duration="277000" />
+      <workItem from="1733081501593" duration="366000" />
+      <workItem from="1733081879793" duration="475000" />
+      <workItem from="1733082361845" duration="30000" />
+      <workItem from="1733082400072" duration="614000" />
+      <workItem from="1733083019801" duration="194000" />
+      <workItem from="1733083220820" duration="122000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit, &#10;Je ne comprend pas pourquoi mon form d'inscription n'arrive pas à récup le controller">
+      <option name="closed" value="true" />
+      <created>1730152155339</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1730152155339</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Structure de la base de donnée">
+      <option name="closed" value="true" />
+      <created>1730152301401</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730152301401</updated>
+    </task>
+    <task id="LOCAL-00003" summary="soumettreInscription  à faire marcher">
+      <option name="closed" value="true" />
+      <created>1730162839391</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730162839391</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Inscription fonctionnelle">
+      <option name="closed" value="true" />
+      <created>1730228802208</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1730228802208</updated>
+    </task>
+    <task id="LOCAL-00005" summary="MAJ de la BDD">
+      <option name="closed" value="true" />
+      <created>1730229444044</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1730229444044</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Unicité des id de Student">
+      <option name="closed" value="true" />
+      <created>1730231044649</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730231044649</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Réorganisation du projet et ajout de l'enregistrement des enseignants avec leurs ID commençant par 1 et unique">
+      <option name="closed" value="true" />
+      <created>1730240563489</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730240563489</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Gestion de l'inscription. Maintenant, l'utilisateur s'inscrit et une demande est créer dans la table requests qui sera utilisée par l'admin pour gérer les demandes. Le système d'affichage des requests est fait dans requests.jsp et on peut accepter et refuser une demande d'inscription">
+      <option name="closed" value="true" />
+      <created>1730316948989</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1730316948989</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Implemented login functionality with role-based access control. Ensured that students can only access student pages, teachers can access teacher pages, and admins have access to their own interface. Each user role has a dedicated interface for improved usability.">
+      <option name="closed" value="true" />
+      <created>1730759943761</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1730759943761</updated>
+    </task>
+    <task id="LOCAL-00010" summary="The same as the previous but with different controllers for each entity">
+      <option name="closed" value="true" />
+      <created>1730762413985</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1730762413985</updated>
+    </task>
+    <task id="LOCAL-00011" summary="push Login">
+      <option name="closed" value="true" />
+      <created>1731055287118</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1731055287118</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Session fonctionnelle, StudentDashboard fonctionnel revoir juste les boutons dans single-course.jsp">
+      <option name="closed" value="true" />
+      <created>1732021367780</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1732021367780</updated>
+    </task>
+    <task id="LOCAL-00013" summary="ajout de student dans le model de single-course">
+      <option name="closed" value="true" />
+      <created>1732021841722</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1732021841722</updated>
+    </task>
+    <task id="LOCAL-00014" summary="ajout de student dans le model de single-course">
+      <option name="closed" value="true" />
+      <created>1732036832048</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1732036832048</updated>
+    </task>
+    <task id="LOCAL-00015" summary="ajout de student dans le model de single-course">
+      <option name="closed" value="true" />
+      <created>1732036882741</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1732036882741</updated>
+    </task>
+    <task id="LOCAL-00016" summary="résolution">
+      <option name="closed" value="true" />
+      <created>1732037445779</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1732037445779</updated>
+    </task>
+    <task id="LOCAL-00017" summary="résolution lien css">
+      <option name="closed" value="true" />
+      <created>1732219913391</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1732219913391</updated>
+    </task>
+    <task id="LOCAL-00018" summary="résolution lien css">
+      <option name="closed" value="true" />
+      <created>1732220075655</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1732220075655</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Besoin d'aide sur les redirections faite par les jsp et les servlets login, admin.">
+      <option name="closed" value="true" />
+      <created>1732359287986</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1732359287986</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Besoin d'aide sur les redirections faite par les jsp et les servlets login, admin.">
+      <option name="closed" value="true" />
+      <created>1732359945305</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1732359945305</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Besoin d'aide sur les redirections faite par les jsp et les servlets login, admin.">
+      <option name="closed" value="true" />
+      <created>1732360000615</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1732360000615</updated>
+    </task>
+    <task id="LOCAL-00022" summary="C'est fonctionnel, juste revoir le css sur la page teacher">
+      <option name="closed" value="true" />
+      <created>1732455363675</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1732455363675</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Ajout de la génération de PDF dans le StudentDashboard">
+      <option name="closed" value="true" />
+      <created>1732473956270</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1732473956270</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Ajout de la page profil pour l'étudiant et méthode de modification d'informations.">
+      <option name="closed" value="true" />
+      <created>1732480540738</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1732480540738</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Ajout du mailing pour l'ajout de note et la modification de notes">
+      <option name="closed" value="true" />
+      <created>1732491200167</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1732491200168</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Version Spring ok manque juste à merge la recherche d'étudiant/teachers">
+      <option name="closed" value="true" />
+      <created>1732663556900</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1732663556900</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Correction bug">
+      <option name="closed" value="true" />
+      <created>1732713139384</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1732713139384</updated>
+    </task>
+    <task id="LOCAL-00028" summary="faute dans le mail corrigé">
+      <option name="closed" value="true" />
+      <created>1732713275676</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1732713275676</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Ajout du Mailing">
+      <option name="closed" value="true" />
+      <created>1732730937381</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1732730937381</updated>
+    </task>
+    <task id="LOCAL-00030" summary="modification de la redirection dans le mail http://localhost:8080/SchoolManagement_war_exploded/login">
+      <option name="closed" value="true" />
+      <created>1732731222284</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1732731222284</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Ajout gestion emploi du temps.">
+      <option name="closed" value="true" />
+      <created>1732904700001</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1732904700001</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Ajout des colonnes dans la bdd">
+      <option name="closed" value="true" />
+      <created>1732904784529</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1732904784529</updated>
+    </task>
+    <task id="LOCAL-00033" summary="ajout de cours avec vérification prof dispo, ajout vérification inscription cours avec vérification si student dispo">
+      <option name="closed" value="true" />
+      <created>1732913995609</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1732913995609</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Il faut ajouter la modification de cours dans updateCourse qui est dans AdminWebController avec sa jsp qui est course_details.jsp">
+      <option name="closed" value="true" />
+      <created>1732917470935</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1732917470935</updated>
+    </task>
+    <task id="LOCAL-00035" summary="vérif étudiant">
+      <option name="closed" value="true" />
+      <created>1732919930763</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1732919930763</updated>
+    </task>
+    <task id="LOCAL-00036" summary="vérif étudiant">
+      <option name="closed" value="true" />
+      <created>1733082852650</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1733082852650</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Utiliser la JDK 23">
+      <option name="closed" value="true" />
+      <created>1733083176746</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1733083176746</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/FT-Nadir-WithoutSpring-Login" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="FT-Nadir-WithoutSpring-Login" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="FT-StudentDashBoard-Nadir" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Réorganisation du projet et ajout de l'enregistrement des enseignants avec leurs ID commençant par 1 et unique" />
+    <MESSAGE value="Gestion de l'inscription. Maintenant, l'utilisateur s'inscrit et une demande est créer dans la table requests qui sera utilisée par l'admin pour gérer les demandes. Le système d'affichage des requests est fait dans requests.jsp et on peut accepter et refuser une demande d'inscription" />
+    <MESSAGE value="Implemented login functionality with role-based access control. Ensured that students can only access student pages, teachers can access teacher pages, and admins have access to their own interface. Each user role has a dedicated interface for improved usability." />
+    <MESSAGE value="The same as the previous but with different controllers for each entity" />
+    <MESSAGE value="push Login" />
+    <MESSAGE value="Session fonctionnelle, StudentDashboard fonctionnel revoir juste les boutons dans single-course.jsp" />
+    <MESSAGE value="ajout de student dans le model de single-course" />
+    <MESSAGE value="résolution" />
+    <MESSAGE value="résolution lien css" />
+    <MESSAGE value="Besoin d'aide sur les redirections faite par les jsp et les servlets login, admin." />
+    <MESSAGE value="C'est fonctionnel, juste revoir le css sur la page teacher" />
+    <MESSAGE value="Ajout de la génération de PDF dans le StudentDashboard" />
+    <MESSAGE value="Ajout de la page profil pour l'étudiant et méthode de modification d'informations." />
+    <MESSAGE value="Ajout du mailing pour l'ajout de note et la modification de notes" />
+    <MESSAGE value="Version Spring ok manque juste à merge la recherche d'étudiant/teachers" />
+    <MESSAGE value="Correction bug" />
+    <MESSAGE value="faute dans le mail corrigé" />
+    <MESSAGE value="Ajout du Mailing" />
+    <MESSAGE value="modification de la redirection dans le mail http://localhost:8080/SchoolManagement_war_exploded/login" />
+    <MESSAGE value="Ajout gestion emploi du temps." />
+    <MESSAGE value="Ajout des colonnes dans la bdd" />
+    <MESSAGE value="ajout de cours avec vérification prof dispo, ajout vérification inscription cours avec vérification si student dispo" />
+    <MESSAGE value="Il faut ajouter la modification de cours dans updateCourse qui est dans AdminWebController avec sa jsp qui est course_details.jsp" />
+    <MESSAGE value="vérif étudiant" />
+    <MESSAGE value="Utiliser la JDK 23" />
+    <option name="LAST_COMMIT_MESSAGE" value="Utiliser la JDK 23" />
+  </component>
+</project>

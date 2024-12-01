@@ -1,0 +1,7 @@
+{
+  "timestamp": "2024-10-29T00:45:25.396+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "No static resource api/soumettreInscription.",
+  "path": "/api/soumettreInscription"
+}
