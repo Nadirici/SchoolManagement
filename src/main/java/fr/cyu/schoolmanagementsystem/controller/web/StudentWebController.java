@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
         import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -290,17 +291,34 @@ public class StudentWebController {
 
 
     @GetMapping("/{studentId}/schedule")
-    public String viewStudentSchedule(@PathVariable("studentId") UUID studentId, Model model) {
+    public String viewStudentSchedule(@PathVariable("studentId") UUID studentId, Model model, RedirectAttributes redirectAttributes) {
+        Optional<StudentDTO> student= studentService.getStudentById(studentId);
+
+        if (student.isPresent()) {
         try {
             // Récupérer l'emploi du temps de l'étudiant
             Map<String, List<Course>> studentSchedule = getStudentSchedule(studentId);
+            List<Map<String, String>> formattedEvents = new ArrayList<>();
 
-            // Créer la liste des heures de la journée (exemple de 8h à 18h)
-            List<String> hoursOfDay = Arrays.asList("08:30", "10:00", "10:15", "11:45", "13:00", "14:30", "14:45", "16:15", "16:30", "18:00", "18:15", "19:30");
+            for (Map.Entry<String, List<Course>> entry : studentSchedule.entrySet()) {
+                String dayOfWeek = entry.getKey();  // E.g., "Lundi", "Mardi", etc.
 
-            // Ajouter les attributs au modèle
-            model.addAttribute("hoursOfDay", hoursOfDay);
-            model.addAttribute("studentSchedule", studentSchedule);
+                for (Course course : entry.getValue()) {
+                    Map<String, String> formattedCourse = new HashMap<>();
+                    formattedCourse.put("id", course.getId().toString());
+                    formattedCourse.put("title", course.getName() + " - " + course.getTeacher().getFirstname() + " "  + course.getTeacher().getLastname());
+                    formattedCourse.put("dayOfWeek", dayOfWeek);
+                    formattedCourse.put("startTime", course.getStartTime().toString());  // Format as HH:mm
+                    formattedCourse.put("endTime", course.getEndTime().toString());      // Format as HH:mm
+
+                    formattedEvents.add(formattedCourse);
+                }
+            }
+
+            // Add attributes to the model
+            model.addAttribute("student", student.get());
+            model.addAttribute("formattedEvents", formattedEvents);
+
 
             // Retourner la vue correspondante (le fichier JSP ou Thymeleaf)
             return "students/schedule"; // `schedule.jsp` si vous utilisez JSP, ou `schedule.html` pour Thymeleaf
@@ -309,6 +327,10 @@ public class StudentWebController {
             // Si une erreur se produit, rediriger avec un message d'erreur
             model.addAttribute("flashMessage", "Error fetching student schedule");
             return "redirect:/students/"+studentId+"/schedule?flashMessage=noSchedule"; // Une vue d'erreur générique
+        }
+        }else{
+            redirectAttributes.addFlashAttribute("error", "student not found");
+            return "redirect:/students"; // Redirect to the list page if student not found
         }
     }
 

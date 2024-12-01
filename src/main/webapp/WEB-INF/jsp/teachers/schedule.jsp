@@ -6,21 +6,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emploi du Temps de l'Étudiant</title>
+  <title>Emploi du Temps de l'Enseignant</title>
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
 
 </head>
-<>
+<body>
 <div class="container">
-<%@include file="../headers/student_header.jsp"%>
+<%@include file="../headers/teacher_header.jsp"%>
 <div class="main-content">
 
 
     <div class="overviewS">
-        <h2>Emploi du Temps de l'étudiant</h2>
+        <h2>Emploi du Temps de l'Enseignant</h2>
         <div class="calendar-container">
           <div id="calendar">
           </div>

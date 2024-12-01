@@ -15,7 +15,7 @@
     <ul>
         <li><a href="/teachers/${teacher.id}" id="link-dashboard">Dashboard</a></li>
         <li><a href="/teachers/${teacher.id}/courses" id="link-courses">Mes cours</a></li>
-
+        <li><a href="/teachers/${teacher.id}/schedule">Emploi du temps</a> </li>
         <li><a href="/teachers/${teacher.id}/profile" id="link-profile">Profil</a></li>
         <li><a href="/logout">Se déconnecter</a></li>
     </ul>

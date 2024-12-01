@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ page import="fr.cyu.schoolmanagementsystem.model.dto.StudentDTO" %>
 <%@ page import="java.util.UUID" %>
 <%@ page import="fr.cyu.schoolmanagementsystem.model.dto.CourseDTO" %>
@@ -22,7 +23,8 @@
             <div class="stats">
                 <div class="stat-card">
                     <h3>Moyenne générale</h3>
-                    <p>${studentGlobalAverage}</p>
+                    <p><fmt:formatNumber value="${studentGlobalAverage}" type="number" maxFractionDigits='2' minFractionDigits='2'/></p>
+
                 </div>
                 <div class="stat-card">
                     <h3>Nombre de cours auxquels tu es inscrit</h3>

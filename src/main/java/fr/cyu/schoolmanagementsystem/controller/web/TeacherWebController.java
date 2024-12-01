@@ -1,6 +1,7 @@
 package fr.cyu.schoolmanagementsystem.controller.web;
 
 import fr.cyu.schoolmanagementsystem.model.dto.*;
+import fr.cyu.schoolmanagementsystem.model.entity.Course;
 import fr.cyu.schoolmanagementsystem.model.entity.Student;
 import fr.cyu.schoolmanagementsystem.model.entity.Teacher;
 import fr.cyu.schoolmanagementsystem.model.passwordmanager.HashPassword;
@@ -490,6 +491,68 @@ public class TeacherWebController {
             redirectAttributes.addFlashAttribute("error", "Vous n'êtes pas autorisé à mettre à jour ce devoir.");
             return "redirect:/teachers/" + id;
         }
+    }
+
+
+    @GetMapping("/{teacherId}/schedule")
+    public String viewTeacherSchedule(@PathVariable("teacherId") UUID teacherId, Model model, RedirectAttributes redirectAttributes) {
+        Optional<TeacherDTO> teacher= teacherService.getTeacherById(teacherId);
+        if (teacher.isPresent()) {
+            try {
+                // Récupérer l'emploi du temps de l'étudiant
+
+                Map<String, List<CourseDTO>> teacherSchedule = getTeacherSchedule(teacherId);
+                List<Map<String, String>> formattedEvents = new ArrayList<>();
+
+                for (Map.Entry<String, List<CourseDTO>> entry : teacherSchedule.entrySet()) {
+                    String dayOfWeek = entry.getKey();  // E.g., "Lundi", "Mardi", etc.
+
+                    for (CourseDTO course : entry.getValue()) {
+                        Map<String, String> formattedCourse = new HashMap<>();
+                        formattedCourse.put("id", course.getId().toString());
+                        formattedCourse.put("title", course.getName() + " - " + course.getTeacher().getFirstname() + " " + course.getTeacher().getLastname());
+                        formattedCourse.put("dayOfWeek", dayOfWeek);
+                        formattedCourse.put("startTime", course.getStartTime().toString());  // Format as HH:mm
+                        formattedCourse.put("endTime", course.getEndTime().toString());      // Format as HH:mm
+
+                        formattedEvents.add(formattedCourse);
+                    }
+                }
+
+                // Add attributes to the model
+                model.addAttribute("teacher", teacher.get());
+                model.addAttribute("formattedEvents", formattedEvents);
+
+
+                // Retourner la vue correspondante (le fichier JSP ou Thymeleaf)
+                return "teachers/schedule"; // `schedule.jsp` si vous utilisez JSP, ou `schedule.html` pour Thymeleaf
+
+            } catch (Exception e) {
+                // Si une erreur se produit, rediriger avec un message d'erreur
+                model.addAttribute("flashMessage", "Error fetching student schedule");
+                return "redirect:/teachers/" + teacherId + "/schedule?flashMessage=noSchedule"; // Une vue d'erreur générique
+            }
+        }else{
+            redirectAttributes.addFlashAttribute("error", "teacher not found");
+            return "redirect:/teachers"; // Redirect to the list page if student not found
+        }
+    }
+
+    private Map<String, List<CourseDTO>> getTeacherSchedule(UUID teacherId) throws Exception {
+
+        List<CourseDTO> courses = courseService.getCoursesByTeacherId(teacherId);
+
+        // Organiser les cours par jour
+        Map<String, List<CourseDTO>> schedule = new TreeMap<>();
+
+        for (CourseDTO course : courses) {
+            String dayOfWeek = course.getFrenchDayOfWeek(); // suppose que le cours a un champ "schedule" qui contient le jour
+
+            // Organiser les cours par jour
+            schedule.computeIfAbsent(dayOfWeek, k -> new ArrayList<>()).add(course);
+        }
+
+        return schedule;
     }
 
 

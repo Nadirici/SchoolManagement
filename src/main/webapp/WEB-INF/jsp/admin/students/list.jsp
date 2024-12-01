@@ -49,5 +49,7 @@
 
 
 <script src="/js/search.js"></script>
+    </div>
+  </div>
 </body>
 </html>

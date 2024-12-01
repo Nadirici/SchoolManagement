@@ -38,7 +38,7 @@
 
         <a href="teachers/${teacher.id}">Information sur l'enseignant |</a>
         <a href="teachers/${teacher.id}/courses">Cours enseigné</a> |
-         <a href="teachers/${teacher.id}/delete">Supprimer l'enseignant</a>
+         <a href="teachers/${teacher.id}/delete">Supprimer</a>
       </td>
     </tr>
   </c:forEach>
