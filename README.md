@@ -44,7 +44,7 @@ A comprehensive system for managing students, teachers, courses, enrollments, an
 
 ## 🗃️ Sample Data for Testing
 
-For convenience, a `sample-data.sql` file is included in the project. This file contains pre-configured test data that can be used to populate the database quickly. By loading this data, you can experiment with and test the various API endpoints without needing to manually insert records.
+For convenience, a `init.sql` file is included in the project. This file contains pre-configured test data that can be used to populate the database quickly. By loading this data, you can experiment with and test the various API endpoints without needing to manually insert records.
 
 - **Usage:** Import the sample-data.sql file into your database. This will create test records for `Student`, `Course` and `Enrollment` entities.
 - **Objective:** Quickly set up a testing environment to validate API requests and application behavior.
