@@ -1,13 +1,40 @@
 # School Management Application
 
+## Technologies utilisées
+
+- **Java :** Langage de programmation principal utilisé pour développer l'application.
+- **Apache Tomcat :** Serveur d'applications pour déployer et exécuter l'application web.
+- **Hibernate :** Framework ORM (Mapping Objet-Relationnel) permettant une interaction fluide avec la base de données.
+- **MySQL :** Base de données relationnelle utilisée pour stocker et gérer les données de l'application.
+- **Maven :** Outil de gestion de build et des dépendances pour automatiser la configuration du projet et assurer une intégration fluide des bibliothèques.
+- **IntelliJ IDEA :** Environnement de Développement Intégré (IDE) pour un codage, un débogage et une gestion de projet efficaces.
+
+## Comment tester l'application en local ?
+
+1. **Cloner le dépôt**  
+   ```bash
+   git clone https://github.com/Nadirici/SchoolManagement.git
+   ```
+   
+2. **Se rendre dans le répertoire du projet**  
+   ```bash
+   cd SchoolManagement
+   ```
+   
+3. **Basculer sur la branche sans Spring**  
+   ```bash
+   git checkout without-spring-version
+   ```
+
+4. **Créer la base de données avec les données de test**  
+   - Importer le script `init.sql` dans votre base de données MySQL pour créer la structure et insérer les données de test.
+
 ## Fonctionnalités
 
 ### Tous les utilisateurs
 
 - **Page d'inscription et de connexion** :  
   Système d'authentification sécurisé avec vérification par email et récupération de mot de passe.
-
----
 
 ### Administrateur
 
